@@ -6,7 +6,7 @@ NAME=minishell
 SRC_DIR=./sources/
 OBJ_DIR=./objects/
 SRC_LIST=ms_main.c\
-\
+	ms_env.c \
 	ms_get_line.c\
 \
 \
