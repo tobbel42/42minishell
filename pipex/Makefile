@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+         #
+#    By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/06 11:20:52 by akamlah           #+#    #+#              #
-#    Updated: 2021/10/15 14:27:39 by akamlah          ###   ########.fr        #
+#    Updated: 2021/10/15 14:37:03 by tgrossma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = pipex
+NAME = pipex.a
 
 CFLAGS = -Wall -Wextra -Werror
 CC = gcc
@@ -18,8 +18,7 @@ CC = gcc
 LFT_PATH = ../libft
 LIBFT = make -C $(LFT_PATH)
 
-CFILES = ppx_main.c \
-ppx_files.c \
+CFILES =ppx_files.c \
 ppx_get_exec_paths.c \
 ppx_parse_commands.c \
 ppx_cmd_utils.c \
@@ -33,7 +32,7 @@ all: $(NAME)
 
 $(NAME): $(OFILES)
 	$(LIBFT)
-	$(CC) $(CFLAGS) $(OFILES) $(LFT_PATH)/libft.a -o $(NAME)
+	ar -crs $@ $^
 
 clean: clean_libft
 	rm -f *.o
