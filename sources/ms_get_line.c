@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:19:45 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/15 12:32:31 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/15 15:30:54 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,15 @@ static int	dash_check(char *line, int q_flag)
 	if (!line || q_flag)
 		return (0);
 	len = ft_strlen(line);
-	if (len > 1 && line[len - 1] == 92)
-	{
-		line[len - 1] = '\0';
+	if ((len >= 2 && line[len - 1] == 92 && line[len - 2] != 92) ||
+			(len == 1 && line[len - 1] == 92))
 		return (1);
-	}
 	else
 		return (0);
 }
 
 /*
-//checks if unclosed quotes are in the line, 1 if yes, 0 if no
+//checks if unclosed quotes are in the line, returns quotetype if yes, 0 if no
 */
 static int	quote_check(const char *line)
 {
@@ -46,13 +44,10 @@ static int	quote_check(const char *line)
 	quote = 0;
 	while (line[i])
 	{
-		if (line[i] == 34 || line[i] == 39)
-		{
-			if (!quote)
-				quote = line[i];
-			else if (quote == line[i])
-				quote = 0;
-		}
+		if (!quote && (line[i] == 34 || line[i] == 39) && (i == 0 || line[i - 1] != 92))
+			quote = line[i];
+		else if	(quote && ((line[i] == 34 && (i == 0 || line[i - 1] != 92)) || (line[i] == 39)))
+			quote = 0;
 		i++;
 	}
 	return (quote);
