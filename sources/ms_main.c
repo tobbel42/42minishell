@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:55:04 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/15 14:49:35 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/15 15:10:23 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int main(int argc, char **argv, char **envp)
 
 	// 1 init -> zeros
 	ms_init_data(&ms);
-
+	argc=1;argv=NULL;
 	// 2 get env
 	if (ms_get_env(&ms, envp) != 0)
 		return (-1);
