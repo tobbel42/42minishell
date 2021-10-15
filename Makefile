@@ -5,54 +5,52 @@ CPFLAGS = -I$(HOME)/.brew/opt/readline/include
 NAME=minishell
 SRC_DIR=./sources/
 OBJ_DIR=./objects/
-SRC_LIST=
-
-#files alice
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#files  tobi
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+SRC_LIST=ms_main.c\
+\
+	ms_get_line.c\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
 
 SRC=$(addprefix $(SRC_DIR), $(SRC_LIST))
 OBJ=$(addprefix $(OBJ_DIR), $(patsubst %.c, %.o, $(SRC_LIST)))
 
-HEADER=./includes/minishell.h
+HEADER=./header/minishell.h
 GREEN=\033[0;32m
 RED=\033[0;31m
 YELLOW=\033[0;33m
@@ -68,7 +66,7 @@ $(NAME): $(OBJ_DIR) $(OBJ) $(LIBS) $(HEADER)
 		$(MAKE) -C $$d;\
 	done;\
 
-	@$(CC) $(C_FLAGS) $(LFLAGS) $(CPFLAGS) $(OBJ) -o $@
+	@$(CC) $(C_FLAGS) $(LFLAGS) $(CPFLAGS) $(OBJ) libft/libft.a -o $@
 	@echo "\n$(GREEN)creating: $(NAME)$(NC)"
 
 $(OBJ_DIR):
