@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/15 14:07:41 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/15 14:31:43 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
+# include "../pipex/pipex.h"
 
 typedef struct			s_ms_env_line
 {
@@ -34,6 +35,7 @@ typedef struct s_ms_data
 	char			*line;
 	char			**paths;
 	t_ms_env_line	*env_head;
+	t_pipex			*pipex;
 }					t_ms_data;
 
 //alice_functions
