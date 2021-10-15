@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/15 12:53:44 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/15 14:07:41 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ typedef struct s_ms_data
 
 //alice_functions
 
-int	ms_get_env(t_ms_data *ms, char **envp);
-int	ms_env_add(t_ms_data *ms, char *env_line);
-
+// env
+int		ms_get_env(t_ms_data *ms, char **envp);
+int		ms_env_add(t_ms_data *ms, char *env_line);
+void	ms_free_env_list(t_ms_data *ms);
 
 
 
