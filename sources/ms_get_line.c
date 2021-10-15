@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:19:45 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/15 12:32:31 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/15 14:07:58 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	dash_check(char *line, int q_flag)
 }
 
 /*
-//checks if unclosed quotes are in the line, 1 if yes, 0 if no
+//checks if unclosed quotes are in the line, returns quotetype if yes, 0 if no
 */
 static int	quote_check(const char *line)
 {
