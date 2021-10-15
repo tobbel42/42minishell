@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:55:04 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/15 11:17:32 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/15 12:09:01 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ms_init_data(t_ms_data *ms)
 	ms->paths = NULL;
 }
 
-int main(int argc, char **argv, char **envp)
+int main(void)
 {
 	t_ms_data	ms;
 
@@ -37,8 +37,8 @@ int main(int argc, char **argv, char **envp)
 
 
 	// 3 get line
-
-
+	ms_get_line(&ms);
+	printf("%s\n", ms.line);
 	// 4 replace args $
 
 
@@ -50,6 +50,6 @@ int main(int argc, char **argv, char **envp)
 
 	// 7 execute
 
-
+	system("leaks minishell");
 	return (0);
 }

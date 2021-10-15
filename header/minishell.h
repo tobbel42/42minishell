@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/15 11:27:30 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/15 11:55:34 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,46 @@ typedef struct s_ms_data
 	char **paths;
 
 }				t_ms_data;
+
+//alice_functions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//tobi_fuctions
+int	ms_get_line(t_ms_data *ms_data);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endif
