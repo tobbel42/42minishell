@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:55:04 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/15 12:09:01 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/15 12:45:00 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ms_init_data(t_ms_data *ms)
 	ms->paths = NULL;
 }
 
-int main(void)
+int main(int argc, char **argv, char **envp)
 {
 	t_ms_data	ms;
 
