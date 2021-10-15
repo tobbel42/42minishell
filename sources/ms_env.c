@@ -6,12 +6,16 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 12:51:23 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/15 14:07:07 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/15 14:16:23 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
+/*
+// takes a string as parameter and creates a new node in the list of the
+// environmental variables containing that string.
+*/
 int	ms_env_add(t_ms_data *ms, char *env_line)
 {
 	t_ms_env_line	*new_env_line;
@@ -27,6 +31,12 @@ int	ms_env_add(t_ms_data *ms, char *env_line)
 	return (0);
 }
 
+/*
+// itertates through envp and saves every substring as a node of the
+// env. variable's linked list on its own.
+// if error during allocation, frees already allocated elements and 
+// returns -1
+*/
 int	ms_get_env(t_ms_data *ms, char **envp)
 {
 	int	i;
@@ -46,6 +56,9 @@ int	ms_get_env(t_ms_data *ms, char **envp)
 	return (0);
 }
 
+/*
+// frees all allocated nodes of the environmental variables' list
+*/
 void	ms_free_env_list(t_ms_data *ms)
 {
 	t_ms_env_line	*current;
