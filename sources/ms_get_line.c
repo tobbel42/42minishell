@@ -6,14 +6,14 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:19:45 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/15 15:30:54 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/18 12:40:14 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
 /*
-//checks if a not quoter \ is at the end of the line, removes the \ if found,
+//checks if a not quoted \ is at the end of the line, 
 //1 if yes, 0 if no
 */
 static int	dash_check(char *line, int q_flag)
@@ -23,9 +23,12 @@ static int	dash_check(char *line, int q_flag)
 	if (!line || q_flag)
 		return (0);
 	len = ft_strlen(line);
-	if ((len >= 2 && line[len - 1] == 92 && line[len - 2] != 92) ||
-			(len == 1 && line[len - 1] == 92))
+	if ((len >= 2 && line[len - 1] == 92 && line[len - 2] != 92)
+		|| (len == 1 && line[len - 1] == 92))
+	{
+		line[len - 1] = '\0';
 		return (1);
+	}
 	else
 		return (0);
 }
@@ -44,9 +47,11 @@ static int	quote_check(const char *line)
 	quote = 0;
 	while (line[i])
 	{
-		if (!quote && (line[i] == 34 || line[i] == 39) && (i == 0 || line[i - 1] != 92))
+		if (!quote && (line[i] == 34 || line[i] == 39)
+			&& (i == 0 || line[i - 1] != 92))
 			quote = line[i];
-		else if	(quote && ((line[i] == 34 && (i == 0 || line[i - 1] != 92)) || (line[i] == 39)))
+		else if (quote && ((line[i] == 34
+					&& (i == 0 || line[i - 1] != 92)) || (line[i] == 39)))
 			quote = 0;
 		i++;
 	}
@@ -54,31 +59,17 @@ static int	quote_check(const char *line)
 }
 
 /*
-//appends a readline to line, inserts a newline in between
+//apends a newline to the given string
 */
-static char	*append_to_line_quote(char *line, const char *promt)
+static char	*append_nl(char *line)
 {
-	char	*new_line;
 	char	*temp;
-	char	*ret_line;
 
 	if (!line)
 		return (NULL);
-	new_line = NULL;
-	temp = NULL;
-	ret_line = NULL;
-	new_line = readline(promt);
 	temp = ft_strjoin(line, "\n");
-	if (new_line)
-	{
-		if (temp)
-			ret_line = ft_strjoin(temp, new_line);
-		free(new_line);
-	}
-	if (temp)
-		free(temp);
 	free(line);
-	return (ret_line);
+	return (temp);
 }
 
 /*
@@ -105,6 +96,7 @@ static char	*append_to_line_dash(char *line, const char *promt)
 
 /*
 //reads from stdin, till a full line is entered
+//frees ms_data->line, if not NULL
 //returns 0 on success, 1 on error
 */
 int	ms_get_line(t_ms_data *ms_data)
@@ -113,17 +105,21 @@ int	ms_get_line(t_ms_data *ms_data)
 	int		q_flag;
 	int		d_flag;
 
+	if (!ms_data)
+		return (1);
+	if (ms_data->line)
+	{
+		free(ms_data->line);
+		ms_data->line = NULL;
+	}
 	line = readline("minishell> ");
 	q_flag = quote_check(line);
 	d_flag = dash_check(line, q_flag);
 	while (q_flag || d_flag)
 	{
-		if (q_flag == 34)
-			line = append_to_line_quote(line, "dquote>");
-		else if (q_flag == 39)
-			line = append_to_line_quote(line, "quote>");
-		else if (d_flag)
-			line = append_to_line_dash(line, ">");
+		if (q_flag)
+			line = append_nl(line);
+		line = append_to_line_dash(line, ">");
 		q_flag = quote_check(line);
 		d_flag = dash_check(line, q_flag);
 	}
