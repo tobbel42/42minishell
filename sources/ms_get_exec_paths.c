@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 12:43:05 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/18 13:26:02 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/18 15:58:07 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static int	ms_set_exec_paths(t_ms_data *ms, char *paths)
 // Else, ms->exec_paths is filled with the paths found in the environment.
 // If the process failes, ms->exec_paths is set again to null and -1 
 // is returned.
-
 int	ms_get_exec_paths(t_ms_data *ms)
 {
 	t_ms_env_variable	*path;
@@ -65,7 +64,7 @@ int	ms_get_exec_paths(t_ms_data *ms)
 	path = ms->env_vars_head;
 	while (path != NULL)
 	{
-		if (ft_strnstr(path->env_variable, "PATH", 4) != NULL)
+		if (ft_strnstr(path->all, "PATH", 4) != NULL)
 			break ;
 		path = path->next;
 	}
@@ -76,7 +75,7 @@ int	ms_get_exec_paths(t_ms_data *ms)
 	}
 	else
 	{
-		if (ms_set_exec_paths(ms, path->env_variable) != 0)
+		if (ms_set_exec_paths(ms, path->all) != 0)
 		{
 			ms->exec_paths = NULL;
 			return (-1);

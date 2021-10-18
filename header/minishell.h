@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/18 13:18:35 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/18 15:57:26 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@
 
 typedef struct			s_ms_env_variable
 {
-	char				*env_variable;
+	char						*all;
+	char						*name;
+	char						*content;
 	struct s_ms_env_variable	*next;
 }						t_ms_env_variable;
 

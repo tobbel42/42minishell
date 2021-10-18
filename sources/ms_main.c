@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:55:04 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/18 13:27:06 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/18 15:40:22 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int main(int argc, char **argv, char **envp)
 	// 3 get line
 	ms_get_line(&ms);
 	printf("%s\n", ms.line);
+	
 	// 4 replace args $
 
 

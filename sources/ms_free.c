@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 12:25:37 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/18 13:28:39 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/18 16:01:30 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ void	ms_free_env_list(t_ms_data *ms)
 	while(current != NULL)
 	{
 		tmp = current;
+		if (tmp->all != NULL)
+			free(tmp->all);
+		if (tmp->name != NULL)
+			free(tmp->name);
+		if (tmp->content != NULL)
+			free(tmp->content);
 		current = current->next;
 		free(tmp);
 	}
@@ -55,8 +61,10 @@ void	ms_free_char2(char **m)
 	while (m[i] != NULL)
 	{
 		free(m[i]);
+		m[i] = NULL;
 		i++;
 	}
 	if (m != NULL)
 		free(m);
+		
 }
