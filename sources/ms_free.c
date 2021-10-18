@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 12:25:37 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/18 16:01:30 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/18 16:40:43 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	ms_free_and_exit(t_ms_data *ms, int exitflag, int exitstatus)
 		free(ms->line);
 	if (ms->exec_paths != NULL)
 		ms_free_char2(ms->exec_paths);
+	if (ms->split_line != NULL)
+		ms_free_char2(ms->split_line);
 	if (exitflag == 1)
 		exit(exitstatus);
 }
