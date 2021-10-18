@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:19:45 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/18 12:40:14 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/18 15:40:09 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@ static int	quote_check(const char *line)
 		if (!quote && (line[i] == 34 || line[i] == 39)
 			&& (i == 0 || line[i - 1] != 92))
 			quote = line[i];
-		else if (quote && ((line[i] == 34
-					&& (i == 0 || line[i - 1] != 92)) || (line[i] == 39)))
+		else if (quote && ((line[i] == 34 && line[i] == quote
+					&& (i == 0 || line[i - 1] != 92))
+				|| (line[i] == 39 && line[i] == quote)))
 			quote = 0;
 		i++;
 	}
