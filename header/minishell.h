@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/18 12:31:06 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/18 12:50:23 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,24 @@
 # include "../libft/libft.h"
 # include "../pipex/pipex.h"
 
-typedef struct			s_ms_env_line
+typedef struct			s_ms_env_variable
 {
-	char				*env_line;
-	struct s_ms_env_line	*next;
-}						t_ms_env_line;
+	char				*env_variable;
+	struct s_ms_env_variable	*next;
+}						t_ms_env_variable;
 
 typedef struct s_ms_data
 {
 	char			*line;
-	char			**paths;
-	t_ms_env_line	*env_head;
-	t_pipex			*pipex;
+	char			**exec_paths;
+	t_ms_env_variable	*env_vars_head;
 }					t_ms_data;
 
 //alice_functions
 
 // env
 int		ms_get_env(t_ms_data *ms, char **envp);
-int		ms_env_add(t_ms_data *ms, char *env_line);
+int		ms_env_add(t_ms_data *ms, char *env_variable);
 
 // free
 void	ms_free_and_exit(t_ms_data *ms, int exitflag, int exitstatus);

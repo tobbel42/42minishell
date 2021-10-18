@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:55:04 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/18 12:32:52 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/18 12:50:57 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 void	ms_init_data(t_ms_data *ms)
 {
 	ms->line = NULL;
-	ms->env_head = NULL;
-	ms->paths = NULL;
-	ms->pipex = NULL;
+	ms->env_vars_head = NULL;
+	ms->exec_paths = NULL;
 }
 
 int main(int argc, char **argv, char **envp)
