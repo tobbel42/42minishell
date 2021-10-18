@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 12:51:23 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/15 14:16:23 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/18 12:33:00 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,4 @@ int	ms_get_env(t_ms_data *ms, char **envp)
 		i++;
 	}
 	return (0);
-}
-
-/*
-// frees all allocated nodes of the environmental variables' list
-*/
-void	ms_free_env_list(t_ms_data *ms)
-{
-	t_ms_env_line	*current;
-	t_ms_env_line	*tmp;
-
-	current = ms->env_head;
-	while(current != NULL)
-	{
-		tmp = current;
-		current = current->next;
-		free(tmp);
-	}
 }
