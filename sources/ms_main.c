@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:55:04 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/18 12:50:57 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/18 13:27:06 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ int main(int argc, char **argv, char **envp)
 	// if line = "export" -> ms_env_add(parsed line);
 
 	// get cmd paths
+	if (ms_get_exec_paths(&ms) != 0)
+		ms_free_and_exit(&ms, 0, 0);
+	// -> do "if (ms.exec_paths != NULL)" from here on, else segfault if unset path
 	
-
 	// 3 get line
 	ms_get_line(&ms);
 	printf("%s\n", ms.line);
