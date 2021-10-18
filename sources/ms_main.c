@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:55:04 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/18 12:32:52 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/18 16:40:23 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	ms_init_data(t_ms_data *ms)
 {
 	ms->line = NULL;
-	ms->env_head = NULL;
-	ms->paths = NULL;
-	ms->pipex = NULL;
+	ms->env_vars_head = NULL;
+	ms->exec_paths = NULL;
+	ms->split_line = NULL;
 }
 
 int main(int argc, char **argv, char **envp)
@@ -35,13 +35,17 @@ int main(int argc, char **argv, char **envp)
 	// if line = "export" -> ms_env_add(parsed line);
 
 	// get cmd paths
+	if (ms_get_exec_paths(&ms) != 0)
+		ms_free_and_exit(&ms, 0, 0);
+	// -> do "if (ms.exec_paths != NULL)" from here on, else segfault if unset path
 	
-
 	// 3 get line
 	ms_get_line(&ms);
 	printf("%s\n", ms.line);
+	
 	// 4 replace args $
-
+	ms.line = "asgfjhfgjbdj $TERM osjo sdlkjdtom $PATH ditjdlm";
+	ms_replace_args(&ms);
 
 	// 5 split
 
