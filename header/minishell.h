@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/15 14:31:43 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/18 12:31:06 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ typedef struct s_ms_data
 // env
 int		ms_get_env(t_ms_data *ms, char **envp);
 int		ms_env_add(t_ms_data *ms, char *env_line);
+
+// free
+void	ms_free_and_exit(t_ms_data *ms, int exitflag, int exitstatus);
 void	ms_free_env_list(t_ms_data *ms);
-
-
-
 
 
 
