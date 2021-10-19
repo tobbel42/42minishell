@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/18 16:45:25 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/19 16:04:11 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 # include "../pipex/pipex.h"
+# include "../lib_ms_tools/ms_tools.h"
 
 typedef struct			s_ms_env_variable
 {
