@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/19 16:04:11 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/19 16:08:43 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,9 @@ int	ms_replace_args(t_ms_data *ms);
 
 
 //tobi_fuctions
-int	ms_get_line(t_ms_data *ms_data);
-int	ms_split(t_ms_data *ms_data);
+int		ms_get_line(t_ms_data *ms_data);
+int		ms_split(t_ms_data *ms_data);
+char	*ms_get_line_loop(void);
 
 
 

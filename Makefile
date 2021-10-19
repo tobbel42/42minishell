@@ -11,7 +11,7 @@ SRC_LIST=ms_main.c\
 	ms_free.c \
 	ms_split.c \
 	ms_get_exec_paths.c \
-\
+	ms_get_line_utils.c \
 	ms_replace_args.c \
 \
 \
@@ -76,7 +76,7 @@ $(OBJ_DIR):
 	@echo "$(GREEN)creating: object-files: $(NC)\c"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
-	@$(CC) $(C_FLAGS) $^ -c -o $@
+	@$(CC) $(C_FLAGS) $(CPFLAGS)  $^ -c -o $@
 	@echo "$(GREEN).$(NC)\c"
 
 clean:
