@@ -6,11 +6,11 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 15:49:33 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/19 15:50:07 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/19 15:59:35 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mstools.h"
+#include "ms_tools.h"
 
 /*
 ** Returns the next word after a pointer to char
