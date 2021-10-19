@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/18 16:45:25 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/19 12:28:55 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,9 @@ int	ms_replace_args(t_ms_data *ms);
 
 
 //tobi_fuctions
-int	ms_get_line(t_ms_data *ms_data);
-int	ms_split(t_ms_data *ms_data);
+int		ms_get_line(t_ms_data *ms_data);
+int		ms_split(t_ms_data *ms_data);
+char	*ms_get_line_loop(void);
 
 
 
