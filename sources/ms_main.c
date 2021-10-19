@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:55:04 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/18 16:40:23 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/19 12:33:00 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,16 @@ int main(int argc, char **argv, char **envp)
 	if (ms_get_exec_paths(&ms) != 0)
 		ms_free_and_exit(&ms, 0, 0);
 	// -> do "if (ms.exec_paths != NULL)" from here on, else segfault if unset path
-	
+
 	// 3 get line
-	ms_get_line(&ms);
-	printf("%s\n", ms.line);
-	
+	while (1)
+	{
+		ms_get_line(&ms);
+		printf("%s\n", ms.line);
+		printf("enter exit to quit\n");
+		if (ms.line && !ft_strncmp("exit", ms.line, 4))
+			break ;
+	}
 	// 4 replace args $
 	ms.line = "asgfjhfgjbdj $TERM osjo sdlkjdtom $PATH ditjdlm";
 	ms_replace_args(&ms);
