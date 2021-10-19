@@ -6,12 +6,15 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:19:45 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/19 12:29:36 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/19 15:12:28 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
+/*
+//on incomming Ctrl + C a new prompt is printed
+*/
 static void	sig_handler(int num)
 {
 	num = 1;
@@ -41,7 +44,7 @@ int	ms_get_line(t_ms_data *ms_data)
 	}
 	line = ms_get_line_loop();
 	if (!line)
-		exit(000000001);
+		ms_free_and_exit(ms_data, 1, 0);
 	add_history(line);
 	ms_data->line = line;
 	return (0);
