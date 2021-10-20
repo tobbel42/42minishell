@@ -13,7 +13,7 @@ SRC_LIST=ms_main.c\
 	ms_get_exec_paths.c \
 \
 	ms_replace_args.c \
-\
+	ms_create_task_list.c\
 \
 \
 \

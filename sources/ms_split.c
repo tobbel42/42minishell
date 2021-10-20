@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 15:04:59 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/20 14:23:31 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/20 18:09:17 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*next_arg(char *line, int *index)
 			i = i + q_finder(line + i);
 		i++;
 	}
-	sub = ft_substr(line, *index, i - *index + 1);
+	sub = ft_substr(line, *index, i - *index);
 	*index = i;
 	return (sub);
 }
