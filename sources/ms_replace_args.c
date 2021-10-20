@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 12:38:12 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/20 17:44:24 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/20 17:47:14 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	ms_replace_args(t_ms_data *ms)
 			}
 		i++;
 	}
+		// printf("i: %d LINE: %s\n", i, ms->line);
 	return (0);
 }
 
