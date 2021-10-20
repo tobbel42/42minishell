@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/20 12:57:57 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/20 17:57:28 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,36 @@ typedef struct			s_ms_env_variable
 	struct s_ms_env_variable	*next;
 }						t_ms_env_variable;
 
+typedef struct s_ms_task
+{
+	//list utils
+	struct s_ms_task	*next;
+	struct s_ms_task	*prev;
+
+	//fct-basics are set during set_up-Phase
+	char				*name; //cleaned up name
+	char				**args; //cleaned up args
+	char				*exec_path; //if a cmp -> find exec_path, else NULL;
+
+	//I/O part are set during I/O linking phase
+	int					fd_in; //default = 0
+	int					fd_out; //default = 1
+
+	//error_part
+	int					err_flag; //on any error set to a value
+	char				*err_msg; //is printed during exec step;
+}						t_ms_task;
+
 typedef struct s_ms_data
 {
 	char			*line;
 	char			**exec_paths;
 	char			**split_line;
 	t_ms_env_variable	*env_vars_head;
+	t_ms_task		*task_list;
 }					t_ms_data;
+
+
 
 //alice_functions
 
@@ -68,6 +91,8 @@ int	ms_replace_args(t_ms_data *ms);
 //tobi_fuctions
 int		ms_get_line(t_ms_data *ms_data);
 int		ms_split(t_ms_data *ms_data);
+
+int	ms_create_task_list(t_ms_data *ms_data);
 
 
 

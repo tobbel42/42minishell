@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:55:04 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/20 12:53:15 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/20 18:00:54 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ms_init_data(t_ms_data *ms)
 	ms->env_vars_head = NULL;
 	ms->exec_paths = NULL;
 	ms->split_line = NULL;
+	ms->task_list = NULL;
 }
 
 int main(int argc, char **argv, char **envp)
@@ -53,6 +54,19 @@ int main(int argc, char **argv, char **envp)
 		{
 			printf("%i:%s\n", i, ms.split_line[i]);
 			i++;
+		}
+		ms_create_task_list(&ms);
+		t_ms_task *node = ms.task_list;
+		while (node)
+		{
+			printf("\n%s\n", node->name);
+			i = 0;
+			while (node->args[i])
+			{
+				printf("%i:%s\n", i, node->args[i]);
+				i++;
+			}
+			node = node->next;
 		}
 		if (ms.line && !ft_strncmp("exit", ms.line, 4))
 			break ;
