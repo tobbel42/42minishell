@@ -6,29 +6,28 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 15:04:59 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/18 17:26:16 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/20 14:23:31 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
 /*
-//frees all elements of the given array, then the array itself
+//jumps to the index of the closing quote, or to the next char in line
 */
-static void	free_array(char **tab)
+static int	q_finder(char *line)
 {
-	int	i;
+	int		i;
+	char	q;
 
-	i = 0;
-	if (!tab)
-		return ;
-	while (tab[i])
-	{
-		free(tab[i]);
-		tab[i] = NULL;
+	q = line[0];
+	i = 1;
+	while (line[i] && line[i] != q)
 		i++;
-	}
-	free(tab);
+	if (!line[i])
+		return (1);
+	else
+		return (i);
 }
 
 /*
@@ -37,7 +36,6 @@ static void	free_array(char **tab)
 static char	*next_arg(char *line, int *index)
 {
 	char	*sub;
-	char	quote;
 	int		i;
 
 	while (line[*index] == ' ')
@@ -46,16 +44,7 @@ static char	*next_arg(char *line, int *index)
 	while (line && line[i] && line[i] != ' ')
 	{	
 		if (line[i] == '\'' || line[i] == '\"')
-		{
-			quote = line[i];
-			i++;
-			while (line[i] && line[i] != quote)
-			{
-				if (quote == '\"' && line[i] == '\\')
-					i++;
-				i++;
-			}
-		}
+			i = i + q_finder(line + i);
 		i++;
 	}
 	sub = ft_substr(line, *index, i - *index + 1);
@@ -68,7 +57,6 @@ static char	*next_arg(char *line, int *index)
 */
 static void	count_arg(char *line, int *c)
 {
-	char	quote;
 	int		i;
 
 	i = 0;
@@ -81,16 +69,7 @@ static void	count_arg(char *line, int *c)
 				i++;
 		}
 		if (line[i] == '\'' || line[i] == '\"')
-		{
-			quote = line[i];
-			i++;
-			while (line[i] && line[i] != quote)
-			{
-				if (quote == '\"' && line[i] == '\\')
-					i++;
-				i++;
-			}
-		}
+			i = i + q_finder(line + 1);
 		i++;
 	}
 }
@@ -111,7 +90,7 @@ static int	fill_array(t_ms_data *ms_data, char *line, int c)
 		ms_data->split_line[i] = next_arg(line, &n);
 		if (ms_data->split_line[i] == NULL)
 		{
-			free_array(ms_data->split_line);
+			ms_free_char2(ms_data->split_line);
 			ms_data->split_line = NULL;
 			free(line);
 			return (1);
@@ -134,7 +113,7 @@ int	ms_split(t_ms_data *ms_data)
 		return (1);
 	if (ms_data->split_line)
 	{
-		free_array(ms_data->split_line);
+		ms_free_char2(ms_data->split_line);
 		ms_data->split_line = NULL;
 	}
 	line = ft_strtrim(ms_data->line, " ");

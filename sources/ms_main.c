@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:55:04 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/19 20:26:34 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/20 12:53:15 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int main(int argc, char **argv, char **envp)
 	if (ms_get_exec_paths(&ms) != 0)
 		ms_free_and_exit(&ms, 0, 0);
 	// -> do "if (ms.exec_paths != NULL)" from here on, else segfault if unset path
-
+	int i;
 	// 3 get line
 	while (1)
 	{
@@ -46,6 +46,14 @@ int main(int argc, char **argv, char **envp)
 		printf("%s\n", ms.line);
 		printf("enter exit to quit\n");
 		ms_replace_args(&ms);
+		printf("%s\n", ms.line);
+		ms_split(&ms);
+		i = 0;
+		while (ms.split_line[i])
+		{
+			printf("%i:%s\n", i, ms.split_line[i]);
+			i++;
+		}
 		if (ms.line && !ft_strncmp("exit", ms.line, 4))
 			break ;
 	}
