@@ -6,15 +6,15 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 12:38:12 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/20 17:47:14 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/20 19:41:21 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-char	*ms_get_next_word(char *str)
+char	*ms_get_next_token(char *str)
 {
-	char	*word;
+	char	*token;
 	int		i;
 
 	i = 0;
@@ -24,11 +24,11 @@ char	*ms_get_next_word(char *str)
 			break ;
 		i++;
 	}
-	word = ft_substr(str, 0, i);
-	return (word);
+	token = ft_substr(str, 0, i);
+	return (token);
 }
 
-void	ms_word_replace(t_ms_data *ms, int i, char *del, char *repl)
+void	ms_token_replace(t_ms_data *ms, int i, char *del, char *repl)
 {
 	char *tmp1;
 	char *tmp2;
@@ -56,46 +56,52 @@ void	ms_word_replace(t_ms_data *ms, int i, char *del, char *repl)
 	printf("\n");
 }
 
-void	ms_replace_variable(t_ms_data *ms, int *i, char *word)
+void	ms_replace_variable(t_ms_data *ms, int *i, char *token)
 {
 	t_ms_env_variable	*curr;
 
 	curr = ms->env_vars_head;
 	while (curr != NULL)
 	{
-		if (mst_isequal_str(curr->name, word + 1) == 1)
+		if (mst_isequal_str(curr->name, token + 1) == 1)
 		{
-			ms_word_replace(ms, *i, word, curr->content);
+			ms_token_replace(ms, *i, token, curr->content);
 			return ;
 		}
 		curr = curr->next;
 	}
-	ms_word_replace(ms, *i, word, "");
+	if (mst_isequal_str("$?", token) == 1)
+	{
+		// replace with exit status of the most recently executed foreground pipeline
+		return ;
+	}
+	ms_token_replace(ms, *i, token, "");
 }
 
+// i index to dollar, token will be $ folloewd by not $, not space, not null.
 int	ms_replace_args(t_ms_data *ms)
 {
 	int		i;
 	char	*line_cpy;
-	char	*word;
+	char	*token;
 
 	i = 0;
 	while(ms->line[i] != '\0')
 	{
-		if (ms->line[i] == '$')
-			if (ms->line[i + 1] != '\0' && ms->line[i + 1] != '$' && ft_isspace(ms->line[i + 1]) != 1)
-			{
-				line_cpy = ms->line + i;
-				word = ms_get_next_word(line_cpy);
-
-				ms_replace_variable(ms, &i, word);
-				free(word);
-				word = NULL;
-				i--;
-			}
+		if ((ms->line[i] == '$') && (ms->line[i + 1] != '\0' && \
+			ms->line[i + 1] != '$' && ft_isspace(ms->line[i + 1]) != 1))
+		{
+			line_cpy = ms->line + i;
+			token = ms_get_next_token(line_cpy);
+			// if (token[ft_strlen(token) - 1] == '\'' \
+			// 	|| token[ft_strlen(token) - 1] == '\"')
+			ms_replace_variable(ms, &i, token);
+			free(token);
+			token = NULL;
+			i--;
+		}
 		i++;
 	}
-		// printf("i: %d LINE: %s\n", i, ms->line);
+	// printf("i: %d LINE: %s\n", i, ms->line);
 	return (0);
 }
-
