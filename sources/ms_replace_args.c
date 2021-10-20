@@ -6,102 +6,95 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 12:38:12 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/19 20:52:09 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/20 17:44:24 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void	ms_replace_variable(t_ms_data *ms, int i)
+char	*ms_get_next_word(char *str)
+{
+	char	*word;
+	int		i;
+
+	i = 0;
+	while (ft_isspace(str[i]) != 1 && str[i] != '\0')
+	{
+		if ((str[i] == '$') && (i != 0))
+			break ;
+		i++;
+	}
+	word = ft_substr(str, 0, i);
+	return (word);
+}
+
+void	ms_word_replace(t_ms_data *ms, int i, char *del, char *repl)
+{
+	char *tmp1;
+	char *tmp2;
+	char *tmp3;
+	char *tmp4;
+
+	tmp1 = ft_substr(ms->line, 0, i);
+	tmp2 = ft_substr(ms->line, i + ft_strlen(del), ft_strlen(ms->line));
+	tmp3 = ft_strdup(repl);
+	if (tmp3[0] == '\0' && tmp1[i - 1] == ' ' && tmp2[0] == ' ')
+	{
+		tmp4 = tmp2;
+		tmp2 = ft_strtrim(tmp2, " ");
+		free(tmp4);
+	}
+	tmp4 = ft_strjoin(tmp1, tmp3);
+	free(tmp1);
+	free(tmp3);
+	tmp1 = ft_strjoin(tmp4, tmp2);
+	free(tmp4);
+	free(tmp2);
+	tmp3 = ms->line;
+	ms->line = tmp1;
+	free(tmp3);
+	printf("\n");
+}
+
+void	ms_replace_variable(t_ms_data *ms, int *i, char *word)
 {
 	t_ms_env_variable	*curr;
-	char				*line_cpy;
-	char				*word;
-	char				*tmp;
-	char				*tmp2;
 
-	line_cpy = ms->line + i; // gets rid of dollar
-	word = mst_get_next_word(line_cpy);
-	// printf("WORD rpl fun: %s\n", word);
 	curr = ms->env_vars_head;
 	while (curr != NULL)
 	{
 		if (mst_isequal_str(curr->name, word + 1) == 1)
 		{
-			tmp = ms->line;
-			ms->line = mst_word_replace(tmp, i, word, curr->content);
-			free(tmp);
+			ms_word_replace(ms, *i, word, curr->content);
 			return ;
 		}
 		curr = curr->next;
 	}
-	tmp = ms->line;
-	ms->line = mst_word_replace(tmp, i, word, "");
-	free(tmp);
-	// printf("line cut space: %s\n", ms->line);
-	if (ms->line[i - 1] == ' ')
-	{
-		tmp2 = ms->line;
-		// printf("tmp2 cut space: %s\n", tmp2);
-		ms->line = mst_word_replace(tmp2, i, " ", "");
-		free(tmp2);
-	}
-}
-
-void	ms_handle_dollarsign(t_ms_data *ms, int *i)
-{
-	char	*line_cpy;
-	char	*word;
-	char	*word_cpy;
-
-	word = NULL;
-	// printf("i: %d LINE: %s\n", *i, ms->line);
-	if (ms->line[*i + 1] != '$')
-	{
-		ms_replace_variable(ms, *i);
-		// printf("FINAL LINE case 1A: %s\n", ms->line);
-	}
-	else if (ms->line[*i + 1] == '$')
-	{
-		line_cpy = ms->line + *i;
-		// printf("LINE CPY case 1B: %s\n", line_cpy);
-		word = mst_get_next_word(line_cpy);
-		// printf("WORD case 1B: %s\n", word);
-		word_cpy = word;
-		// while dollars are paired, execute pair and then set ptr 2 forward.
-		while (ft_strnstr(word_cpy, "$$", 2) != NULL)
-		{
-			// printf("couple $$\n");
-			word_cpy += 2;
-			*i += 2;
-			// printf("WORD cpy: %s\n", word_cpy);
-		}
-		if (*word_cpy == '$' && (*word_cpy + 1 != '\0' && ft_isspace(*word_cpy + 1) != 1))
-			ms_replace_variable(ms, *i);
-		// printf("FINAL LINE case 1B: %s\n", ms->line);
-	}
-	free(word);
+	ms_word_replace(ms, *i, word, "");
 }
 
 int	ms_replace_args(t_ms_data *ms)
 {
-	int i;
+	int		i;
+	char	*line_cpy;
+	char	*word;
 
 	i = 0;
-	while(ms->line[i + 1] != '\0')
+	while(ms->line[i] != '\0')
 	{
 		if (ms->line[i] == '$')
-			if (ft_isspace(ms->line[i + 1]) != 1)// && ms->line[i + 1] != '$')
-				ms_handle_dollarsign(ms, &i);
-			// if ((ft_isspace(ms->line[i - 1]) == 1 && ft_isspace(ms->line[i + 1]) != 1 && ms->line[i + 1] == '$') \
-			// && (ms->line[i + 2] == '\0' || ft_isspace(ms->line[i + 2]) == 1))
-			// 	printf("$$ got\n");
-			// 	// ms_launch_dollardollar(ms);
-			// if (ms->line[i - 1] == ' ' && ms->line[i + 1] == ' ') do nothing
+			if (ms->line[i + 1] != '\0' && ms->line[i + 1] != '$' && ft_isspace(ms->line[i + 1]) != 1)
+			{
+				line_cpy = ms->line + i;
+				word = ms_get_next_word(line_cpy);
+
+				ms_replace_variable(ms, &i, word);
+				free(word);
+				word = NULL;
+				i--;
+			}
 		i++;
 	}
-		printf("i: %d LINE: %s\n", i, ms->line);
 	return (0);
 }
 
-// (ft_isspace(ms->line[i - 1]) == 1 || ms->line[i - 1] == '\0') && 
