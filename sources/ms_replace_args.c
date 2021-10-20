@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_replace_args.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 12:38:12 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/19 20:52:09 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/20 12:50:45 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	ms_replace_args(t_ms_data *ms)
 			// if (ms->line[i - 1] == ' ' && ms->line[i + 1] == ' ') do nothing
 		i++;
 	}
-		printf("i: %d LINE: %s\n", i, ms->line);
+		// printf("i: %d LINE: %s\n", i, ms->line);
 	return (0);
 }
 

@@ -11,7 +11,7 @@ SRC_LIST=ms_main.c\
 	ms_free.c \
 	ms_split.c \
 	ms_get_exec_paths.c \
-	ms_get_line_utils.c \
+\
 	ms_replace_args.c \
 \
 \
