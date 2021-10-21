@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:55:04 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/20 18:00:54 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/21 13:11:24 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		ms_get_line(&ms);
-		printf("%s\n", ms.line);
+		if (!ft_strncmp("", ms.line, 1))
+			continue ;
 		printf("enter exit to quit\n");
 		ms_replace_args(&ms);
-		printf("%s\n", ms.line);
 		ms_split(&ms);
 		i = 0;
 		while (ms.split_line[i])
@@ -55,13 +55,20 @@ int main(int argc, char **argv, char **envp)
 			printf("%i:%s\n", i, ms.split_line[i]);
 			i++;
 		}
+		i = 0;
+		while (ms.exec_paths[i])
+		{
+			printf("%s\n", ms.exec_paths[i]);
+			i++;
+		}
 		ms_create_task_list(&ms);
 		t_ms_task *node = ms.task_list;
 		while (node)
 		{
-			printf("\n%s\n", node->name);
+			if (node->name)
+				printf("\n%s\n", node->name);
 			i = 0;
-			while (node->args[i])
+			while (node->args && node->args[i])
 			{
 				printf("%i:%s\n", i, node->args[i]);
 				i++;
@@ -81,6 +88,6 @@ int main(int argc, char **argv, char **envp)
 
 	// 7 execute
 
-	// system("leaks minishell");
+	system("leaks minishell");
 	return (0);
 }

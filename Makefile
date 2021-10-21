@@ -15,9 +15,9 @@ SRC_LIST=ms_main.c\
 	ms_replace_args.c \
 	ms_create_task_list.c\
 \
+	ms_clean_task_list.c\
 \
-\
-\
+	ms_clean_input.c\
 \
 \
 \
