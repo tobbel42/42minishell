@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 15:04:59 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/20 18:09:17 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/21 11:31:57 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	count_arg(char *line, int *c)
 				i++;
 		}
 		if (line[i] == '\'' || line[i] == '\"')
-			i = i + q_finder(line + 1);
+			i = i + q_finder(line + i);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:19:45 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/20 13:00:09 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/21 12:23:16 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	ms_get_line(t_ms_data *ms_data)
 	line = readline("minishell> ");
 	if (!line)
 		ms_free_and_exit(ms_data, 1, EXIT_SUCCESS);
-	add_history(line);
+	if (ft_strncmp("", line, 1))
+		add_history(line);
 	ms_data->line = line;
 	return (0);
 }

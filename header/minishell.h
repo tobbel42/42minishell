@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/20 17:57:28 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/21 17:24:09 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,10 @@ int	ms_replace_args(t_ms_data *ms);
 int		ms_get_line(t_ms_data *ms_data);
 int		ms_split(t_ms_data *ms_data);
 
-int	ms_create_task_list(t_ms_data *ms_data);
-
-
+int		ms_create_task_list(t_ms_data *ms_data);
+void	ms_clean_task_list(t_ms_data *ms_data);
+void	ms_free_task(t_ms_task *task);
+char	*ms_clean_input(char *arg);
 
 
 
