@@ -19,9 +19,9 @@ SRC_LIST=ms_main.c\
 \
 	ms_clean_input.c\
 \
+	ms_get_path.c\
 \
-\
-\
+	qd_launcher.c\
 \
 \
 \

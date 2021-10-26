@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:55:04 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/21 13:11:24 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/26 16:42:02 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ int main(int argc, char **argv, char **envp)
 			printf("%i:%s\n", i, ms.split_line[i]);
 			i++;
 		}
-		i = 0;
-		while (ms.exec_paths[i])
-		{
-			printf("%s\n", ms.exec_paths[i]);
-			i++;
-		}
+		// i = 0;
+		// while (ms.exec_paths[i])
+		// {
+		// 	printf("%s\n", ms.exec_paths[i]);
+		// 	i++;
+		// }
 		ms_create_task_list(&ms);
 		t_ms_task *node = ms.task_list;
 		while (node)
@@ -75,6 +75,7 @@ int main(int argc, char **argv, char **envp)
 			}
 			node = node->next;
 		}
+		qd_launch(&ms);
 		if (ms.line && !ft_strncmp("exit", ms.line, 4))
 			break ;
 	}

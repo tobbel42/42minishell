@@ -6,13 +6,13 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 14:58:16 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/21 17:25:47 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/26 15:46:08 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-static int	is_cmd(char *line)
+int	ms_is_cmd(char *line)
 {
 	if (!ft_strncmp("<", line, 2) || !ft_strncmp("<<", line, 3)
 		|| !ft_strncmp(">", line, 2) || !ft_strncmp(">>", line, 3))
@@ -27,12 +27,12 @@ static int	get_arg_count(t_ms_task *task, t_ms_data *ms_data, int *index)
 	int	i;
 
 	i = 1;
-	if (is_cmd(task->name) == -1)
+	if (ms_is_cmd(task->name) == -1)
 		i = 2;
-	else if (is_cmd(task->name) == 1)
+	else if (ms_is_cmd(task->name) == 1)
 	{
 		while (ms_data->split_line[*index + i]
-			&& is_cmd(ms_data->split_line[*index + i]) == 1)
+			&& ms_is_cmd(ms_data->split_line[*index + i]) == 1)
 			i++;
 	}
 	return (i);
@@ -83,6 +83,8 @@ static	t_ms_task	*ms_create_task(t_ms_data *ms_data, t_ms_task *prev, int *index
 		task->err_flag = 1;
 	task->err_flag = fill_args(task, ms_data, index);
 	task->exec_path = NULL;
+	if (ms_is_cmd(task->name) == 1)
+		task->exec_path = ms_get_path(task, ms_data);
 	if (task->err_flag)
 	{
 		ms_free_task(task);

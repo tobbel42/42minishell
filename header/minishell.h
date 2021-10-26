@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/21 17:24:09 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/26 16:42:51 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,9 @@ void	ms_clean_task_list(t_ms_data *ms_data);
 void	ms_free_task(t_ms_task *task);
 char	*ms_clean_input(char *arg);
 
+char	*ms_get_path(t_ms_task *task, t_ms_data *ms_data);
 
-
+int	qd_launch(t_ms_data *ms_data);
 
 
 
