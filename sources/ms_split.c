@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 15:04:59 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/21 11:31:57 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/26 13:01:43 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,24 @@ static int	q_finder(char *line)
 static char	*next_arg(char *line, int *index)
 {
 	char	*sub;
+	char	temp;
 	int		i;
 
 	while (line[*index] == ' ')
 		*index = *index + 1;
 	i = *index;
-	while (line && line[i] && line[i] != ' ')
+	while (line && line[i] && line[i] != ' ' && line[i] != '<'
+		 && line[i] != '|' && line[i] != '>')
 	{	
 		if (line[i] == '\'' || line[i] == '\"')
 			i = i + q_finder(line + i);
 		i++;
+	}
+	if (i == *index && (line[i] == '<' || line[i] == '|' || line[i] == '>'))
+	{
+		temp = line[i];
+		while (line[i] == temp)
+			i++;
 	}
 	sub = ft_substr(line, *index, i - *index);
 	*index = i;
@@ -58,19 +66,27 @@ static char	*next_arg(char *line, int *index)
 static void	count_arg(char *line, int *c)
 {
 	int		i;
+	char	temp;
 
 	i = 0;
-	while (line[i])
+	while (line && line[i])
 	{
-		if (line[i] == ' ')
+		if (line[i] == '<' || line[i] == '|' || line[i] == '>'
+			|| line[i] == ' ')
 		{
+			temp = line[i];
+			if (i && line[i] != ' ' && line[i - 1] != ' ')
+				*c = *c + 1;
 			*c = *c + 1;
+			while (line[i] == temp)
+				i++;
 			while (line[i] == ' ')
 				i++;
 		}
-		if (line[i] == '\'' || line[i] == '\"')
+		else if (line[i] == '\'' || line[i] == '\"')
 			i = i + q_finder(line + i);
-		i++;
+		else
+			i++;
 	}
 }
 
