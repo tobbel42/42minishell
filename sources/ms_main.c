@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:55:04 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/27 12:30:52 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/27 15:22:56 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,14 @@ int main(int argc, char **argv, char **envp)
 		ms_free_and_exit(&ms, 0, 0);
 	// -> do "if (ms.exec_paths != NULL)" from here on, else segfault if unset path
 	// 3 get line
-	// printf("ENV LINES: %d\n", ms.env_lines_count);
-	// t_ms_env_variable	*currenv;
-	// currenv = ms.env_vars_head;
-	// while (currenv != NULL)
-	// {
-	// 	printf("%s\n", currenv->all);
-	// 	currenv = currenv->next;
-	// }
+	ms_print_env_list(&ms);
+
 	int i;
 
-	// ms_env_to_array(&ms);
+	// char *tmp;
+	// tmp = ms_env_to_array(&ms);
+	// ft_free_char2(tmp);
+
 	while (1)
 	{
 		ms_get_line(&ms);
@@ -91,6 +88,7 @@ int main(int argc, char **argv, char **envp)
 			break ;
 	}
 	// 7 execute
+	
 
 	system("leaks minishell");
 	return (0);

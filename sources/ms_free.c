@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 12:25:37 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/18 16:40:43 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/27 12:42:31 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	ms_free_env_list(t_ms_data *ms)
 			free(tmp->content);
 		current = current->next;
 		free(tmp);
+		ms->env_lines_count--;
 	}
 }
 
