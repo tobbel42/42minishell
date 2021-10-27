@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:40:11 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/21 17:23:54 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/27 13:01:34 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ static int	quote_find(char **line, int i)
 	}
 	return (1);
 }
+
+//TODO: fix bug "l"'s' -> empty string
 
 char	*ms_clean_input(char *arg)
 {

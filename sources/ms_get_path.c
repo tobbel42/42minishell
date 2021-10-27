@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:20:19 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/26 16:43:32 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/27 12:54:53 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ char	*ms_get_path(t_ms_task *task, t_ms_data *ms_data)
 	int		i;
 	char	*test_path;
 
-	printf("%s\n", task->args[0]);
+	if (task->err_flag)
+		return (NULL);
 	if (!access(task->args[0], X_OK))
 		return (ft_strdup(task->args[0]));
 	i = 0;
@@ -32,7 +33,6 @@ char	*ms_get_path(t_ms_task *task, t_ms_data *ms_data)
 		i++;
 	}
 	task->err_flag = 1;
-	task->err_msg = ft_strdup("no\n");
-	printf("%s\n", task->err_msg);
+	task->err_msg = ft_strdup(strerror(errno));
 	return (NULL);
 }

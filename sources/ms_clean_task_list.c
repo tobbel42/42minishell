@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 12:53:00 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/26 16:12:52 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/27 12:57:23 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	ms_clean_task_list(t_ms_data *ms_data)
 	t_ms_task	*node;
 	t_ms_task	*next_node;
 
+	if (!ms_data->task_list)
+		return ;
 	node = ms_data->task_list;
 	while (node)
 	{

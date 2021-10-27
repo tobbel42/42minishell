@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/26 16:42:51 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/27 12:33:47 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <string.h>
 # include "../libft/libft.h"
 # include "../pipex/pipex.h"
 # include "../lib_ms_tools/ms_tools.h"
@@ -55,11 +56,12 @@ typedef struct s_ms_task
 
 typedef struct s_ms_data
 {
-	char			*line;
-	char			**exec_paths;
-	char			**split_line;
+	char				*line;
+	char				**exec_paths;
+	char				**split_line;
 	t_ms_env_variable	*env_vars_head;
-	t_ms_task		*task_list;
+	t_ms_task			*task_list;
+	int					last_return;
 }					t_ms_data;
 
 
@@ -99,10 +101,11 @@ char	*ms_clean_input(char *arg);
 
 char	*ms_get_path(t_ms_task *task, t_ms_data *ms_data);
 
-int	qd_launch(t_ms_data *ms_data);
+void	qd_launch(t_ms_data *ms_data);
 
+int	ms_is_cmd(char *line);
 
-
+int	ms_lauch_task_list(t_ms_data *ms_data);
 
 
 

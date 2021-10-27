@@ -21,9 +21,9 @@ SRC_LIST=ms_main.c\
 \
 	ms_get_path.c\
 \
-	qd_launcher.c\
 \
 \
+	ms_launch_task_list.c\
 \
 \
 \
