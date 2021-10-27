@@ -6,13 +6,13 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 12:07:00 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/27 13:09:22 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/27 13:10:55 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void	launch_cmd(t_ms_task *task, t_ms_data *ms_data)
+static void	launch_cmd(t_ms_task *task, t_ms_data *ms_data)
 {
 	int		pid;
 	int		fd_check[2];

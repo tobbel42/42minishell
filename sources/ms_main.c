@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:55:04 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/27 13:03:19 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/27 15:49:52 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,19 @@ int main(int argc, char **argv, char **envp)
 		// 	i++;
 		// }
 		ms_create_task_list(&ms);
-		// t_ms_task *node = ms.task_list;
-		// while (node)
-		// {
-		// 	if (node->name)
-		// 		printf("\n%s\n", node->name);
-		// 	i = 0;
-		// 	while (node->args && node->args[i])
-		// 	{
-		// 		printf("%i:%s\n", i, node->args[i]);
-		// 		i++;
-		// 	}
-		// 	node = node->next;
-		// }
+		t_ms_task *node = ms.task_list;
+		while (node)
+		{
+			if (node->name)
+				printf("\n%s\n", node->name);
+			i = 0;
+			while (node->args && node->args[i])
+			{
+				printf("%i:%s\n", i, node->args[i]);
+				i++;
+			}
+			node = node->next;
+		}
 		ms_lauch_task_list(&ms);
 		ms_clean_task_list(&ms);
 		if (ms.line && !ft_strncmp("exit", ms.line, 4))

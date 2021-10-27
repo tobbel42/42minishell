@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:40:11 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/27 13:01:34 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/27 15:20:17 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static int	quote_find(char **line, int i)
 	int		j;
 	char	quote;
 	
-	
 	quote = (*line)[i];
 	j = 1;
 	while ((*line)[i + j] && (*line)[i + j] != quote)
@@ -54,8 +53,9 @@ static int	quote_find(char **line, int i)
 	return (1);
 }
 
-//TODO: fix bug "l"'s' -> empty string
-
+/*
+//cleans the input ny parsing closed quotes from the argument
+*/
 char	*ms_clean_input(char *arg)
 {
 	int		i;
@@ -73,7 +73,8 @@ char	*ms_clean_input(char *arg)
 		{
 			i = i + quote_find(&new_line, i);
 		}
-		i++;
+		if (new_line[i])
+			i++;
 	}
 	return (new_line);
 }
