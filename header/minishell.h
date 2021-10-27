@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/27 12:33:47 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/27 15:30:27 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_ms_data
 	char				**exec_paths;
 	char				**split_line;
 	t_ms_env_variable	*env_vars_head;
+	int					env_lines_count;
 	t_ms_task			*task_list;
 	int					last_return;
 }					t_ms_data;
