@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/21 17:24:09 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/27 12:28:35 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_ms_data
 	char			**exec_paths;
 	char			**split_line;
 	t_ms_env_variable	*env_vars_head;
+	int				env_lines_count;
 	t_ms_task		*task_list;
 }					t_ms_data;
 
@@ -66,9 +67,12 @@ typedef struct s_ms_data
 
 //alice_functions
 
-// env
+// get env
 int		ms_get_env(t_ms_data *ms, char **envp);
 int		ms_env_add(t_ms_data *ms, char *env_variable);
+
+// env tools
+char	**ms_env_to_array(t_ms_data *ms);
 
 // free
 void	ms_free_and_exit(t_ms_data *ms, int exitflag, int exitstatus);
@@ -79,8 +83,7 @@ void	ms_free_char2(char **m);
 int		ms_get_exec_paths(t_ms_data *ms);
 
 // replace $
-int	ms_replace_args(t_ms_data *ms);
-
+int		ms_replace_args(t_ms_data *ms);
 
 
 
