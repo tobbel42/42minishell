@@ -6,11 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2021/10/27 12:33:47 by tgrossma         ###   ########.fr       */
-=======
-/*   Updated: 2021/10/27 12:38:46 by akamlah          ###   ########.fr       */
->>>>>>> 6a836e8462c2090d32b8692b239a5dd2982f9fc9
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +87,7 @@ int		ms_get_exec_paths(t_ms_data *ms);
 // replace $
 int		ms_replace_args(t_ms_data *ms);
 
-
-
+// buildins
 
 
 
