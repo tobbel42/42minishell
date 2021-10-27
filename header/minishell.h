@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/27 12:28:35 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/27 12:38:46 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int		ms_env_add(t_ms_data *ms, char *env_variable);
 
 // env tools
 char	**ms_env_to_array(t_ms_data *ms);
+void	ms_print_env_list(t_ms_data *ms);
 
 // free
 void	ms_free_and_exit(t_ms_data *ms, int exitflag, int exitstatus);
