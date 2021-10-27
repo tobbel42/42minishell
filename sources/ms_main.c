@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:55:04 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/27 15:22:56 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/27 13:03:19 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	ms_init_data(t_ms_data *ms)
 	ms->exec_paths = NULL;
 	ms->split_line = NULL;
 	ms->task_list = NULL;
+	ms->last_return = 0;
 }
 
 int main(int argc, char **argv, char **envp)
@@ -64,26 +65,28 @@ int main(int argc, char **argv, char **envp)
 			printf("%i:%s\n", i, ms.split_line[i]);
 			i++;
 		}
-		i = 0;
-		while (ms.exec_paths[i])
-		{
-			printf("%s\n", ms.exec_paths[i]);
-			i++;
-		}
+		// i = 0;
+		// while (ms.exec_paths[i])
+		// {
+		// 	printf("%s\n", ms.exec_paths[i]);
+		// 	i++;
+		// }
 		ms_create_task_list(&ms);
-		t_ms_task *node = ms.task_list;
-		while (node)
-		{
-			if (node->name)
-				printf("\n%s\n", node->name);
-			i = 0;
-			while (node->args && node->args[i])
-			{
-				printf("%i:%s\n", i, node->args[i]);
-				i++;
-			}
-			node = node->next;
-		}
+		// t_ms_task *node = ms.task_list;
+		// while (node)
+		// {
+		// 	if (node->name)
+		// 		printf("\n%s\n", node->name);
+		// 	i = 0;
+		// 	while (node->args && node->args[i])
+		// 	{
+		// 		printf("%i:%s\n", i, node->args[i]);
+		// 		i++;
+		// 	}
+		// 	node = node->next;
+		// }
+		ms_lauch_task_list(&ms);
+		ms_clean_task_list(&ms);
 		if (ms.line && !ft_strncmp("exit", ms.line, 4))
 			break ;
 	}

@@ -1,51 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_clean_task_list.c                               :+:      :+:    :+:   */
+/*   qd_launcher.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/21 12:53:00 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/27 12:57:23 by tgrossma         ###   ########.fr       */
+/*   Created: 2021/10/26 15:16:12 by tgrossma          #+#    #+#             */
+/*   Updated: 2021/10/27 11:35:18 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-/*
-//frees a single task instance
-*/
-void	ms_free_task(t_ms_task *task)
+void	qd_launch(t_ms_data *ms_data)
 {
-	if (!task)
-		return ;
-	if (task->name)
-		free(task->name);
-	if (task->args)
-		mst_free_char2(task->args);
-	if (task->exec_path)
-		free(task->exec_path);
-	if (task->err_msg)
-		free(task->err_msg);
-	free(task);
-}
-
-/*
-//frees the task_list of ms_data
-*/
-void	ms_clean_task_list(t_ms_data *ms_data)
-{
-	t_ms_task	*node;
-	t_ms_task	*next_node;
+	t_ms_task	*node = NULL;
+	int			pid;
 
 	if (!ms_data->task_list)
 		return ;
 	node = ms_data->task_list;
+	int	i = 0;
 	while (node)
 	{
-		next_node = node->next;
-		ms_free_task(node);
-		node = next_node;
+		printf("%i\n", i);
+		i = i + 1;
+		if (node->exec_path)
+		{
+			pid = fork();
+			if (pid == 0)
+				execve(node->exec_path, node->args, NULL);
+			if (pid == 0)
+				break ;
+			printf("%i\n", pid);
+			wait(NULL);
+		}
+		printf("\nexecuted: %s\n", node->args[0]);
+		node = node->next;
 	}
-	ms_data->task_list = NULL;
 }

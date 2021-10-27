@@ -19,11 +19,11 @@ SRC_LIST=ms_main.c\
 \
 	ms_clean_input.c\
 \
+	ms_get_path.c\
 \
 \
 \
-\
-\
+	ms_launch_task_list.c\
 \
 \
 \

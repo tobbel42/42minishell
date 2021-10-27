@@ -6,38 +6,49 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 14:58:16 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/21 17:25:47 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/27 12:53:28 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-static int	is_cmd(char *line)
+/*
+//used to analyse the type of task, returns 1 for commands
+//and 0 for special tasks (<< , < , >> , > , |)
+*/
+int	ms_is_cmd(char *line)
 {
 	if (!ft_strncmp("<", line, 2) || !ft_strncmp("<<", line, 3)
-		|| !ft_strncmp(">", line, 2) || !ft_strncmp(">>", line, 3))
-		return (-1);
-	else if (!ft_strncmp("|", line, 2) || !ft_strncmp(";", line, 2))
+		|| !ft_strncmp(">", line, 2) || !ft_strncmp(">>", line, 3)
+		|| (!ft_strncmp("|", line, 2)))
 		return (0);
 	return (1);
 }
 
+/*
+//counts the number of argument a given task takes, 
+//for commands any number of argument is possible,
+//special tasks take a fixed amount of arguments 
+*/
 static int	get_arg_count(t_ms_task *task, t_ms_data *ms_data, int *index)
 {
 	int	i;
 
 	i = 1;
-	if (is_cmd(task->name) == -1)
-		i = 2;
-	else if (is_cmd(task->name) == 1)
+	if (ms_is_cmd(task->name))
 	{
 		while (ms_data->split_line[*index + i]
-			&& is_cmd(ms_data->split_line[*index + i]) == 1)
+			&& ms_is_cmd(ms_data->split_line[*index + i]))
 			i++;
 	}
+	else if (ft_strncmp(task->name, "|", 2))
+		i = 2;
 	return (i);
 }
 
+/*
+//copy the number of argments form ms_data->split_string to task->args
+*/
 static int	fill_args(t_ms_task *task, t_ms_data *ms_data, int *index)
 {
 	int	i;
@@ -50,7 +61,7 @@ static int	fill_args(t_ms_task *task, t_ms_data *ms_data, int *index)
 	task->args = (char **)ft_calloc(sizeof(char *), i + 1);
 	if (!task->args)
 		return (1);
-	while (j < i)
+	while (ms_data->split_line[*index + j] && j < i)
 	{
 		task->args[j] = ms_clean_input(ms_data->split_line[*index + j]);
 		if (!task->args[j])
@@ -65,35 +76,38 @@ static int	fill_args(t_ms_task *task, t_ms_data *ms_data, int *index)
 	return (0);
 }
 
-static	t_ms_task	*ms_create_task(t_ms_data *ms_data, t_ms_task *prev, int *index)
+/*
+//ToDo: discriminate between malloc errors-> clean up everything -> to user ?
+//		and fail-to-find / incorrect access rights errors  
+*/
+static	t_ms_task	*ms_create_task(t_ms_data *ms_data,
+									t_ms_task *prev, int *index)
 {
 	t_ms_task	*task;
 
-	task = (t_ms_task *)malloc(sizeof(t_ms_task));
+	task = (t_ms_task *)ft_calloc(1, sizeof(t_ms_task));
 	if (!task)
 		return (NULL);
-	task->next = NULL;
 	task->prev = prev;
+	task->next = NULL;
 	task->fd_in = 0;
 	task->fd_out = 1;
-	task->err_flag = 0;
-	task->err_msg = NULL;
 	task->name = ft_strdup(ms_data->split_line[*index]);
+	task->args = NULL;
+	task->exec_path = NULL;
+	task->err_msg = NULL;
 	if (!task->name)
 		task->err_flag = 1;
 	task->err_flag = fill_args(task, ms_data, index);
-	task->exec_path = NULL;
 	if (task->err_flag)
 	{
 		ms_free_task(task);
 		return (NULL);
 	}
+	if (ms_is_cmd(task->name) == 1)
+		task->exec_path = ms_get_path(task, ms_data);
 	return (task);
 }
-
-//ToDo: clean_input fkt
-
-//ToDo: find exec path_fkt
 
 /*
 //takes the split_line and groups the arguments in a double linked list,
