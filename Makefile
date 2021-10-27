@@ -6,15 +6,15 @@ NAME=minishell
 SRC_DIR=./sources/
 OBJ_DIR=./objects/
 SRC_LIST=ms_main.c\
-	ms_env.c \
+	ms_get_env.c \
 	ms_get_line.c\
 	ms_free.c \
 	ms_split.c \
 	ms_get_exec_paths.c \
-\
+	ms_env_tools.c \
 	ms_replace_args.c \
 	ms_create_task_list.c\
-\
+	ms_i_o_link_task_list.c \
 	ms_clean_task_list.c\
 \
 	ms_clean_input.c\

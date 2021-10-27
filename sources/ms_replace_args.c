@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 12:38:12 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/20 19:41:21 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/26 15:50:02 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ms_get_next_token(char *str)
 	i = 0;
 	while (ft_isspace(str[i]) != 1 && str[i] != '\0')
 	{
-		if ((str[i] == '$') && (i != 0))
+		if ((str[i] == '$' || str[i] == '\'' || str[i] == '\"') && (i != 0))
 			break ;
 		i++;
 	}
@@ -56,10 +56,16 @@ void	ms_token_replace(t_ms_data *ms, int i, char *del, char *repl)
 	printf("\n");
 }
 
-void	ms_replace_variable(t_ms_data *ms, int *i, char *token)
+void	ms_replace_variable(t_ms_data *ms, int *i, char *token, int dqflag)
 {
 	t_ms_env_variable	*curr;
 
+	if	((ms->line[*i - 1] == '\'' && ms->line[*i + ft_strlen(token)] == '\'') && \
+		(dqflag == -1))
+	{
+		*i += 1;
+		return ;
+	}
 	curr = ms->env_vars_head;
 	while (curr != NULL)
 	{
@@ -84,18 +90,20 @@ int	ms_replace_args(t_ms_data *ms)
 	int		i;
 	char	*line_cpy;
 	char	*token;
+	int		dqflag;
 
 	i = 0;
+	dqflag = -1;
 	while(ms->line[i] != '\0')
 	{
+		if (ms->line[i] == '\"')
+			dqflag *= -1;
 		if ((ms->line[i] == '$') && (ms->line[i + 1] != '\0' && \
 			ms->line[i + 1] != '$' && ft_isspace(ms->line[i + 1]) != 1))
 		{
 			line_cpy = ms->line + i;
 			token = ms_get_next_token(line_cpy);
-			// if (token[ft_strlen(token) - 1] == '\'' \
-			// 	|| token[ft_strlen(token) - 1] == '\"')
-			ms_replace_variable(ms, &i, token);
+			ms_replace_variable(ms, &i, token, dqflag);
 			free(token);
 			token = NULL;
 			i--;
@@ -105,3 +113,7 @@ int	ms_replace_args(t_ms_data *ms)
 	// printf("i: %d LINE: %s\n", i, ms->line);
 	return (0);
 }
+
+// 3.5.9 Quote Removal
+// After the preceding expansions, all unquoted occurrences of the characters ‘\’, 
+// ‘'’, and ‘"’ that did not result from one of the above expansions are removed.

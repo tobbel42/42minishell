@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:55:04 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/27 12:46:19 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/27 13:03:19 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ms_init_data(t_ms_data *ms)
 {
 	ms->line = NULL;
 	ms->env_vars_head = NULL;
+	ms->env_lines_count = 0;
 	ms->exec_paths = NULL;
 	ms->split_line = NULL;
 	ms->task_list = NULL;
@@ -40,8 +41,18 @@ int main(int argc, char **argv, char **envp)
 	if (ms_get_exec_paths(&ms) != 0)
 		ms_free_and_exit(&ms, 0, 0);
 	// -> do "if (ms.exec_paths != NULL)" from here on, else segfault if unset path
-	int i;
 	// 3 get line
+	// printf("ENV LINES: %d\n", ms.env_lines_count);
+	// t_ms_env_variable	*currenv;
+	// currenv = ms.env_vars_head;
+	// while (currenv != NULL)
+	// {
+	// 	printf("%s\n", currenv->all);
+	// 	currenv = currenv->next;
+	// }
+	int i;
+
+	// ms_env_to_array(&ms);
 	while (1)
 	{
 		ms_get_line(&ms);
@@ -49,6 +60,7 @@ int main(int argc, char **argv, char **envp)
 			continue ;
 		printf("enter exit to quit\n");
 		ms_replace_args(&ms);
+		printf("REPL. LINE: %s\n", ms.line);
 		ms_split(&ms);
 		i = 0;
 		while (ms.split_line[i])
@@ -81,14 +93,6 @@ int main(int argc, char **argv, char **envp)
 		if (ms.line && !ft_strncmp("exit", ms.line, 4))
 			break ;
 	}
-	// 4 replace args $
-
-	// 5 split
-
-
-	// 6 get cmds
-
-
 	// 7 execute
 
 	system("leaks minishell");
