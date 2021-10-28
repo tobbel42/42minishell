@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_buildin_export.c                                :+:      :+:    :+:   */
+/*   ms_builtin_export.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 12:47:44 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/27 12:47:58 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/28 11:13:39 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h" 
 
-void	ms_buildin_export()
-{
+// int	ms_buildin_export(t_ms_data *ms, t_ms_task *task)
+// {
 	
-}
+// 	return (0);
+// }

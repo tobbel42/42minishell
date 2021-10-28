@@ -6,60 +6,41 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 16:18:40 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/27 15:46:38 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/28 10:47:49 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-// void	ms_iolink_infile(t_ms_data *ms, t_ms_task *task)
-// {
-// 	if(mst_isequal_str(task->args[0], "<") != 1 || !task->args[1] || task->args[2])
-// 		return ;
-// 	// task->fd_in
-// }
-
-int	ms_execute_builtin(t_ms_data *ms, t_ms_task *task)
+void	ms_iolink_infile(t_ms_task *task)
 {
-	int i;
-
-	i = 0;
-	while (task->args[0][i])
+	if(mst_isequal_str(task->args[0], "<") != 1 || !task->args[1] || task->args[2])
+		return ;
+	task->fd_in = open(task->args[1], O_RDONLY);
+	if (task->fd_in < 0)
 	{
-		task->args[0][i] = ft_tolower(task->args[0][i]);
-		i++;
+		task->err_flag = 1;
+		task->err_msg = ft_strdup(strerror(errno));
 	}
-	// if (mst_isequal_str(task->args[0], "export") == 1)
-	// 	ms_builtin_export(ms, task);
-	// if (mst_isequal_str(task->args[0], "unset") == 1)
-	// 	ms_buildin_unset(ms, task);
-	if (mst_isequal_str(task->args[0], "env") == 1)
-		return (ms_builtin_env(ms, task));
-	// if (mst_isequal_str(task->args[0], "cd") == 1)
-	
-	// if(mst_isequal_str(task->args[0], "pwd") == 1)
-	
-	return (2);
 }
 
-
-void	ms_redirect_task_type(t_ms_data *ms)
+// goes through tasks and sets the file descriptors according to the special
+// characters
+void	ms_iolinking_task_list(t_ms_data *ms)
 {
 	t_ms_task	*curr;
 
 	curr = ms->task_list;
 	while (curr != NULL)
 	{
-		if (ms_execute_builtin(ms, curr) == 2)
-			continue ;
+		if (mst_isequal_str(curr->name, "<") == 1)
+			ms_iolink_infile(curr);
 		// if (curr->name && curr->name[0])
 		// {
 		// 	if (mst_isequal_str(curr->name, "<<") == 1)
 		// 		//  todo
 		// 	if (mst_isequal_str(curr->name, ">>") == 1)
 		// 		// todo
-			// if (mst_isequal_str(curr->name, "<") == 1)
-			// 	ms_iolink_infile(ms, curr);
 		// 	if (mst_isequal_str(curr->name, ">") == 1)
 		// 		// todo
 		// 	if (mst_isequal_str(curr->name, "|") == 1)

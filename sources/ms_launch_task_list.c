@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_launch_task_list.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 12:07:00 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/27 12:59:42 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/28 11:10:21 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,29 @@ void	launch_cmd(t_ms_task *task, t_ms_data *ms_data)
 		wait(&ms_data->last_return);
 }
 
+int	ms_execute_builtin(t_ms_data *ms, t_ms_task *task)
+{
+	int i;
+
+	i = 0;
+	while (task->args[0][i])
+	{
+		task->args[0][i] = ft_tolower(task->args[0][i]);
+		i++;
+	}
+	if (mst_isequal_str(task->args[0], "env") == 1)
+		return (ms_builtin_env(ms, task));
+	// if (mst_isequal_str(task->args[0], "unset") == 1)
+	// 	return (ms_buildin_unset(ms, task));
+	// if (mst_isequal_str(task->args[0], "export") == 1)
+	// 	ms_builtin_export(ms, task);
+	// if (mst_isequal_str(task->args[0], "cd") == 1)
+	
+	// if(mst_isequal_str(task->args[0], "pwd") == 1)
+	
+	return (2);
+}
+
 int	ms_lauch_task_list(t_ms_data *ms_data)
 {
 	t_ms_task	*node;
@@ -50,6 +73,8 @@ int	ms_lauch_task_list(t_ms_data *ms_data)
 	{
 		if (!node->err_flag)
 		{
+			if (ms_execute_builtin(ms_data, node) == 2)
+				continue ;
 			if (ms_is_cmd(node->name) && node->exec_path)
 				launch_cmd(node, ms_data);
 		}

@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 12:25:37 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/27 12:42:31 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/28 10:36:39 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 void	ms_free_and_exit(t_ms_data *ms, int exitflag, int exitstatus)
 {
 	ms_free_env_list(ms);
+	ms_clean_task_list(ms);
 	if (ms->line != NULL)
 		free(ms->line);
 	if (ms->exec_paths != NULL)
@@ -51,7 +52,6 @@ void	ms_free_env_list(t_ms_data *ms)
 		ms->env_lines_count--;
 	}
 }
-
 
 /*
 ** Frees an array of pointers to string
