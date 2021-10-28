@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/27 13:06:32 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/27 16:00:47 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,7 @@ int		ms_get_exec_paths(t_ms_data *ms);
 // replace $
 int		ms_replace_args(t_ms_data *ms);
 
-
-
+// buildins
 
 
 
