@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 12:07:00 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/27 13:10:55 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/28 11:48:21 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,29 @@ static void	launch_cmd(t_ms_task *task, t_ms_data *ms_data)
 		ms_free_char2(env_array);
 }
 
+int	ms_execute_builtin(t_ms_data *ms, t_ms_task *task)
+{
+	int i;
 
-/*
-//itterates over the task list, executing the commands or printing error messages
-*/
+	i = 0;
+	while (task->args[0][i])
+	{
+		task->args[0][i] = ft_tolower(task->args[0][i]);
+		i++;
+	}
+	if (mst_isequal_str(task->args[0], "env") == 1)
+		return (ms_builtin_env(ms, task));
+	// if (mst_isequal_str(task->args[0], "unset") == 1)
+	// 	return (ms_buildin_unset(ms, task));
+	// if (mst_isequal_str(task->args[0], "export") == 1)
+	// 	ms_builtin_export(ms, task);
+	// if (mst_isequal_str(task->args[0], "cd") == 1)
+	
+	// if(mst_isequal_str(task->args[0], "pwd") == 1)
+	
+	return (2);
+}
+
 int	ms_lauch_task_list(t_ms_data *ms_data)
 {
 	t_ms_task	*node;
@@ -54,6 +73,8 @@ int	ms_lauch_task_list(t_ms_data *ms_data)
 	{
 		if (!node->err_flag)
 		{
+			if (ms_execute_builtin(ms_data, node) == 2)
+				continue ;
 			if (ms_is_cmd(node->name) && node->exec_path)
 				launch_cmd(node, ms_data);
 		}

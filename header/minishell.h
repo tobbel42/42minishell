@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/27 16:00:47 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/28 11:47:26 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,23 +72,22 @@ typedef struct s_ms_data
 // get env
 int		ms_get_env(t_ms_data *ms, char **envp);
 int		ms_env_add(t_ms_data *ms, char *env_variable);
-
 // env tools
+t_ms_env_variable	*ms_env_new_variable(char *env_variable);
 char	**ms_env_to_array(t_ms_data *ms);
 void	ms_print_env_list(t_ms_data *ms);
-
 // free
 void	ms_free_and_exit(t_ms_data *ms, int exitflag, int exitstatus);
 void	ms_free_env_list(t_ms_data *ms);
 void	ms_free_char2(char **m);
-
 // exec paths
 int		ms_get_exec_paths(t_ms_data *ms);
-
 // replace $
 int		ms_replace_args(t_ms_data *ms);
-
-// buildins
+// iolink
+void	ms_iolinking_task_list(t_ms_data *ms);
+// builtins
+int		ms_builtin_env(t_ms_data *ms, t_ms_task *task);
 
 
 

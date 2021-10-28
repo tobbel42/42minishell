@@ -6,60 +6,46 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 16:18:40 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/27 15:56:29 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/28 11:47:43 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-// void	ms_iolink_infile(t_ms_data *ms, t_ms_task *task)
-// {
-// 	if(mst_isequal_str(task->args[0], "<") != 1 || !task->args[1] || task->args[2])
-// 		return ;
-// 	// task->fd_in
-// }
+void	ms_iolink_infile(t_ms_task *task)
+{
+	if(mst_isequal_str(task->args[0], "<") != 1 || !task->args[1] || task->args[2])
+		return ;
+	task->fd_in = open(task->args[1], O_RDONLY);
+	if (task->fd_in < 0)
+	{
+		task->err_flag = 1;
+		task->err_msg = ft_strdup(strerror(errno));
+	}
+}
 
-void	ms_redirect_task_type(t_ms_data *ms)
+// goes through tasks and sets the file descriptors according to the special
+// characters
+void	ms_iolinking_task_list(t_ms_data *ms)
 {
 	t_ms_task	*curr;
 
 	curr = ms->task_list;
 	while (curr != NULL)
 	{
+		if (mst_isequal_str(curr->name, "<") == 1)
+			ms_iolink_infile(curr);
 		// if (curr->name && curr->name[0])
 		// {
 		// 	if (mst_isequal_str(curr->name, "<<") == 1)
 		// 		//  todo
 		// 	if (mst_isequal_str(curr->name, ">>") == 1)
 		// 		// todo
-			// if (mst_isequal_str(curr->name, "<") == 1)
-			// 	ms_iolink_infile(ms, curr);
 		// 	if (mst_isequal_str(curr->name, ">") == 1)
 		// 		// todo
 		// 	if (mst_isequal_str(curr->name, "|") == 1)
 		// 		// todo
 		// }
-		// if (ms_is_buildin(ms, curr->args[0]) == 1)
 		curr = curr->next;
 	}
 }
-
-int	ms_is_buildin(t_ms_data *ms, char *cmd)
-{
-	int i;
-
-	while (cmd[i])
-	{
-		cmd[i] = ft_tolower(cmd[i]);
-		i++;
-	}
-	if ((mst_isequal_str(cmd, "export") == 1) \
-		|| (mst_isequal_str(cmd, "unset") == 1) \
-		|| (mst_isequal_str(cmd, "env") == 1) \
-		|| (mst_isequal_str(cmd, "cd") == 1) \
-		||(mst_isequal_str(cmd, "pwd") == 1))
-		return (1);
-	return (0);
-}
-
-

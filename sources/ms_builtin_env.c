@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_buildin_export.c                                :+:      :+:    :+:   */
+/*   ms_builtin_env.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/27 12:47:44 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/27 15:59:26 by tgrossma         ###   ########.fr       */
+/*   Created: 2021/10/27 15:46:01 by akamlah           #+#    #+#             */
+/*   Updated: 2021/10/28 10:49:19 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h" 
+#include "../header/minishell.h"
 
-void	ms_buildin_export(char **args)
+int	ms_builtin_env(t_ms_data *ms, t_ms_task *task)
 {
-	
+	if (task->args[1] != NULL)
+		return (-1);
+	ms_print_env_list(ms);
+	return (0);
 }
