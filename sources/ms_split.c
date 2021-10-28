@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 15:04:59 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/26 13:01:43 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/27 15:49:42 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	q_finder(char *line)
 	if (!line[i])
 		return (1);
 	else
-		return (i);
+		return (i + 1);
 }
 
 /*
@@ -47,7 +47,8 @@ static char	*next_arg(char *line, int *index)
 	{	
 		if (line[i] == '\'' || line[i] == '\"')
 			i = i + q_finder(line + i);
-		i++;
+		else
+			i++;
 	}
 	if (i == *index && (line[i] == '<' || line[i] == '|' || line[i] == '>'))
 	{

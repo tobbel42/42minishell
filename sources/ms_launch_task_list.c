@@ -3,24 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ms_launch_task_list.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 12:07:00 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/28 11:10:21 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/28 11:56:44 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void	launch_cmd(t_ms_task *task, t_ms_data *ms_data)
+static void	launch_cmd(t_ms_task *task, t_ms_data *ms_data)
 {
 	int		pid;
 	int		fd_check[2];
-	char	*err_str;
 	char	**env_array;
 
-	env_array = NULL;
-	err_str = NULL;
+	env_array = ms_env_to_array(ms_data);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -37,6 +35,8 @@ void	launch_cmd(t_ms_task *task, t_ms_data *ms_data)
 		printf("minishell: fork_error: %s\n", strerror(errno));
 	else
 		wait(&ms_data->last_return);
+	if (env_array)
+		ms_free_char2(env_array);
 }
 
 int	ms_execute_builtin(t_ms_data *ms, t_ms_task *task)
@@ -73,9 +73,7 @@ int	ms_lauch_task_list(t_ms_data *ms_data)
 	{
 		if (!node->err_flag)
 		{
-			if (ms_execute_builtin(ms_data, node) == 2)
-				continue ;
-			if (ms_is_cmd(node->name) && node->exec_path)
+			if (ms_execute_builtin(ms_data, node) == 2 && ms_is_cmd(node->name) && node->exec_path)
 				launch_cmd(node, ms_data);
 		}
 		else

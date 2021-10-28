@@ -6,18 +6,37 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:20:19 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/27 12:54:53 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/28 12:12:36 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
+/*
+//checks wheather the function is a buildin, returns 1 if yes, 0 if no
+*/
+static int	is_bulidin(t_ms_task *task)
+{
+	if (!ft_strncmp(task->args[0], "echo", 5) || !ft_strncmp(task->args[0], "cd", 3)
+		|| !ft_strncmp(task->args[0], "pwd", 4) || !ft_strncmp(task->args[0], "env", 4)
+		|| !ft_strncmp(task->args[0], "export", 7) || !ft_strncmp(task->args[0], "unset", 6)
+		|| !ft_strncmp(task->args[0], "env", 4) || !ft_strncmp(task->args[0], "exit", 5))
+		return (1);
+	return (0);
+}
+
+/*
+//takes the name of the cmd, and tryes to find the absolut path,
+//returns path, if found, or sets error_msg if not or no access rights
+*/
 char	*ms_get_path(t_ms_task *task, t_ms_data *ms_data)
 {
 	int		i;
 	char	*test_path;
 
 	if (task->err_flag)
+		return (NULL);
+	if (is_bulidin(task))
 		return (NULL);
 	if (!access(task->args[0], X_OK))
 		return (ft_strdup(task->args[0]));

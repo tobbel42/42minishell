@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ms_builtin_export.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 12:47:44 by akamlah           #+#    #+#             */
 /*   Updated: 2021/10/28 11:57:05 by akamlah          ###   ########.fr       */
