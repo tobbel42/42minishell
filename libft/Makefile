@@ -1,4 +1,5 @@
 NAME=libft.a
+CN =libft
 CC=gcc
 C_FLAGS=-Wall -Wextra -Werror
 OBJECTS=ft_atoi.o \
@@ -47,24 +48,32 @@ BONUS_OBJ= ft_lstadd_back.o \
 	ft_lstnew.o \
 	ft_lstsize.o
 
+GREEN=\033[0;32m
+RED=\033[0;31m
+YELLOW=\033[0;33m
+NC=\033[0m
+
 all: $(NAME)
 
 $(NAME): $(OBJECTS) libft.h
-	ar -crs $@ $^
+	@echo "\n$(GREEN)creating: $(CN)$(NC)"
+	@ar -crs $@ $^
 
 bonus: $(BONUS_OBJ) $(OBJECTS) libft.h
 	ar -crs $(NAME) $^
 
 %.o: %.c libft.h
-	$(CC) $(C_FLAGS) $< -c -o $@
+	@$(CC) $(C_FLAGS) $< -c -o $@
 
 re:
-	make fclean
-	make all
+	@make fclean
+	@make all
 
 clean:
-	rm -f $(OBJECTS) $(BONUS_OBJ)
+	@rm -f $(OBJECTS) $(BONUS_OBJ)
+	@echo "$(RED)deleting: $(CN): object-files$(NC)"
 
 fclean:
-	make clean
-	rm -f $(NAME)
+	@make clean
+	@rm -f $(NAME)
+	@echo "$(RED)deleting: $(CN)$(NC)"
