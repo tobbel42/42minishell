@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 12:07:00 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/28 11:48:21 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/28 11:56:44 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,7 @@ int	ms_lauch_task_list(t_ms_data *ms_data)
 	{
 		if (!node->err_flag)
 		{
-			if (ms_execute_builtin(ms_data, node) == 2)
-				continue ;
-			if (ms_is_cmd(node->name) && node->exec_path)
+			if (ms_execute_builtin(ms_data, node) == 2 && ms_is_cmd(node->name) && node->exec_path)
 				launch_cmd(node, ms_data);
 		}
 		else

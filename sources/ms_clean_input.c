@@ -6,13 +6,13 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:40:11 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/10/27 15:20:17 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/10/28 12:10:57 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-static char	*quote_replace(char **line , int i, int j)
+static char	*quote_replace(char **line, int i, int j)
 {
 	char	*new_line;
 	int		len;
@@ -40,7 +40,7 @@ static int	quote_find(char **line, int i)
 {
 	int		j;
 	char	quote;
-	
+
 	quote = (*line)[i];
 	j = 1;
 	while ((*line)[i + j] && (*line)[i + j] != quote)
@@ -48,9 +48,23 @@ static int	quote_find(char **line, int i)
 	if ((*line)[i + j] == quote)
 	{
 		*line = quote_replace(line, i, j + i);
-		return(i + j - 2);
+		return (i + j - 2);
 	}
 	return (1);
+}
+
+static void	str_to_lower(char *str)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = (int)ft_strlen(str);
+	while (i < len)
+	{	
+		str[i] = ft_tolower(str[i]);
+		i++;
+	}
 }
 
 /*
@@ -76,5 +90,6 @@ char	*ms_clean_input(char *arg)
 		if (new_line[i])
 			i++;
 	}
+	str_to_lower(new_line);
 	return (new_line);
 }
