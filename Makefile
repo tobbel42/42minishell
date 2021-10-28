@@ -69,7 +69,7 @@ $(NAME): $(OBJ_DIR) $(OBJ) $(LIBS) $(HEADER)
 	done;\
 
 	@$(CC) $(C_FLAGS) $(LFLAGS) $(CPFLAGS) $(OBJ) libft/libft.a pipex/pipex.a lib_ms_tools/ms_tools.a -o $@
-	@echo "\n$(GREEN)creating: $(NAME)$(NC)"
+	@echo "$(GREEN)creating: $(NAME)$(NC)"
 
 $(OBJ_DIR):
 	@mkdir $(OBJ_DIR)
@@ -91,8 +91,9 @@ clean:
 	@echo "$(RED)deleting: object-files$(NC)"
 
 fclean:
-	@make clean
-	
+	@rm -f $(OBJ)
+	@rm -f -d $(OBJ_DIR)
+	@echo "$(RED)deleting: object-files$(NC)"
 	@for d in $(LIBS);\
 	do\
 		$(MAKE) -C $$d fclean;\
