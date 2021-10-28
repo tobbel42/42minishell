@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:44:07 by akamlah           #+#    #+#             */
-/*   Updated: 2021/10/28 11:10:47 by akamlah          ###   ########.fr       */
+/*   Updated: 2021/10/28 11:54:01 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int		ms_replace_args(t_ms_data *ms);
 void	ms_iolinking_task_list(t_ms_data *ms);
 // builtins
 int		ms_builtin_env(t_ms_data *ms, t_ms_task *task);
-
+int		ms_builtin_export(t_ms_data *ms, t_ms_task *task);
 
 
 
