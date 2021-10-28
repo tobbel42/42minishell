@@ -38,9 +38,9 @@ SRC_LIST=ms_main.c\
 \
 \
 \
-\
-\
-\
+	ms_builtin_env.c \
+	ms_builtin_export.c \
+	ms_builtin_unset.c \
 \
 \
 \
