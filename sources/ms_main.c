@@ -62,7 +62,7 @@ int main(int argc, char **argv, char **envp)
 		i = 0;
 		while (ms.split_line[i])
 		{
-			printf("%i:%s\n", i, ms.split_line[i]);
+			printf("%i: |%s|\n", i, ms.split_line[i]);
 			i++;
 		}
 		// i = 0;
@@ -72,19 +72,19 @@ int main(int argc, char **argv, char **envp)
 		// 	i++;
 		// }
 		ms_create_task_list(&ms);
-		// t_ms_task *node = ms.task_list;
-		// while (node)
-		// {
-		// 	if (node->name)
-		// 		printf("\n%s\n", node->name);
-		// 	i = 0;
-		// 	while (node->args && node->args[i])
-		// 	{
-		// 		printf("%i:%s\n", i, node->args[i]);
-		// 		i++;
-		// 	}
-		// 	node = node->next;
-		// }
+		t_ms_task *node = ms.task_list;
+		while (node)
+		{
+			if (node->name)
+				printf("\n%s\n", node->name);
+			i = 0;
+			while (node->args && node->args[i])
+			{
+				printf("%i:%s\n", i, node->args[i]);
+				i++;
+			}
+			node = node->next;
+		}
 		ms_iolinking_task_list(&ms);
 		ms_lauch_task_list(&ms);
 		ms_clean_task_list(&ms);
