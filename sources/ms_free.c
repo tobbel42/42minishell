@@ -31,16 +31,24 @@ void	ms_free_env_list(t_ms_data *ms)
 	while (current != NULL)
 	{
 		tmp = current;
-		if (tmp->all != NULL)
-			free(tmp->all);
-		if (tmp->name != NULL)
-			free(tmp->name);
-		if (tmp->content != NULL)
-			free(tmp->content);
 		current = current->next;
-		free(tmp);
+		ms_free_env_var(tmp);
 		ms->env_lines_count--;
 	}
+}
+
+/*
+	Frees an environmental variable
+*/
+void	ms_free_env_var(t_ms_env_variable *ev)
+{
+	if (ev->all != NULL)
+		free(ev->all);
+	if (ev->name != NULL)
+		free(ev->name);
+	if (ev->content != NULL)
+		free(ev->content);
+	free(ev);
 }
 
 /*
