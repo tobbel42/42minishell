@@ -10,6 +10,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <string.h>
+# include <signal.h>
 # include "../libft/libft.h"
 # include "../pipex/pipex.h"
 # include "../lib_ms_tools/ms_tools.h"
@@ -87,7 +88,7 @@ int		ms_split(t_ms_data *ms_data);
 int		ms_create_task_list(t_ms_data *ms_data);
 void	ms_clean_task_list(t_ms_data *ms_data);
 void	ms_free_task(t_ms_task *task);
-char	*ms_clean_input(char *arg);
+char	*ms_clean_input(char *arg, int mode);
 
 char	*ms_get_path(t_ms_task *task, t_ms_data *ms_data);
 

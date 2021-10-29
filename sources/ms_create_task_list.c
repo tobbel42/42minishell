@@ -51,7 +51,7 @@ static int	fill_args(t_ms_task *task, t_ms_data *ms_data, int *index)
 		return (1);
 	while (ms_data->split_line[*index + j] && j < i)
 	{
-		task->args[j] = ms_clean_input(ms_data->split_line[*index + j]);
+		task->args[j] = ms_clean_input(ms_data->split_line[*index + j], j);
 		if (!task->args[j])
 		{
 			mst_free_char2(task->args);
