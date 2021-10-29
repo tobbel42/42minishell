@@ -34,14 +34,6 @@ static void	launch_cmd(t_ms_task *task, t_ms_data *ms_data)
 */
 int	ms_execute_builtin(t_ms_data *ms, t_ms_task *task)
 {
-	int	i;
-
-	i = 0;
-	while (task->args[0][i])
-	{
-		task->args[0][i] = ft_tolower(task->args[0][i]);
-		i++;
-	}
 	if (mst_isequal_str(task->args[0], "env") == 1)
 		return (ms_builtin_env(ms, task));
 	if (mst_isequal_str(task->args[0], "unset") == 1)
