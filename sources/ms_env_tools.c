@@ -1,7 +1,9 @@
 #include "../header/minishell.h"
 
 /*
-	extrapolates the variable's name from its entry in env
+	extrapolates the variable's name from its entry in env.
+	If more than 1 '=', they et saved as 'content' from the second '='
+	onwards.
 */
 static void	ms_set_variable_name(t_ms_env_variable *variable)
 {

@@ -57,6 +57,7 @@ int	ms_lauch_task_list(t_ms_data *ms_data)
 			if (ms_execute_builtin(ms_data, node) == 1 && \
 				ms_is_cmd(node->name) && node->exec_path)
 				launch_cmd(node, ms_data);
+				printf("%s\n", node->name);
 		}
 		else
 		{
