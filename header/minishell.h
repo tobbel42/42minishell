@@ -79,7 +79,7 @@ void	ms_iolinking_task_list(t_ms_data *ms);
 int		ms_builtin_env(t_ms_data *ms, t_ms_task *task);
 int		ms_builtin_export(t_ms_data *ms, t_ms_task *task);
 int		ms_builtin_unset(t_ms_data *ms, t_ms_task *task);
-
+int		ms_unset_variable(t_ms_data *ms, char *var_str);
 
 //tobi_fuctions
 int		ms_get_line(t_ms_data *ms_data);
