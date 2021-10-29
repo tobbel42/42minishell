@@ -68,6 +68,7 @@ void	ms_print_env_list(t_ms_data *ms);
 // free
 void	ms_free_and_exit(t_ms_data *ms, int exitflag, int exitstatus);
 void	ms_free_env_list(t_ms_data *ms);
+void	ms_free_env_var(t_ms_env_variable *ev);
 void	ms_free_char2(char **m);
 // exec paths
 int		ms_get_exec_paths(t_ms_data *ms);
