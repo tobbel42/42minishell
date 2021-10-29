@@ -1,7 +1,7 @@
 #include "../header/minishell.h"
 
 /*
-// adds a node to the head of the list
+	adds a node to the head of the list
 */
 int	ms_env_add(t_ms_data *ms, char *env_variable)
 {
@@ -14,6 +14,9 @@ int	ms_env_add(t_ms_data *ms, char *env_variable)
 	return (0);
 }
 
+/*
+	reverses the order of elements in the env list
+*/
 static void	ms_reverse_env_list(t_ms_data *ms)
 {
 	t_ms_env_variable	*tmp;
@@ -30,18 +33,16 @@ static void	ms_reverse_env_list(t_ms_data *ms)
 		rev_list_head = tmp;
 		rev_list_size++;
 		ms->env_lines_count--;
-	// printf("ENV LINES: %d\n", ms->env_lines_count);
 	}
 	ms->env_vars_head = rev_list_head;
 	ms->env_lines_count = rev_list_size;
-	// printf("ENV LINES: %d\n", ms->env_lines_count);
 }
 
 /*
-// itertates through envp and saves every substring as a node of the
-// env. variable's linked list on its own.
-// if error during allocation, frees already allocated elements and 
-// returns -1
+	itertates through envp and saves every substring as a node of the
+	env. variable's linked list on its own.
+	if error during allocation, frees already allocated elements and 
+	returns -1
 */
 int	ms_get_env(t_ms_data *ms, char **envp)
 {
@@ -55,21 +56,8 @@ int	ms_get_env(t_ms_data *ms, char **envp)
 			ms_free_env_list(ms);
 			return (-1);
 		}
-		// TEST
-		// printf("%s\n", ms->env_vars_head->all);
 		i++;
 	}
 	ms_reverse_env_list(ms);
-
-	t_ms_env_variable	*currenv;
-	currenv = ms->env_vars_head;
-	while (currenv != NULL)
-	{
-		// printf("CURR ALL: %s\n", currenv->all);
-		currenv = currenv->next;
-	}
-	// printf("ENV LINES: %d\n", ms->env_lines_count);
-
 	return (0);
 }
-

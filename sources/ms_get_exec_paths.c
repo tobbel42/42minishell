@@ -1,9 +1,8 @@
 #include "../header/minishell.h"
 
-
 /*
-**	Appends a backslash to every substring in ms->exec_paths, -1 if the 
-**	allocation failed.
+	Appends a backslash to every substring in ms->exec_paths, -1 if the 
+	allocation failed.
 */
 static int	ms_append_backslash_to_paths(t_ms_data	*ms)
 {
@@ -23,8 +22,10 @@ static int	ms_append_backslash_to_paths(t_ms_data	*ms)
 	return (0);
 }
 
-// splits path line by ':' and appends a backslash to paths
-// returns -1 if allocation fails.
+/*
+	splits path line by ':' and appends a backslash to paths
+	returns -1 if allocation fails.
+*/
 static int	ms_set_exec_paths(t_ms_data *ms, char *paths)
 {
 	paths = ft_strchr(paths, '/');
@@ -40,11 +41,13 @@ static int	ms_set_exec_paths(t_ms_data *ms, char *paths)
 	return (0);
 }
 
-// scans list of env variables unless word PATH found.
-// if not found, returns -1 and leaves ms->exec_paths = NULL.
-// Else, ms->exec_paths is filled with the paths found in the environment.
-// If the process failes, ms->exec_paths is set again to null and -1 
-// is returned.
+/*
+	scans list of env variables unless word PATH found.
+	if not found, returns -1 and leaves ms->exec_paths = NULL.
+	Else, ms->exec_paths is filled with the paths found in the environment.
+	If the process failes, ms->exec_paths is set again to null and -1 
+	is returned.
+*/
 int	ms_get_exec_paths(t_ms_data *ms)
 {
 	t_ms_env_variable	*path;
