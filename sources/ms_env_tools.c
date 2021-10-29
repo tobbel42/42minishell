@@ -1,9 +1,11 @@
 #include "../header/minishell.h"
 
-// extrapolates the variable's name from its entry in env
+/*
+	extrapolates the variable's name from its entry in env
+*/
 static void	ms_set_variable_name(t_ms_env_variable *variable)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (variable->all == NULL)
@@ -20,13 +22,17 @@ static void	ms_set_variable_name(t_ms_env_variable *variable)
 	variable->name = ft_substr(variable->all, 0, i);
 }
 
-// extrapolates the variable's content from its entry in env
+/*
+	extrapolates the variable's content from its entry in env
+*/
 static void	ms_set_variable_content(t_ms_env_variable *variable)
 {
-	int i;
-	int strlen;
+	int	i;
+	int	strlen;
+	int	empty_content;
 
 	i = 0;
+	empty_content = 1;
 	if (variable->all == NULL)
 	{
 		variable->content = NULL;
@@ -35,16 +41,22 @@ static void	ms_set_variable_content(t_ms_env_variable *variable)
 	while (variable->all[i] != '\0')
 	{
 		if (variable->all[i] == '=')
+		{
+			empty_content = 0;
 			break ;
+		}
 		i++;
 	}
 	strlen = ft_strlen(variable->all);
-	variable->content = ft_substr(variable->all, i + 1, strlen - i - 1);
+	if (empty_content == 0)
+		variable->content = ft_substr(variable->all, i + 1, strlen - i - 1);
+	else
+		variable->content = NULL;
 }
 
 /*
-// takes a string as parameter and creates a new node as
-// environmental variables containing that string.
+	takes a string as parameter and creates a new node as
+	environmental variables containing that string.
 */
 t_ms_env_variable	*ms_env_new_variable(char *env_variable)
 {
@@ -60,8 +72,10 @@ t_ms_env_variable	*ms_env_new_variable(char *env_variable)
 	return (new_env_variable);
 }
 
-// writes the environmental variables into a char** allocating memory for it.
-// if allocation fails, null is returned.
+/*
+	writes the environmental variables into a char** allocating memory for it.
+	if allocation fails, null is returned.
+*/
 char	**ms_env_to_array(t_ms_data *ms)
 {
 	t_ms_env_variable	*curr;
@@ -81,7 +95,6 @@ char	**ms_env_to_array(t_ms_data *ms)
 			ms_free_char2(env_arr);
 			return (NULL);
 		}
-		// printf("ENV ARR %d: %s\n", i, env_arr[i]);
 		curr = curr->next;
 		i++;
 	}
@@ -89,7 +102,9 @@ char	**ms_env_to_array(t_ms_data *ms)
 	return (env_arr);
 }
 
-// writes the env. variables' list to stdout
+/*
+	writes the env. variables' list to stdout
+*/
 void	ms_print_env_list(t_ms_data *ms)
 {
 	t_ms_env_variable	*curr;

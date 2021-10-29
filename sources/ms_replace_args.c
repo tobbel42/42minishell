@@ -1,6 +1,10 @@
 #include "../header/minishell.h"
 
-char	*ms_get_next_token(char *str)
+/*
+	Isolates and returns a token (delimited by either space or quotes or 
+	another '$')
+*/
+static char	*ms_get_next_token(char *str)
 {
 	char	*token;
 	int		i;
@@ -16,12 +20,15 @@ char	*ms_get_next_token(char *str)
 	return (token);
 }
 
-void	ms_token_replace(t_ms_data *ms, int i, char *del, char *repl)
+/*
+	Replaces the tken 'del' with the token 'repl' in the line read.
+*/
+static void	ms_token_replace(t_ms_data *ms, int i, char *del, char *repl)
 {
-	char *tmp1;
-	char *tmp2;
-	char *tmp3;
-	char *tmp4;
+	char	*tmp1;
+	char	*tmp2;
+	char	*tmp3;
+	char	*tmp4;
 
 	tmp1 = ft_substr(ms->line, 0, i);
 	tmp2 = ft_substr(ms->line, i + ft_strlen(del), ft_strlen(ms->line));
@@ -41,14 +48,18 @@ void	ms_token_replace(t_ms_data *ms, int i, char *del, char *repl)
 	tmp3 = ms->line;
 	ms->line = tmp1;
 	free(tmp3);
-	printf("\n");
 }
 
-void	ms_replace_variable(t_ms_data *ms, int *i, char *token, int dqflag)
+/*
+	In this part the word is searched in the env list and the replace function
+	called.
+*/
+static void	ms_replace_variable(t_ms_data *ms, int *i, char *token, int dqflag)
 {
 	t_ms_env_variable	*curr;
 
-	if	((ms->line[*i - 1] == '\'' && ms->line[*i + ft_strlen(token)] == '\'') && \
+	if ((ms->line[*i - 1] == '\'' && \
+		ms->line[*i + ft_strlen(token)] == '\'') && \
 		(dqflag == -1))
 	{
 		*i += 1;
@@ -66,13 +77,18 @@ void	ms_replace_variable(t_ms_data *ms, int *i, char *token, int dqflag)
 	}
 	if (mst_isequal_str("$?", token) == 1)
 	{
-		// replace with exit status of the most recently executed foreground pipeline
+		// TODO: replace with exit status of the most recently executed foreground pipeline
 		return ;
 	}
 	ms_token_replace(ms, *i, token, "");
 }
 
-// i index to dollar, token will be $ folloewd by not $, not space, not null.
+/*
+	Iterates through the line read and repplaces every word countersigned with '$'
+	with the content of the corresponding variable in env, or deletes the word from
+	the line if no such variable was found. Variables in sinqle quotes do not
+	get replaced, except the statement is enclosed in double quotes.
+*/
 int	ms_replace_args(t_ms_data *ms)
 {
 	int		i;
@@ -82,7 +98,7 @@ int	ms_replace_args(t_ms_data *ms)
 
 	i = 0;
 	dqflag = -1;
-	while(ms->line[i] != '\0')
+	while (ms->line[i] != '\0')
 	{
 		if (ms->line[i] == '\"')
 			dqflag *= -1;
@@ -98,10 +114,5 @@ int	ms_replace_args(t_ms_data *ms)
 		}
 		i++;
 	}
-	// printf("i: %d LINE: %s\n", i, ms->line);
 	return (0);
 }
-
-// 3.5.9 Quote Removal
-// After the preceding expansions, all unquoted occurrences of the characters ‘\’, 
-// ‘'’, and ‘"’ that did not result from one of the above expansions are removed.
