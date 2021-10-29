@@ -10,6 +10,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <string.h>
+# include <signal.h>
 # include "../libft/libft.h"
 # include "../pipex/pipex.h"
 # include "../lib_ms_tools/ms_tools.h"
