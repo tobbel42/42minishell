@@ -39,10 +39,10 @@ int	ms_execute_builtin(t_ms_data *ms, t_ms_task *task)
 	}
 	if (mst_isequal_str(task->args[0], "env") == 1)
 		return (ms_builtin_env(ms, task));
-	// if (mst_isequal_str(task->args[0], "unset") == 1)
-	// 	return (ms_buildin_unset(ms, task));
-	// if (mst_isequal_str(task->args[0], "export") == 1)
-	// 	ms_builtin_export(ms, task);
+	if (mst_isequal_str(task->args[0], "unset") == 1)
+		return (ms_builtin_unset(ms, task));
+	if (mst_isequal_str(task->args[0], "export") == 1)
+		return (ms_builtin_export(ms, task));
 	// if (mst_isequal_str(task->args[0], "cd") == 1)
 	
 	// if(mst_isequal_str(task->args[0], "pwd") == 1)
