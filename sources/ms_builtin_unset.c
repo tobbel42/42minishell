@@ -3,7 +3,7 @@
 /*
 	deletes the variable passed, if found, from env, does nothing if not found.
 */
-static int	ms_unset_variable(t_ms_data *ms, char *var_str)
+int	ms_unset_variable(t_ms_data *ms, char *var_str)
 {
 	t_ms_env_variable	*curr;
 	t_ms_env_variable	*tmp;
@@ -26,6 +26,7 @@ static int	ms_unset_variable(t_ms_data *ms, char *var_str)
 	if (tmp->content != NULL)
 		free(tmp->content);
 	free(tmp);
+	ms->env_lines_count--;
 	return (0);
 }
 
@@ -43,5 +44,6 @@ int	ms_builtin_unset(t_ms_data *ms, t_ms_task *task)
 		ms_unset_variable(ms, task->args[i]);
 		i++;
 	}
+	ms_print_env_list(ms);
 	return (0);
 }
