@@ -14,6 +14,7 @@
 # include "../libft/libft.h"
 # include "../pipex/pipex.h"
 # include "../lib_ms_tools/ms_tools.h"
+# include "../get_next_line/get_next_line.h"
 
 typedef struct			s_ms_env_variable
 {
