@@ -27,9 +27,14 @@ static void	launch_cmd(t_ms_task *task, t_ms_data *ms_data)
 		ms_free_char2(env_array);
 }
 
+/*
+	If command is builtin, this function calls the corrresponding
+	executing function, which returns 0 on success, -1 on failure.
+	If not a builtin, 1 is returned.
+*/
 int	ms_execute_builtin(t_ms_data *ms, t_ms_task *task)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (task->args[0][i])
@@ -43,11 +48,7 @@ int	ms_execute_builtin(t_ms_data *ms, t_ms_task *task)
 		return (ms_builtin_unset(ms, task));
 	if (mst_isequal_str(task->args[0], "export") == 1)
 		return (ms_builtin_export(ms, task));
-	// if (mst_isequal_str(task->args[0], "cd") == 1)
-	
-	// if(mst_isequal_str(task->args[0], "pwd") == 1)
-	
-	return (2);
+	return (1);
 }
 
 int	ms_lauch_task_list(t_ms_data *ms_data)
@@ -61,7 +62,8 @@ int	ms_lauch_task_list(t_ms_data *ms_data)
 	{
 		if (!node->err_flag)
 		{
-			if (ms_execute_builtin(ms_data, node) == 2 && ms_is_cmd(node->name) && node->exec_path)
+			if (ms_execute_builtin(ms_data, node) == 1 && \
+				ms_is_cmd(node->name) && node->exec_path)
 				launch_cmd(node, ms_data);
 		}
 		else
