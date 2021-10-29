@@ -58,7 +58,7 @@ static void	str_to_lower(char *str)
 /*
 //cleans the input ny parsing closed quotes from the argument
 */
-char	*ms_clean_input(char *arg)
+char	*ms_clean_input(char *arg, int mode)
 {
 	int		i;
 	char	*new_line;
@@ -78,6 +78,7 @@ char	*ms_clean_input(char *arg)
 		if (new_line[i])
 			i++;
 	}
-	str_to_lower(new_line);
+	if (mode == 0)
+		str_to_lower(new_line);
 	return (new_line);
 }
