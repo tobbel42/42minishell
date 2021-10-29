@@ -60,8 +60,13 @@ int	ms_lauch_task_list(t_ms_data *ms_data)
 		}
 		else
 		{
-			printf("minishell: %s: %s\n", node->name, node->err_msg);
-			ms_data->last_return = 127;
+			if (ms_is_cmd(node->name))
+			{
+				printf("minishell: %s: %s\n", node->name, node->err_msg);
+				ms_data->last_return = 127;
+			}
+			else if (ft_strncmp(node->name, "|", 2))
+				printf("minishell: %s: %s\n", node->args[1], node->err_msg);
 		}
 		node = node->next;
 	}
