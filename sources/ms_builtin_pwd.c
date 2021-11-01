@@ -1,7 +1,7 @@
 #include "../header/minishell.h"
 
 /*
-	writes the current working directory to stdout.
+	writes the current working directory to fd_out set in task.
 	If getcwd failes, the corresponding message is passed to the
 	task and -1 is returned.
 */
@@ -17,8 +17,8 @@ int	ms_builtin_pwd(t_ms_task *task)
 		task->err_msg = ft_strdup(strerror(errno));
 		return (-1);
 	}
-	write(1, cwd, ft_strlen(cwd));
-	write(1, "\n", 1);
+	write(task->fd_out, cwd, ft_strlen(cwd));
+	write(task->fd_out, "\n", 1);
 	free(cwd);
 	return (0);
 }
