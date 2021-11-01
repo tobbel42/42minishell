@@ -15,6 +15,7 @@
 # include "../pipex/pipex.h"
 # include "../lib_ms_tools/ms_tools.h"
 # include "../get_next_line/get_next_line.h"
+# include <sys/param.h>
 
 typedef struct			s_ms_env_variable
 {
@@ -81,7 +82,8 @@ void	ms_iolinking_task_list(t_ms_data *ms);
 int		ms_builtin_env(t_ms_data *ms, t_ms_task *task);
 int		ms_builtin_export(t_ms_data *ms, t_ms_task *task);
 int		ms_builtin_unset(t_ms_data *ms, t_ms_task *task);
-int		ms_unset_variable(t_ms_data *ms, char *var_str);
+int		ms_builtin_pwd(t_ms_task *task);
+int		ms_builtin_cd(t_ms_task *task);
 
 //tobi_fuctions
 int		ms_get_line(t_ms_data *ms_data);
