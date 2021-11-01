@@ -105,17 +105,17 @@ char	**ms_env_to_array(t_ms_data *ms)
 }
 
 /*
-	writes the env. variables' list to stdout
+	writes the env. variables' list to specified fd
 */
-void	ms_print_env_list(t_ms_data *ms)
+void	ms_print_env_list(t_ms_data *ms, int fd)
 {
 	t_ms_env_variable	*curr;
 
 	curr = ms->env_vars_head;
 	while (curr != NULL)
 	{
-		write(1, curr->all, ft_strlen(curr->all));
-		write(1, "\n", 1);
+		write(fd, curr->all, ft_strlen(curr->all));
+		write(fd, "\n", 1);
 		curr = curr->next;
 	}
 }

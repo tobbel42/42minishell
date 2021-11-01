@@ -3,7 +3,7 @@
 /*
 	deletes the variable passed, if found, from env, does nothing if not found.
 */
-int	ms_unset_variable(t_ms_data *ms, char *var_str)
+static int	ms_unset_variable(t_ms_data *ms, char *var_str)
 {
 	t_ms_env_variable	*curr;
 	t_ms_env_variable	*tmp;

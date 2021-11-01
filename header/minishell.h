@@ -66,7 +66,7 @@ int		ms_env_add(t_ms_data *ms, char *env_variable);
 // env tools
 t_ms_env_variable	*ms_env_new_variable(char *env_variable);
 char	**ms_env_to_array(t_ms_data *ms);
-void	ms_print_env_list(t_ms_data *ms);
+void	ms_print_env_list(t_ms_data *ms, int fd);
 // free
 void	ms_free_and_exit(t_ms_data *ms, int exitflag, int exitstatus);
 void	ms_free_env_list(t_ms_data *ms);
@@ -84,6 +84,7 @@ int		ms_builtin_export(t_ms_data *ms, t_ms_task *task);
 int		ms_builtin_unset(t_ms_data *ms, t_ms_task *task);
 int		ms_builtin_pwd(t_ms_task *task);
 int		ms_builtin_cd(t_ms_task *task);
+int		ms_builtin_echo(t_ms_task *ms);
 
 //tobi_fuctions
 int		ms_get_line(t_ms_data *ms_data);

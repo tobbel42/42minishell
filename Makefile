@@ -43,7 +43,7 @@ SRC_LIST=ms_main.c\
 	ms_builtin_unset.c \
 	ms_builtin_pwd.c \
 	ms_builtin_cd.c \
-\
+	ms_builtin_echo.c \
 \
 \
 

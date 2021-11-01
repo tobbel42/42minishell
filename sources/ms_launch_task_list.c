@@ -34,13 +34,18 @@ static void	launch_cmd(t_ms_task *task, t_ms_data *ms_data)
 */
 int	ms_execute_builtin(t_ms_data *ms, t_ms_task *task)
 {
-	//todo: make funktions write into the in fd_out specified FD
 	if (mst_isequal_str(task->args[0], "env") == 1)
 		return (ms_builtin_env(ms, task));
 	if (mst_isequal_str(task->args[0], "unset") == 1)
 		return (ms_builtin_unset(ms, task));
 	if (mst_isequal_str(task->args[0], "export") == 1)
 		return (ms_builtin_export(ms, task));
+	if (mst_isequal_str(task->args[0], "pwd") == 1)
+		return (ms_builtin_pwd(task));
+	if (mst_isequal_str(task->args[0], "cd") == 1)
+		return (ms_builtin_cd(task));
+	if (mst_isequal_str(task->args[0], "echo") == 1)
+		return (ms_builtin_echo(task));
 	return (1);
 }
 
@@ -58,9 +63,10 @@ int	ms_lauch_task_list(t_ms_data *ms_data)
 			if (ms_execute_builtin(ms_data, node) == 1 && \
 				ms_is_cmd(node->name) && node->exec_path)
 				launch_cmd(node, ms_data);
-				printf("%s\n", node->name);
+				// printf("%s\n", node->name);
 		}
-		else if (node->err_flag == 1)
+		if (node->err_flag == 1) // I changed this from 'else if' to 'if' to print
+		// errors from builtins, hope it does not create bugs for other stuff
 		{
 			if (ms_is_cmd(node->name))
 			{
