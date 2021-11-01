@@ -1,20 +1,39 @@
 #include "../header/minishell.h"
 
 /*
-	adds the variable passed, if found, to env, does nothing if not found.
- */
-static int	ms_export_variable(t_ms_data *ms, char *var_str, t_ms_task *task)
+	adds the new variable into the linked list
+*/
+static void	ms_replace_variable(t_ms_env_variable *curr, \
+	t_ms_env_variable *new_var)
 {
-	t_ms_env_variable	*curr;
-	t_ms_env_variable	*new_var;
-	t_ms_env_variable	*tmp;
-	int					exists;
-	char				*tmps;
+	t_ms_env_variable	*tmpv;
 
-	if (!var_str || ft_strnstr(var_str, "=", ft_strlen(var_str)) == NULL)
-		return (0);
-	tmp = NULL;
-	new_var = ms_env_new_variable(var_str);
+	tmpv = curr->next;
+	curr->next = new_var;
+	new_var->next = tmpv->next;
+	ms_free_env_var(tmpv);
+}
+
+/*
+	replaces the old version of the variable with the new one
+*/
+static void	ms_add_variable(t_ms_env_variable *curr, t_ms_env_variable *new_var)
+{
+	t_ms_env_variable	*tmpv;
+
+	tmpv = curr->next;
+	curr->next = new_var;
+	new_var->next = tmpv;
+}
+
+/*
+	checks for correct input, if not it writes an error to the task.
+*/
+static int	ms_error_check_new_var(t_ms_env_variable *new_var, t_ms_task *task, \
+	char *var_str)
+{
+	char	*tmps;
+
 	if (!new_var->name || !new_var->name[0])
 	{
 		task->err_flag = 1;
@@ -24,35 +43,34 @@ static int	ms_export_variable(t_ms_data *ms, char *var_str, t_ms_task *task)
 		ms_free_env_var(new_var);
 		return (-1);
 	}
-	exists = 0;
+	return (0);
+}
+
+/*
+	adds the variable passed, if found, to env, does nothing if not found.
+*/
+static int	ms_export_variable(t_ms_data *ms, char *var_str, t_ms_task *task)
+{
+	t_ms_env_variable	*curr;
+	t_ms_env_variable	*new_var;
+
+	if (!var_str || ft_strnstr(var_str, "=", ft_strlen(var_str)) == NULL)
+		return (0);
+	new_var = ms_env_new_variable(var_str);
+	if (ms_error_check_new_var(new_var, task, var_str) != 0)
+		return (-1);
 	curr = ms->env_vars_head;
 	while (curr->next->next != NULL)
 	{
 		if (mst_isequal_str(curr->next->name, new_var->name) == 1)
 		{
-			exists = 1;
-			break ;
+			ms_replace_variable(curr, new_var);
+			return (0);
 		}
 		curr = curr->next;
 	}
-	if (exists == 0)
-	{
-		tmp = curr->next;
-		curr->next = new_var;
-		new_var->next = tmp;
-		ms->env_lines_count++;
-		return (0);
-	}
-	else
-	{
-		tmps = curr->next->content;
-		// printf("TO REPLACE: %s\n", tmps);
-		curr->next->content = ft_strdup(new_var->content);
-		free(tmps);
-		ms_free_env_var(new_var);
-		// printf("REPLACED: %s\n", curr->next->content);
-		return (0);
-	}
+	ms_add_variable(curr, new_var);
+	ms->env_lines_count++;
 	return (0);
 }
 
@@ -70,13 +88,5 @@ int	ms_builtin_export(t_ms_data *ms, t_ms_task *task)
 		ms_export_variable(ms, task->args[i], task);
 		i++;
 	}
-	// t_ms_env_variable *curr;
-	// curr = ms->env_vars_head;
-	// while (curr)
-	// {
-	// 	printf("all: %s, name: %s, content: %s\n",curr->all, curr->name, curr->content);
-	// 	curr = curr->next;
-	// }
-	// ms_print_env_list(ms);
 	return (0);
 }
