@@ -8,7 +8,7 @@ void	ms_init_data(t_ms_data *ms)
 	ms->exec_paths = NULL;
 	ms->split_line = NULL;
 	ms->task_list = NULL;
-	ms->last_return = 0;
+	ms->last_return = 0; //rework https://shapeshed.com/unix-exit-codes/
 	ms->first_run_cd = 1;
 	ms->home_dir = NULL;
 }
@@ -79,8 +79,11 @@ int main(int argc, char **argv, char **envp)
 		ms_iolinking_task_list(&ms);
 		ms_lauch_task_list(&ms);
 		ms_clean_task_list(&ms);
-		if (ms.line && !ft_strncmp("exit", ms.line, 4))
+		if (ms.line && !ft_strncmp("exit", ms.line, 5))
+		{
+			write(1, "exit\n", 5);
 			break ;
+		}
 	}
 	// 7 execute
 	

@@ -1,5 +1,14 @@
 #include "../header/minishell.h"
 
+void	sig_handler(int num)
+{
+	if (num == 3)
+		write(2, "Quit: 3", 7);
+	write(2, "\n", 1);
+	rl_redisplay();
+	kill(g_pid, num);
+}
+
 static void	launch_cmd(t_ms_task *task, t_ms_data *ms_data)
 {
 	int		pid;
@@ -16,13 +25,18 @@ static void	launch_cmd(t_ms_task *task, t_ms_data *ms_data)
 			fd_check[1] = dup2(task->fd_out, 1);
 		if (fd_check[0] != -1 && fd_check[1] != -1)
 			execve(task->exec_path, task->args, env_array);
-		printf("minishell: %s: %s\n", task->args[0], strerror(errno));
+		//printf("minishell: %s: %s\n", task->args[0], strerror(errno));
 		exit(1);
 	}
 	else if (pid == -1)
 		printf("minishell: fork_error: %s\n", strerror(errno));
 	else
+	{
+		signal(SIGQUIT, sig_handler);
+		signal(SIGINT, sig_handler);
+		g_pid = pid;
 		wait(&ms_data->last_return);
+	}
 	if (env_array)
 		ms_free_char2(env_array);
 }

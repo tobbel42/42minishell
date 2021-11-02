@@ -59,7 +59,7 @@ typedef struct s_ms_data
 	char		*home_dir;
 }					t_ms_data;
 
-
+int	g_pid;
 
 //alice_functions
 

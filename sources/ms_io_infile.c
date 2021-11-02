@@ -9,6 +9,7 @@ void	ms_io_infile(t_ms_task *task)
 	int	fd;
 
 	fd = open(task->args[1], O_RDONLY);
+	
 	if (fd == -1)
 	{
 		task->err_flag = 1;
