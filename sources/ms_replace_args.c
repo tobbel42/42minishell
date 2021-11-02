@@ -51,6 +51,18 @@ static void	ms_token_replace(t_ms_data *ms, int i, char *del, char *repl)
 }
 
 /*
+	reads the last return value from struct and replaces '$?' with it.
+*/
+static void	ms_set_last_return(t_ms_data *ms, int *i, char *token)
+{
+	char	*val;
+
+	val = ft_itoa(ms->last_return);
+	ms_token_replace(ms, *i, token, val);
+	free(val);
+}
+
+/*
 	In this part the word is searched in the env list and the replace function
 	called.
 */
@@ -77,7 +89,7 @@ static void	ms_replace_variable(t_ms_data *ms, int *i, char *token, int dqflag)
 	}
 	if (mst_isequal_str("$?", token) == 1)
 	{
-		// TODO: replace with exit status of the most recently executed foreground pipeline
+		ms_set_last_return(ms, i, token);
 		return ;
 	}
 	ms_token_replace(ms, *i, token, "");
