@@ -9,6 +9,7 @@
 int	ms_env_get(t_ms_data *ms, char **envp)
 {
 	int	i;
+	t_ms_envar	*curr;
 
 	i = 0;
 	while (envp[i] != NULL)
@@ -21,11 +22,21 @@ int	ms_env_get(t_ms_data *ms, char **envp)
 		i++;
 	}
 	ms_env_reverse_list(ms);
+	curr = ms->envars_head;
+	while(curr)
+	{
+		if (mst_isequal_str(curr->name, "HOME") == 1)
+		{
+			ms->home_dir = ft_strdup(curr->content);
+			break ;
+		}
+		curr = curr->next;
+	}
 	return (0);
 }
 
 /*
-	adds a node to the head of the list
+	creates a new envar and adds it to the head of the env list
 */
 int	ms_env_add(t_ms_data *ms, char *envar_def)
 {

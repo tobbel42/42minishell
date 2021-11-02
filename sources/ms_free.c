@@ -14,6 +14,8 @@ void	ms_free_and_exit(t_ms_data *ms, int exitflag, int exitstatus)
 		ms_free_char2(ms->exec_paths);
 	if (ms->split_line != NULL)
 		ms_free_char2(ms->split_line);
+	if (ms->home_dir != NULL)
+		free(ms->home_dir);
 	if (exitflag == 1)
 		exit(exitstatus);
 }

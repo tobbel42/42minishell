@@ -1,50 +1,112 @@
 #include "../header/minishell.h"
 
-void	ms_replace_var_content(t_ms_envar *var, char *repl)
-{
-	char	*tmp;
-
-	tmp = var->content;
-	var->content = ft_strdup(repl);
-	free(tmp);
-}
-
-void	ms_update_pwd_var(t_ms_data *ms, char *name)
+static void	ms_set_oldpwd(t_ms_data *ms, char *startwd)
 {
 	t_ms_envar	*curr;
-	t_ms_envar	*pwdv;
-	char		*tmp;
-	char		*cwd;
+	t_ms_envar	*oldpwd;
 
-	cwd = NULL;
-	cwd = getcwd(cwd, MAXPATHLEN);
 	curr = ms->envars_head;
 	while(curr)
 	{
-		if (mst_isequal_str(curr->name, name) == 1)
+		if (mst_isequal_str(curr->name, "OLDPWD") == 1)
 		{
-			ms_replace_var_content(curr, cwd);
+			ms_env_repl_content(curr, startwd);
 			return ;
 		}
 		curr = curr->next;
 	}
+	if (ms->first_run_cd == 1)
 	curr = ms->envars_head;
 	while(curr->next)
 		curr = curr->next;
-	name = ft_strjoin(name, "=");
-	tmp = ft_strjoin(name, cwd);
-	free(name);
-	pwdv = ms_env_newvar_def(tmp);
-	free(tmp);
-	curr->next = pwdv;
+	oldpwd = ms_env_newvar_nc("OLDPWD", startwd);
+	curr->next = oldpwd;
 }
 
-// todo: set oldpwd to current before cd and pwd to new after in env
-// add oldpwd is not there, and delete at first run of shell?
+static void	ms_set_pwd(t_ms_data *ms)
+{
+	t_ms_envar	*curr;
+	char		*cwd;
 
-// may unstatic functions for replacement
+	cwd = getcwd(NULL, MAXPATHLEN);
+	curr = ms->envars_head;
+	while (curr)
+	{
+		if (mst_isequal_str(curr->name, "PWD") == 1)
+		{
+			ms_env_repl_content(curr, cwd);
+			free(cwd);
+			return ;
+		}
+		curr = curr->next;
+	}
+	free(cwd);
+}
 
-// also, in export, iterate until or check what _ is
+// void	ms_cd_to_home(t_ms_task *task)
+// {
+// 	if (!task->args[1] || mst_isequal_string(task->args[1], "~") == 1)
+// 	// find HOME and cd there
+// 	curr = ms->envars_head;
+// 	while(curr)
+// 	{
+// 		if (mst_isequal_str(curr->name, "HOME") == 1)
+// 		{
+
+// 			return ;
+// 		}
+// 		curr = curr->next;
+// 	}
+// 	if (mst_isequal_string(task->args[1], "-") == 1)
+	// cd to oldpwd
+	
+// }
+
+static char *ms_get_chdir_path(t_ms_data *ms, t_ms_task *task)
+{
+	t_ms_envar	*curr;
+
+	curr = ms->envars_head;
+	while (curr)
+	{
+		if (mst_isequal_str(curr->name, "HOME") == 1)
+			break ;
+		curr = curr->next;
+	}
+	if (!task->args[1])
+	{
+		if (curr)
+			return (curr->content);
+		else
+		{
+			task->err_flag = 1;
+			task->err_msg = ft_strdup("HOME not set");
+			return (NULL);
+		}
+	}
+	if (mst_isequal_str(task->args[1], "~") == 1)
+		return (ms->home_dir);
+	if (mst_isequal_str(task->args[1], "-") == 1 || \
+		mst_isequal_str(task->args[1], "-~") == 1)
+	{
+		curr = ms->envars_head;
+		while (curr)
+		{
+			if (mst_isequal_str(curr->name, "OLDPWD") == 1)
+			{
+				if (mst_isequal_str(task->args[1], "-") == 1)
+				{
+					write(task->fd_out, curr->content, ft_strlen(curr->content));
+					write(task->fd_out, "\n", 1);
+				}
+				return (curr->content);
+			}
+			curr = curr->next;
+		}
+		return (NULL);
+	}
+	return (task->args[1]);
+}
 
 /*
 	If no path provided, do nothing.
@@ -53,22 +115,40 @@ void	ms_update_pwd_var(t_ms_data *ms, char *name)
 */
 int	ms_builtin_cd(t_ms_data *ms, t_ms_task *task)
 {
-	//TODO: fix leaks
+	char		*startwd;
+	char		*path;
 	char		*tmp;
-	// static int	pwd;
-	// static int 	oldpwd;
 
-	if (!task->args[1])
-		return (0);
-	ms_update_pwd_var(ms, "OLDPWD");
-	if (chdir(task->args[1]) == -1)
+	startwd = getcwd(NULL, MAXPATHLEN);
+	if (startwd == NULL)
 	{
 		task->err_flag = 1;
-		tmp = ft_strjoin(task->args[1], ": ");
-		task->err_msg = ft_strjoin(tmp, strerror(errno));
-		free(tmp);
+		task->err_msg = ft_strdup(strerror(errno));
 		return (-1);
 	}
-	ms_update_pwd_var(ms, "PWD");
+	path = ms_get_chdir_path(ms, task);
+	if (!path)
+	{
+		free(startwd);
+		return (-1);
+	}
+	if (chdir(path) == -1)
+	{
+		if (task->err_flag == 0)
+		{
+			task->err_flag = 1;
+			tmp = ft_strjoin(task->args[1], ": ");
+			task->err_msg = ft_strjoin(tmp, strerror(errno));
+			free(tmp);
+			free(startwd);
+		}
+		return (-1);
+	}
+	ms_set_oldpwd(ms, startwd);
+	if (ms->first_run_cd == 1)
+		ms->first_run_cd = 0;
+	ms_set_pwd(ms);
+	free(startwd);
 	return (0);
 }
+

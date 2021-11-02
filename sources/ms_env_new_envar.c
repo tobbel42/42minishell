@@ -73,10 +73,17 @@ t_ms_envar	*ms_env_newvar_def(char *envar_def)
 	return (new_envar);
 }
 
+// todo protect
 t_ms_envar	*ms_env_newvar_nc(char *name, char *content)
 {
-	//todo
-	name = NULL;
-	content = NULL;
-	return (NULL);
+	char		*tmp;
+	char		*def;
+	t_ms_envar	*newvar;
+
+	tmp = ft_strjoin(name, "=");
+	def = ft_strjoin(tmp, content);
+	free(tmp);
+	newvar = ms_env_newvar_def(def);
+	free(def);
+	return (newvar);
 }
