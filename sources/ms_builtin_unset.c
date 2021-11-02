@@ -1,21 +1,36 @@
 #include "../header/minishell.h"
 
+static int	ms_error_handeling_unset(t_ms_task *task, char *envar_def)
+{
+	char	*tmps;
+
+	if (!envar_def)
+		return (-1);
+	if (ms_env_valid_varname(envar_def) != 1)
+	{
+		task->err_flag = 1;
+		tmps = ft_strjoin("`", envar_def);
+		task->err_msg = ft_strjoin(tmps, "': not a valid identifier");
+		free(tmps);
+		return (-1);
+	}
+	return (0);
+}
+
 /*
 	deletes the variable passed, if found, from env, does nothing if not found.
 */
-static int	ms_unset_variable(t_ms_data *ms, char *var_str)
+static int	ms_unset_variable(t_ms_data *ms, char *envar_def)
 {
 	t_ms_envar	*curr;
 	t_ms_envar	*tmp;
 	int			found;
 
-	if (!var_str)
-		return (0);
 	curr = ms->envars_head;
 	found = 0;
 	while (curr->next != NULL)
 	{
-		if (mst_isequal_str(var_str, curr->next->name) == 1)
+		if (mst_isequal_str(envar_def, curr->next->name) == 1)
 		{
 			found = 1;
 			break ;
@@ -42,7 +57,8 @@ int	ms_builtin_unset(t_ms_data *ms, t_ms_task *task)
 	i = 1;
 	while (task->args[i])
 	{
-		ms_unset_variable(ms, task->args[i]);
+		if (ms_error_handeling_unset(task, task->args[i]) == 0)
+			ms_unset_variable(ms, task->args[i]);
 		i++;
 	}
 	return (0);

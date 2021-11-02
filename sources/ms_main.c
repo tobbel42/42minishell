@@ -9,6 +9,8 @@ void	ms_init_data(t_ms_data *ms)
 	ms->split_line = NULL;
 	ms->task_list = NULL;
 	ms->last_return = 0;
+	ms->first_run_cd = 1;
+	ms->home_dir = NULL;
 }
 
 int main(int argc, char **argv, char **envp)
@@ -22,6 +24,7 @@ int main(int argc, char **argv, char **envp)
 	// 2 get env
 	if (ms_env_get(&ms, envp) != 0)
 		return (-1);
+	printf("HOME: %s\n", ms.home_dir);
 	// in while loop to add env var:
 	// if line = "export" -> ms_env_add(parsed line);
 
@@ -56,7 +59,7 @@ int main(int argc, char **argv, char **envp)
 		i = 0;
 		while (ms.exec_paths[i])
 		{
-			printf("%s\n", ms.exec_paths[i]);
+			// printf("%s\n", ms.exec_paths[i]);
 			i++;
 		}
 		ms_create_task_list(&ms);

@@ -1,46 +1,46 @@
 #include "../header/minishell.h"
 
 /*
-	adds the new variable into the linked list
+	Checks standard conformity of given name.
 */
-static void	ms_replace_variable(t_ms_envar *curr, \
-	t_ms_envar *new_var)
+int	ms_env_valid_varname(char *name)
 {
-	t_ms_envar	*tmpv;
+	int	i;
 
-	tmpv = curr->next;
-	curr->next = new_var;
-	new_var->next = tmpv->next;
-	ms_env_free_envar(tmpv);
-}
-
-/*
-	replaces the old version of the variable with the new one
-*/
-static void	ms_add_variable(t_ms_envar *curr, t_ms_envar *new_var)
-{
-	t_ms_envar	*tmpv;
-
-	tmpv = curr->next;
-	curr->next = new_var;
-	new_var->next = tmpv;
+	i = 0;
+	if (ft_isdigit(name[0]) == 1)
+		return (0);
+	while (name[i])
+	{
+		if (!(ft_isalnum(name[i]) == 1 || name[i] == '_'))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 /*
 	checks for correct input, if not it writes an error to the task.
 */
 static int	ms_error_check_new_var(t_ms_envar *new_var, t_ms_task *task, \
-	char *var_str)
+	char *envar_def)
 {
 	char	*tmps;
 
 	if (!new_var->name || !new_var->name[0])
 	{
 		task->err_flag = 1;
-		tmps = ft_strjoin("`", var_str);
-		task->err_msg = ft_strjoin(tmps, "': not a valid identifier\n");
+		tmps = ft_strjoin("`", envar_def);
+		task->err_msg = ft_strjoin(tmps, "': not a valid identifier");
 		free(tmps);
-		ms_env_free_envar(new_var);
+		return (-1);
+	}
+	if (ms_env_valid_varname(new_var->name) != 1)
+	{
+		task->err_flag = 1;
+		tmps = ft_strjoin("`", envar_def);
+		task->err_msg = ft_strjoin(tmps, "': not a valid identifier");
+		free(tmps);
 		return (-1);
 	}
 	return (0);
@@ -49,29 +49,31 @@ static int	ms_error_check_new_var(t_ms_envar *new_var, t_ms_task *task, \
 /*
 	adds the variable passed, if found, to env, does nothing if not found.
 */
-static int	ms_export_variable(t_ms_data *ms, char *var_str, t_ms_task *task)
+static void	ms_export_variable(t_ms_data *ms, char *envar_def, t_ms_task *task)
 {
 	t_ms_envar	*curr;
 	t_ms_envar	*new_var;
 
-	if (!var_str || ft_strnstr(var_str, "=", ft_strlen(var_str)) == NULL)
-		return (0);
-	new_var = ms_env_newvar_def(var_str);
-	if (ms_error_check_new_var(new_var, task, var_str) != 0)
-		return (-1);
+	if (!envar_def || ft_strnstr(envar_def, "=", ft_strlen(envar_def)) == NULL)
+		return ;
+	new_var = ms_env_newvar_def(envar_def);
+	if (ms_error_check_new_var(new_var, task, envar_def) != 0)
+	{
+		ms_env_free_envar(new_var);
+		return ;
+	}
 	curr = ms->envars_head;
 	while (curr->next->next != NULL)
 	{
 		if (mst_isequal_str(curr->next->name, new_var->name) == 1)
 		{
-			ms_replace_variable(curr, new_var);
-			return (0);
+			ms_env_repl_envar(curr, new_var);
+			return ;
 		}
 		curr = curr->next;
 	}
-	ms_add_variable(curr, new_var);
+	ms_env_add_after(curr, new_var);
 	ms->env_lines_count++;
-	return (0);
 }
 
 /* 

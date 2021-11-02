@@ -9,8 +9,7 @@ int	ms_builtin_pwd(t_ms_task *task)
 {
 	char	*cwd;
 
-	cwd = NULL;
-	cwd = getcwd(cwd, MAXPATHLEN);
+	cwd = getcwd(NULL, MAXPATHLEN);
 	if (cwd == NULL)
 	{
 		task->err_flag = 1;

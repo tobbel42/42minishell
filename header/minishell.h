@@ -53,6 +53,8 @@ typedef struct s_ms_data
 	int			env_lines_count;
 	t_ms_task	*task_list;
 	int			last_return;
+	int			first_run_cd;
+	char		*home_dir;
 }					t_ms_data;
 
 
@@ -71,10 +73,16 @@ void		ms_env_free_envar(t_ms_envar *ev);
 //env new envar
 t_ms_envar	*ms_env_newvar_def(char *envar_def);
 t_ms_envar	*ms_env_newvar_nc(char *name, char *content);
+// env add or change envar
+void		ms_env_repl_content(t_ms_envar *var, char *repl);
+void		ms_env_repl_envar(t_ms_envar *curr, t_ms_envar *new_var);
+void		ms_env_add_after(t_ms_envar *curr, t_ms_envar *new_var);
+
 // builtins
-int			ms_builtin_env(t_ms_data *ms, t_ms_task *task);
+int			ms_env_valid_varname(char *name);
 int			ms_builtin_export(t_ms_data *ms, t_ms_task *task);
 int			ms_builtin_unset(t_ms_data *ms, t_ms_task *task);
+int			ms_builtin_env(t_ms_data *ms, t_ms_task *task);
 int			ms_builtin_pwd(t_ms_task *task);
 int			ms_builtin_cd(t_ms_data *ms, t_ms_task *task);
 int			ms_builtin_echo(t_ms_task *ms);
