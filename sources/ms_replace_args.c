@@ -51,7 +51,7 @@ static void	ms_token_replace(t_ms_data *ms, int i, char *del, char *repl)
 }
 
 /*
-	reads the last return value from struct and replaces '$?' with it
+	reads the last return value from struct and replaces '$?' with it.
 */
 static void	ms_set_last_return(t_ms_data *ms, int *i, char *token)
 {
