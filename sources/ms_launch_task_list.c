@@ -43,7 +43,7 @@ int	ms_execute_builtin(t_ms_data *ms, t_ms_task *task)
 	if (mst_isequal_str(task->args[0], "pwd") == 1)
 		return (ms_builtin_pwd(task));
 	if (mst_isequal_str(task->args[0], "cd") == 1)
-		return (ms_builtin_cd(task));
+		return (ms_builtin_cd(ms, task));
 	if (mst_isequal_str(task->args[0], "echo") == 1)
 		return (ms_builtin_echo(task));
 	return (1);

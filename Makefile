@@ -6,12 +6,10 @@ NAME=minishell
 SRC_DIR=./sources/
 OBJ_DIR=./objects/
 SRC_LIST=ms_main.c\
-	ms_get_env.c \
 	ms_get_line.c\
 	ms_free.c \
 	ms_split.c \
 	ms_get_exec_paths.c \
-	ms_env_tools.c \
 	ms_replace_args.c \
 	ms_create_task_list.c\
 	ms_i_o_link_task_list.c \
@@ -27,23 +25,23 @@ SRC_LIST=ms_main.c\
 \
 \
 \
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
+	ms_env_get.c \
+	ms_env_utils.c \
+	ms_env_new_envar.c \
+	ms_env_change_envar.c \
 	ms_builtin_env.c \
 	ms_builtin_export.c \
 	ms_builtin_unset.c \
 	ms_builtin_pwd.c \
 	ms_builtin_cd.c \
 	ms_builtin_echo.c \
+\
+\
+\
+\
+\
+\
+\
 \
 \
 

@@ -17,13 +17,12 @@
 # include "../get_next_line/get_next_line.h"
 # include <sys/param.h>
 
-typedef struct			s_ms_env_variable
+typedef struct			s_ms_envar
 {
-	char						*all;
-	char						*name;
-	char						*content;
-	struct s_ms_env_variable	*next;
-}						t_ms_env_variable;
+	char				*name;
+	char				*content;
+	struct s_ms_envar	*next;
+}						t_ms_envar;
 
 typedef struct s_ms_task
 {
@@ -47,44 +46,49 @@ typedef struct s_ms_task
 
 typedef struct s_ms_data
 {
-	char				*line;
-	char				**exec_paths;
-	char				**split_line;
-	t_ms_env_variable	*env_vars_head;
-	int					env_lines_count;
-	t_ms_task			*task_list;
-	int					last_return;
+	char		*line;
+	char		**exec_paths;
+	char		**split_line;
+	t_ms_envar	*envars_head;
+	int			env_lines_count;
+	t_ms_task	*task_list;
+	int			last_return;
 }					t_ms_data;
 
 
 
 //alice_functions
 
-// get env
-int		ms_get_env(t_ms_data *ms, char **envp);
-int		ms_env_add(t_ms_data *ms, char *env_variable);
-// env tools
-t_ms_env_variable	*ms_env_new_variable(char *env_variable);
-char	**ms_env_to_array(t_ms_data *ms);
-void	ms_print_env_list(t_ms_data *ms, int fd);
-// free
-void	ms_free_and_exit(t_ms_data *ms, int exitflag, int exitstatus);
-void	ms_free_env_list(t_ms_data *ms);
-void	ms_free_env_var(t_ms_env_variable *ev);
-void	ms_free_char2(char **m);
-// exec paths
-int		ms_get_exec_paths(t_ms_data *ms);
-// replace $
-int		ms_replace_args(t_ms_data *ms);
-// iolink
-void	ms_iolinking_task_list(t_ms_data *ms);
+// env get
+int			ms_env_get(t_ms_data *ms, char **envp);
+int			ms_env_add(t_ms_data *ms, char *envar_def);
+// env utils
+char		**ms_env_to_array(t_ms_data *ms);
+void		ms_env_print(t_ms_data *ms, int fd);
+void		ms_env_reverse_list(t_ms_data *ms);
+void		ms_env_free_list(t_ms_data *ms);
+void		ms_env_free_envar(t_ms_envar *ev);
+//env new envar
+t_ms_envar	*ms_env_newvar_def(char *envar_def);
+t_ms_envar	*ms_env_newvar_nc(char *name, char *content);
 // builtins
-int		ms_builtin_env(t_ms_data *ms, t_ms_task *task);
-int		ms_builtin_export(t_ms_data *ms, t_ms_task *task);
-int		ms_builtin_unset(t_ms_data *ms, t_ms_task *task);
-int		ms_builtin_pwd(t_ms_task *task);
-int		ms_builtin_cd(t_ms_task *task);
-int		ms_builtin_echo(t_ms_task *ms);
+int			ms_builtin_env(t_ms_data *ms, t_ms_task *task);
+int			ms_builtin_export(t_ms_data *ms, t_ms_task *task);
+int			ms_builtin_unset(t_ms_data *ms, t_ms_task *task);
+int			ms_builtin_pwd(t_ms_task *task);
+int			ms_builtin_cd(t_ms_data *ms, t_ms_task *task);
+int			ms_builtin_echo(t_ms_task *ms);
+
+// free
+void		ms_free_and_exit(t_ms_data *ms, int exitflag, int exitstatus);
+void		ms_free_char2(char **m);
+
+// exec paths
+int			ms_get_exec_paths(t_ms_data *ms);
+// replace $
+int			ms_replace_args(t_ms_data *ms);
+// iolink
+void		ms_iolinking_task_list(t_ms_data *ms);
 
 //tobi_fuctions
 int		ms_get_line(t_ms_data *ms_data);
