@@ -53,6 +53,7 @@ void	ms_update_pwd_var(t_ms_data *ms, char *name)
 */
 int	ms_builtin_cd(t_ms_data *ms, t_ms_task *task)
 {
+	//TODO: fix leaks
 	char		*tmp;
 	// static int	pwd;
 	// static int 	oldpwd;
