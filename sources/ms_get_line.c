@@ -3,18 +3,16 @@
 /*
 //on incomming Ctrl + C a new prompt is printed
 */
-static void	sig_int_handler(int num)
+static void	sig_int_handler(void)
 {
-	num = 1;
-	printf("\n");
+	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }
 
-static void	sig_quit_handler(int num)
+static void	sig_quit_handler(void)
 {
-	num = 1;
 	rl_on_new_line();
 	rl_redisplay();
 }
@@ -44,9 +42,9 @@ static void	clean_get_line(void)
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
 	err_flag = tcgetattr(1, &term);
-	if (!(term.c_lflag & (0x1 << 6)))
+	if ((term.c_lflag & (0x1 << 6)) == 0)
 	{
-		term.c_lflag -= ECHOCTL;
+		term.c_lflag += ECHOCTL;
 		tcsetattr(1, 0, &term);
 	}
 }
