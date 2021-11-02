@@ -16,6 +16,7 @@
 # include "../lib_ms_tools/ms_tools.h"
 # include "../get_next_line/get_next_line.h"
 # include <sys/param.h>
+# include <termios.h>
 
 typedef struct			s_ms_envar
 {
@@ -38,6 +39,7 @@ typedef struct s_ms_task
 	//I/O part are set during I/O linking phase
 	int					fd_in; //default = 0
 	int					fd_out; //default = 1
+	int					fd_err; //default = 2
 
 	//error_part
 	int					err_flag; //on any error set to a value
@@ -114,10 +116,9 @@ void	qd_launch(t_ms_data *ms_data);
 int	ms_is_cmd(char *line);
 
 int	ms_lauch_task_list(t_ms_data *ms_data);
-
-
-
-
+void	ms_io_infile(t_ms_task *task);
+void	ms_io_outfile(t_ms_task *task, int mode);
+void	ms_io_heredoc(t_ms_task	*task);
 
 
 
