@@ -23,12 +23,11 @@ static int	ms_append_backslash_to_paths(t_ms_data	*ms)
 }
 
 /*
-	splits path line by ':' and appends a backslash to paths
+	splits paths line by ':' and appends a backslash to paths
 	returns -1 if allocation fails.
 */
 static int	ms_set_exec_paths(t_ms_data *ms, char *paths)
 {
-	paths = ft_strchr(paths, '/');
 	ms->exec_paths = ft_split(paths, ':');
 	if (ms->exec_paths == NULL)
 		return (-1);
@@ -50,23 +49,23 @@ static int	ms_set_exec_paths(t_ms_data *ms, char *paths)
 */
 int	ms_get_exec_paths(t_ms_data *ms)
 {
-	t_ms_env_variable	*path;
+	t_ms_envar	*curr;
 
-	path = ms->env_vars_head;
-	while (path != NULL)
+	curr = ms->envars_head;
+	while (curr != NULL)
 	{
-		if (ft_strnstr(path->all, "PATH", 4) != NULL)
+		if (mst_isequal_str(curr->name, "PATH") == 1)
 			break ;
-		path = path->next;
+		curr = curr->next;
 	}
-	if (path == NULL)
+	if (curr == NULL)
 	{
 		ms->exec_paths = NULL;
 		return (-1);
 	}
 	else
 	{
-		if (ms_set_exec_paths(ms, path->all) != 0)
+		if (ms_set_exec_paths(ms, curr->content) != 0)
 		{
 			ms->exec_paths = NULL;
 			return (-1);

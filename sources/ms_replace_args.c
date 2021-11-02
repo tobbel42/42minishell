@@ -56,7 +56,7 @@ static void	ms_token_replace(t_ms_data *ms, int i, char *del, char *repl)
 */
 static void	ms_replace_variable(t_ms_data *ms, int *i, char *token, int dqflag)
 {
-	t_ms_env_variable	*curr;
+	t_ms_envar	*curr;
 
 	if ((ms->line[*i - 1] == '\'' && \
 		ms->line[*i + ft_strlen(token)] == '\'') && \
@@ -65,7 +65,7 @@ static void	ms_replace_variable(t_ms_data *ms, int *i, char *token, int dqflag)
 		*i += 1;
 		return ;
 	}
-	curr = ms->env_vars_head;
+	curr = ms->envars_head;
 	while (curr != NULL)
 	{
 		if (mst_isequal_str(curr->name, token + 1) == 1)

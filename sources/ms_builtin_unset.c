@@ -5,13 +5,13 @@
 */
 static int	ms_unset_variable(t_ms_data *ms, char *var_str)
 {
-	t_ms_env_variable	*curr;
-	t_ms_env_variable	*tmp;
-	int					found;
+	t_ms_envar	*curr;
+	t_ms_envar	*tmp;
+	int			found;
 
 	if (!var_str)
 		return (0);
-	curr = ms->env_vars_head;
+	curr = ms->envars_head;
 	found = 0;
 	while (curr->next != NULL)
 	{
@@ -26,7 +26,7 @@ static int	ms_unset_variable(t_ms_data *ms, char *var_str)
 		return (0);
 	tmp = curr->next;
 	curr->next = curr->next->next;
-	ms_free_env_var(tmp);
+	ms_env_free_envar(tmp);
 	ms->env_lines_count--;
 	return (0);
 }
