@@ -5,7 +5,7 @@
 //if the file cant be opend, a blackhole-pipe is created
 */
 
-void	ms_io_outfile(t_ms_task *task, int mode)
+int	ms_io_outfile(t_ms_task *task, int mode)
 {
 	int	fd;
 	int	p[2];
@@ -25,4 +25,5 @@ void	ms_io_outfile(t_ms_task *task, int mode)
 	}
 	if (task->prev)
 		task->prev->fd_out = fd;
+	return (0);
 }
