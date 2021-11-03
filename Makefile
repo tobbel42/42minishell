@@ -12,7 +12,7 @@ SRC_LIST=ms_main.c\
 	ms_get_exec_paths.c \
 	ms_replace_args.c \
 	ms_create_task_list.c\
-	ms_i_o_link_task_list.c \
+	ms_io_link_task_list.c \
 	ms_clean_task_list.c\
 \
 	ms_clean_input.c\
@@ -37,11 +37,11 @@ SRC_LIST=ms_main.c\
 	ms_builtin_cd.c \
 	ms_builtin_echo.c \
 \
+	ms_io_infile.c\
 \
+	ms_io_outfile.c\
 \
-\
-\
-\
+	ms_io_heredoc.c\
 \
 \
 \
