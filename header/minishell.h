@@ -116,13 +116,14 @@ void	qd_launch(t_ms_data *ms_data);
 int	ms_is_cmd(char *line);
 
 int	ms_lauch_task_list(t_ms_data *ms_data);
-void	ms_io_infile(t_ms_task *task);
-void	ms_io_outfile(t_ms_task *task, int mode);
-void	ms_io_heredoc(t_ms_task	*task);
+int	ms_io_infile(t_ms_task *task);
+int	ms_io_outfile(t_ms_task *task, int mode);
+int	ms_io_heredoc(t_ms_task	*task);
+int	ms_io_pipe(t_ms_task *task);
 
-
-
-
+void	ms_rl_sig_handler(int num);
+void	ms_rl_init(void);
+void	ms_rl_clean(void);
 
 
 #endif

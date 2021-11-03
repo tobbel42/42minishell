@@ -1,12 +1,12 @@
 #include "../header/minishell.h"
 
-void	ms_io_pipe(t_ms_task *task)
+int	ms_io_pipe(t_ms_task *task)
 {
 	int	fd[2];
 	int	err;
 
 	if (!task->prev || !task->next)
-		return ;
+		return (1);
 	err = pipe(fd);
 	if (!err)
 	{
@@ -20,6 +20,7 @@ void	ms_io_pipe(t_ms_task *task)
 		task->err_flag = 1;
 		task->err_msg = ft_strdup(strerror(errno));
 	}
+	return (0);
 }
 
 // goes through tasks and sets the file descriptors according to the special
@@ -27,20 +28,21 @@ void	ms_io_pipe(t_ms_task *task)
 void	ms_iolinking_task_list(t_ms_data *ms)
 {
 	t_ms_task	*curr;
+	int			flag;
 
 	curr = ms->task_list;
 	while (curr != NULL)
 	{
 		if (mst_isequal_str(curr->name, "<") == 1)
-			ms_io_infile(curr);
+			flag = ms_io_infile(curr);
 		if (mst_isequal_str(curr->name, "<<") == 1)
- 			ms_io_heredoc(curr);
+ 			flag = ms_io_heredoc(curr);
 		if (mst_isequal_str(curr->name, ">>") == 1)
-			ms_io_outfile(curr, 1);
+			flag = ms_io_outfile(curr, 1);
 		if (mst_isequal_str(curr->name, ">") == 1)
-			ms_io_outfile(curr, 0);
+			flag = ms_io_outfile(curr, 0);
 		if (mst_isequal_str(curr->name, "|") == 1)
-			ms_io_pipe(curr);
+			flag = ms_io_pipe(curr);
 		curr = curr->next;
 	}
 }

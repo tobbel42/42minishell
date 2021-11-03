@@ -4,7 +4,7 @@
 //tries to open the infile, and passes the fd to the next cmd
 //if the file cant be open whatsoever an empty pipe is passed to the nxt cmd
 */
-void	ms_io_infile(t_ms_task *task)
+int	ms_io_infile(t_ms_task *task)
 {
 	int	fd;
 
@@ -19,4 +19,5 @@ void	ms_io_infile(t_ms_task *task)
 	}
 	else if (task->next)
 		task->next->fd_in = fd;
+	return (0);
 }
