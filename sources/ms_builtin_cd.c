@@ -5,22 +5,21 @@ static void	ms_set_oldpwd(t_ms_data *ms, char *startwd)
 	t_ms_envar	*curr;
 	t_ms_envar	*oldpwd;
 
-	curr = ms->envars_head;
-	while(curr)
+	curr = ms_get_envar(ms, "OLDPWD");
+	if (curr !=  NULL)
 	{
-		if (mst_isequal_str(curr->name, "OLDPWD") == 1)
-		{
-			ms_env_repl_content(curr, startwd);
+		ms_env_repl_content(curr, startwd);
 			return ;
-		}
-		curr = curr->next;
 	}
 	if (ms->first_run_cd == 1)
-	curr = ms->envars_head;
-	while(curr->next)
-		curr = curr->next;
-	oldpwd = ms_env_newvar_nc("OLDPWD", startwd);
-	curr->next = oldpwd;
+	{
+		curr = ms->envars_head;
+		while(curr->next)
+			curr = curr->next;
+		oldpwd = ms_env_newvar_nc("OLDPWD", startwd);
+		curr->next = oldpwd;
+		ms->env_lines_count++;
+	}
 }
 
 static void	ms_set_pwd(t_ms_data *ms)
@@ -29,53 +28,26 @@ static void	ms_set_pwd(t_ms_data *ms)
 	char		*cwd;
 
 	cwd = getcwd(NULL, MAXPATHLEN);
-	curr = ms->envars_head;
-	while (curr)
+	if (cwd == NULL)
+		return ;
+	curr = ms_get_envar(ms, "PWD");
+	if (curr !=  NULL)
 	{
-		if (mst_isequal_str(curr->name, "PWD") == 1)
-		{
-			ms_env_repl_content(curr, cwd);
-			free(cwd);
-			return ;
-		}
-		curr = curr->next;
+		ms_env_repl_content(curr, cwd);
+		free(cwd);
+		return ;
 	}
 	free(cwd);
 }
-
-// void	ms_cd_to_home(t_ms_task *task)
-// {
-// 	if (!task->args[1] || mst_isequal_string(task->args[1], "~") == 1)
-// 	// find HOME and cd there
-// 	curr = ms->envars_head;
-// 	while(curr)
-// 	{
-// 		if (mst_isequal_str(curr->name, "HOME") == 1)
-// 		{
-
-// 			return ;
-// 		}
-// 		curr = curr->next;
-// 	}
-// 	if (mst_isequal_string(task->args[1], "-") == 1)
-	// cd to oldpwd
-	
-// }
 
 static char *ms_get_chdir_path(t_ms_data *ms, t_ms_task *task)
 {
 	t_ms_envar	*curr;
 
-	curr = ms->envars_head;
-	while (curr)
-	{
-		if (mst_isequal_str(curr->name, "HOME") == 1)
-			break ;
-		curr = curr->next;
-	}
+	curr = ms_get_envar(ms, "HOME");
 	if (!task->args[1])
 	{
-		if (curr)
+		if (curr != NULL)
 			return (curr->content);
 		else
 		{
@@ -89,19 +61,15 @@ static char *ms_get_chdir_path(t_ms_data *ms, t_ms_task *task)
 	if (mst_isequal_str(task->args[1], "-") == 1 || \
 		mst_isequal_str(task->args[1], "-~") == 1)
 	{
-		curr = ms->envars_head;
-		while (curr)
+		curr = ms_get_envar(ms, "OLDPWD");
+		if (curr != NULL)
 		{
-			if (mst_isequal_str(curr->name, "OLDPWD") == 1)
+			if (mst_isequal_str(task->args[1], "-") == 1)
 			{
-				if (mst_isequal_str(task->args[1], "-") == 1)
-				{
-					write(task->fd_out, curr->content, ft_strlen(curr->content));
-					write(task->fd_out, "\n", 1);
-				}
-				return (curr->content);
+				write(task->fd_out, curr->content, ft_strlen(curr->content));
+				write(task->fd_out, "\n", 1);
 			}
-			curr = curr->next;
+			return (curr->content);
 		}
 		return (NULL);
 	}
@@ -109,6 +77,7 @@ static char *ms_get_chdir_path(t_ms_data *ms, t_ms_task *task)
 }
 
 /*
+	MAIN CALLER for cd.
 	If no path provided, do nothing.
 	Changes current directory to given path if valid,else an error 
 	is written to the task and -1 returned.

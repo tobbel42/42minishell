@@ -76,32 +76,23 @@ void	ms_env_reverse_list(t_ms_data *ms)
 }
 
 /*
-	frees all allocated nodes of the environmental variables' list
-	as long as head != NULL (-> if list empty, does nothing.)
+	scans env list for a var with given name, and returns its address.
+	else returns null.
 */
-void	ms_env_free_list(t_ms_data *ms)
+t_ms_envar *ms_get_envar(t_ms_data *ms, char *name)
 {
-	t_ms_envar	*current;
-	t_ms_envar	*tmp;
+	t_ms_envar	*curr;
 
-	current = ms->envars_head;
-	while (current != NULL)
+	if (!name || !name[0])
+		return (NULL);
+	curr = ms->envars_head;
+	while (curr)
 	{
-		tmp = current;
-		current = current->next;
-		ms_env_free_envar(tmp);
-		ms->env_lines_count--;
+		if (mst_isequal_str(curr->name, name) == 1)
+		{
+			return (curr);
+		}
+		curr = curr->next;
 	}
-}
-
-/*
-	Frees an environmental variable
-*/
-void	ms_env_free_envar(t_ms_envar *envar)
-{
-	if (envar->name != NULL)
-		free(envar->name);
-	if (envar->content != NULL)
-		free(envar->content);
-	free(envar);
+	return (NULL);
 }

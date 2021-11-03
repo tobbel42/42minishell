@@ -68,8 +68,7 @@ int			ms_env_add(t_ms_data *ms, char *envar_def);
 char		**ms_env_to_array(t_ms_data *ms);
 void		ms_env_print(t_ms_data *ms, int fd);
 void		ms_env_reverse_list(t_ms_data *ms);
-void		ms_env_free_list(t_ms_data *ms);
-void		ms_env_free_envar(t_ms_envar *ev);
+t_ms_envar *ms_get_envar(t_ms_data *ms, char *name);
 //env new envar
 t_ms_envar	*ms_env_newvar_def(char *envar_def);
 t_ms_envar	*ms_env_newvar_nc(char *name, char *content);
@@ -77,7 +76,9 @@ t_ms_envar	*ms_env_newvar_nc(char *name, char *content);
 void		ms_env_repl_content(t_ms_envar *var, char *repl);
 void		ms_env_repl_envar(t_ms_envar *curr, t_ms_envar *new_var);
 void		ms_env_add_after(t_ms_envar *curr, t_ms_envar *new_var);
-
+// env free
+void		ms_env_free_list(t_ms_data *ms);
+void		ms_env_free_envar(t_ms_envar *ev);
 // builtins
 int			ms_env_valid_varname(char *name);
 int			ms_builtin_export(t_ms_data *ms, t_ms_task *task);
