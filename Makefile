@@ -28,6 +28,7 @@ SRC_LIST=ms_main.c\
 	ms_env_get.c \
 	ms_env_utils.c \
 	ms_env_new_envar.c \
+	ms_env_free.c \
 	ms_env_add_or_change_envar.c \
 	ms_builtin_env.c \
 	ms_builtin_export.c \
