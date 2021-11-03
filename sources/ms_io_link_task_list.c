@@ -25,12 +25,13 @@ int	ms_io_pipe(t_ms_task *task)
 
 // goes through tasks and sets the file descriptors according to the special
 // characters
-void	ms_iolinking_task_list(t_ms_data *ms)
+int	ms_iolinking_task_list(t_ms_data *ms)
 {
 	t_ms_task	*curr;
 	int			flag;
 
 	curr = ms->task_list;
+	flag = 0;
 	while (curr != NULL)
 	{
 		if (mst_isequal_str(curr->name, "<") == 1)
@@ -45,4 +46,5 @@ void	ms_iolinking_task_list(t_ms_data *ms)
 			flag = ms_io_pipe(curr);
 		curr = curr->next;
 	}
+	return (flag);
 }

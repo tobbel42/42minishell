@@ -98,32 +98,31 @@ int			ms_get_exec_paths(t_ms_data *ms);
 // replace $
 int			ms_replace_args(t_ms_data *ms);
 // iolink
-void		ms_iolinking_task_list(t_ms_data *ms);
+int			ms_iolinking_task_list(t_ms_data *ms);
 
 //tobi_fuctions
-int		ms_get_line(t_ms_data *ms_data);
-int		ms_split(t_ms_data *ms_data);
+int			ms_get_line(t_ms_data *ms_data);
+int			ms_split(t_ms_data *ms_data);
 
-int		ms_create_task_list(t_ms_data *ms_data);
-void	ms_clean_task_list(t_ms_data *ms_data);
-void	ms_free_task(t_ms_task *task);
-char	*ms_clean_input(char *arg, int mode);
+int			ms_create_task_list(t_ms_data *ms_data);
+void		ms_clean_task_list(t_ms_data *ms_data);
+void		ms_free_task(t_ms_task *task);
+char		*ms_clean_input(char *arg, int mode);
 
-char	*ms_get_path(t_ms_task *task, t_ms_data *ms_data);
+char		*ms_get_path(t_ms_task *task, t_ms_data *ms_data);
 
-void	qd_launch(t_ms_data *ms_data);
 
-int	ms_is_cmd(char *line);
+int			ms_is_cmd(char *line);
 
-int	ms_lauch_task_list(t_ms_data *ms_data);
-int	ms_io_infile(t_ms_task *task);
-int	ms_io_outfile(t_ms_task *task, int mode);
-int	ms_io_heredoc(t_ms_task	*task);
-int	ms_io_pipe(t_ms_task *task);
+int			ms_lauch_task_list(t_ms_data *ms_data);
+int			ms_io_infile(t_ms_task *task);
+int			ms_io_outfile(t_ms_task *task, int mode);
+int			ms_io_heredoc(t_ms_task	*task);
+int			ms_io_pipe(t_ms_task *task);
 
-void	ms_rl_sig_handler(int num);
-void	ms_rl_init(void);
-void	ms_rl_clean(void);
+void		ms_rl_sig_handler(int num);
+void		ms_rl_init(void);
+void		ms_rl_clean(void);
 
 
 #endif
