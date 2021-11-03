@@ -1,29 +1,30 @@
 #include "../header/minishell.h"
 
 /*
-//on incomming Ctrl + C a new prompt is printed
+//on Ctrl + C (SIGINT) a new prompt is printed
+//on Ctrl + \ (SIGQUIT) nothing happens
 */
-static void	sig_int_handler(void)
+static void	sig_handler(int num)
 {
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
+	if (num == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+	}
 	rl_on_new_line();
 	rl_redisplay();
 }
 
-static void	sig_quit_handler(void)
-{
-	rl_on_new_line();
-	rl_redisplay();
-}
-
+/*
+//initializes the signalhandling, deactivates the printing of signals
+*/
 static int	init_get_line(void)
 {
 	struct termios	term;
 	int				err_flag;
 
-	signal(SIGQUIT, sig_quit_handler);
-	signal(SIGINT, sig_int_handler);
+	signal(SIGQUIT, sig_handler);
+	signal(SIGINT, sig_handler);
 	err_flag = tcgetattr(1, &term);
 	if (!err_flag)
 	{
@@ -34,6 +35,9 @@ static int	init_get_line(void)
 	return (err_flag);
 }
 
+/*
+//restores the signalhandling to default, reactivates the printing of signals 
+*/
 static void	clean_get_line(void)
 {
 	struct termios	term;
@@ -50,7 +54,7 @@ static void	clean_get_line(void)
 }
 
 /*
-//reads from stdin, till a full line is entered
+//reads a line from stdin
 //frees ms_data->line, if not NULL
 //returns 0 on success, 1 on error
 */

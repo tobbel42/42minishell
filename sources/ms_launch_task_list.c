@@ -1,14 +1,22 @@
 #include "../header/minishell.h"
 
+/*
+//relays incoming SIGQUIT(ctrl + |) and SIGINT(ctrl + c) to the child process
+*/
 void	sig_handler(int num)
 {
+	kill(g_pid, num);
 	if (num == 3)
 		write(2, "Quit: 3", 7);
 	write(2, "\n", 1);
 	rl_redisplay();
-	kill(g_pid, num);
 }
 
+/*
+//fork the process, and executes the command in the child
+//the input and output filedescriptors of the child are set to the values of task
+//the parent is initalising the signalrelaying to the child, and waits for it to exit
+*/
 static void	launch_cmd(t_ms_task *task, t_ms_data *ms_data)
 {
 	int		pid;
@@ -63,6 +71,11 @@ int	ms_execute_builtin(t_ms_data *ms, t_ms_task *task)
 	return (1);
 }
 
+/*
+//iterates through the task-list, excuting all commands
+//error messages are printed if needed
+//any open pipes of a given task is closed after execution
+*/
 int	ms_lauch_task_list(t_ms_data *ms_data)
 {
 	t_ms_task	*node;
