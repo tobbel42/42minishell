@@ -39,6 +39,8 @@ static int	ms_unset_variable(t_ms_data *ms, char *envar_def)
 	}
 	if (found == 0)
 		return (0);
+	if (mst_isequal_str(curr->next->name, "OLDPWD") == 1)
+		ms->first_run_cd = 0;
 	tmp = curr->next;
 	curr->next = curr->next->next;
 	ms_env_free_envar(tmp);
