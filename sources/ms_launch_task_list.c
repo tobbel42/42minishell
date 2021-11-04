@@ -7,8 +7,8 @@ void	sig_handler(int num)
 {
 	kill(g_pid, num);
 	if (num == 3)
-		write(2, "Quit: 3", 7);
-	write(2, "\n", 1);
+		write(1, "Quit: 3", 7);
+	write(1, "\n", 1);
 	rl_redisplay();
 }
 

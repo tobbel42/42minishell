@@ -68,7 +68,7 @@ int	ms_io_heredoc(t_ms_task	*task)
 
 	if (pipe(fd))
 	{
-		ft_putendl_fd("minishell: internal error\n", 2);
+		ft_putendl_fd("minishell: internal error", 2);
 		return (1);
 	}
 	if (pipe_fill(task->args[1], fd[1]))
