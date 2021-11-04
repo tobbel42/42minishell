@@ -13,43 +13,6 @@ void	sig_handler(int num)
 }
 
 /*
-//fork the process, and executes the command in the child
-//the input and output filedescriptors of the child are set to the values of task
-//the parent is initalising the signalrelaying to the child, and waits for it to exit
-*/
-static void	launch_cmd(t_ms_task *task, t_ms_data *ms_data)
-{
-	int		pid;
-	int		fd_check[2];
-	char	**env_array;
-
-	env_array = ms_env_to_array(ms_data);
-	pid = fork();
-	if (pid == 0)
-	{
-		if (task->fd_in != 0)
-			fd_check[0] = dup2(task->fd_in, 0);
-		if (task->fd_out != 1)
-			fd_check[1] = dup2(task->fd_out, 1);
-		if (fd_check[0] != -1 && fd_check[1] != -1)
-			execve(task->exec_path, task->args, env_array);
-		//printf("minishell: %s: %s\n", task->args[0], strerror(errno));
-		exit(1);
-	}
-	else if (pid == -1)
-		printf("minishell: fork_error: %s\n", strerror(errno));
-	else
-	{
-		signal(SIGQUIT, sig_handler);
-		signal(SIGINT, sig_handler);
-		g_pid = pid;
-		wait(&ms_data->last_return);
-	}
-	if (env_array)
-		ms_free_char2(env_array);
-}
-
-/*
 	If command is builtin, this function calls the corrresponding
 	executing function, which returns 0 on success, -1 on failure.
 	If not a builtin, 1 is returned.
@@ -71,6 +34,52 @@ static void	ms_execute_builtin(t_ms_data *ms, t_ms_task *task)
 }
 
 /*
+//fork the process, and executes the command in the child
+//the input and output filedescriptors of the child are set to the values of task
+//the parent is initalising the signalrelaying to the child, and waits for it to exit
+*/
+static void	launch_cmd(t_ms_task *task, t_ms_data *ms_data)
+{
+	int		pid;
+	int		fd_check[2];
+	char	**env_array;
+
+	env_array = ms_env_to_array(ms_data);
+	pid = fork();
+	if (pid == 0)
+	{
+		if (task->fd_in != 0)
+			fd_check[0] = dup2(task->fd_in, 0);
+		if (task->fd_out != 1)
+			fd_check[1] = dup2(task->fd_out, 1);
+		if (fd_check[0] != -1 && fd_check[1] != -1)
+		{
+			if (ms_is_builtin(task) != 1)
+				execve(task->exec_path, task->args, env_array);
+			else
+			{
+				// printf("cmd: %s\npath: %s\nfd in: %d\nfd err: %d\nfd out: %d\n", task->name, task->exec_path, task->fd_in, task->fd_err, task->fd_out);
+				ms_execute_builtin(ms_data, task);
+				exit(0);
+			}
+		}
+		//printf("minishell: %s: %s\n", task->args[0], strerror(errno));
+		exit(1);
+	}
+	else if (pid == -1)
+		printf("minishell: fork_error: %s\n", strerror(errno));
+	else
+	{
+		signal(SIGQUIT, sig_handler);
+		signal(SIGINT, sig_handler);
+		g_pid = pid;
+		wait(&ms_data->last_return);
+	}
+	if (env_array)
+		ms_free_char2(env_array);
+}
+
+/*
 //iterates through the task-list, excuting all commands
 //error messages are printed if needed
 //any open pipes of a given task is closed after execution
@@ -86,14 +95,17 @@ int	ms_lauch_task_list(t_ms_data *ms_data)
 	{
 		if (!node->err_flag)
 		{
-			if (ms_is_builtin(node) == 1)
+			if (ms_is_builtin(node) == 1 && ms_data->is_pipe == 0)// && (node->fd_in + node->fd_out) == 1)
+			{
+				// printf("cmd: %s\npath: %s\nfd in: %d\nfd err: %d\nfd out: %d\n", node->name, node->exec_path, node->fd_in, node->fd_err, node->fd_out);
 				ms_execute_builtin(ms_data, node);
-			if (ms_is_cmd(node->name) && node->exec_path)
+			}
+			if ((ms_is_cmd(node->name) && node->exec_path) ||
+				(ms_is_builtin(node) == 1 && ms_data->is_pipe == 1))//(node->fd_in + node->fd_out) != 1))
 				launch_cmd(node, ms_data);
 				// printf("%s\n", node->name);
 		}
-		if (node->err_flag == 1) // I changed this from 'else if' to 'if' to print
-		// errors from builtins, hope it does not create bugs for other stuff
+		if (node->err_flag == 1)
 		{
 			if (ms_is_cmd(node->name))
 			{

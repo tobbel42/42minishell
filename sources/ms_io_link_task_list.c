@@ -43,7 +43,10 @@ int	ms_iolinking_task_list(t_ms_data *ms)
 		if (ms_str_isequal(curr->name, ">") == 1)
 			flag = ms_io_outfile(curr, 0);
 		if (ms_str_isequal(curr->name, "|") == 1)
+		{
+			ms->is_pipe = 1;
 			flag = ms_io_pipe(curr);
+		}
 		curr = curr->next;
 	}
 	return (flag);

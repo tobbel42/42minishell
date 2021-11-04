@@ -44,6 +44,6 @@ char	*ms_get_path(t_ms_task *task, t_ms_data *ms_data)
 		i++;
 	}
 	task->err_flag = 1;
-	task->err_msg = ft_strdup(strerror(errno));
+	task->err_msg = ft_strdup("command not found");
 	return (NULL);
 }
