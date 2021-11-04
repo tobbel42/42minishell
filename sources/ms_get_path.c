@@ -3,12 +3,16 @@
 /*
 //checks wheather the function is a buildin, returns 1 if yes, 0 if no
 */
-static int	is_bulidin(t_ms_task *task)
+int	ms_is_builtin(t_ms_task *task)
 {
-	if (!ft_strncmp(task->args[0], "echo", 5) || !ft_strncmp(task->args[0], "cd", 3)
-		|| !ft_strncmp(task->args[0], "pwd", 4) || !ft_strncmp(task->args[0], "env", 4)
-		|| !ft_strncmp(task->args[0], "export", 7) || !ft_strncmp(task->args[0], "unset", 6)
-		|| !ft_strncmp(task->args[0], "env", 4) || !ft_strncmp(task->args[0], "exit", 5))
+	if (!ft_strncmp(task->args[0], "echo", 5)
+		|| !ft_strncmp(task->args[0], "cd", 3)
+		|| !ft_strncmp(task->args[0], "pwd", 4)
+		|| !ft_strncmp(task->args[0], "env", 4)
+		|| !ft_strncmp(task->args[0], "export", 7)
+		|| !ft_strncmp(task->args[0], "unset", 6)
+		|| !ft_strncmp(task->args[0], "env", 4)
+		|| !ft_strncmp(task->args[0], "exit", 5))
 		return (1);
 	return (0);
 }
@@ -24,7 +28,7 @@ char	*ms_get_path(t_ms_task *task, t_ms_data *ms_data)
 
 	if (task->err_flag)
 		return (NULL);
-	if (is_bulidin(task))
+	if (ms_is_builtin(task))
 		return (NULL);
 	if (!access(task->args[0], X_OK))
 		return (ft_strdup(task->args[0]));
@@ -33,9 +37,9 @@ char	*ms_get_path(t_ms_task *task, t_ms_data *ms_data)
 	{
 		test_path = ft_strjoin(ms_data->exec_paths[i], task->args[0]);
 		if (!test_path)
-			return (NULL); 
+			return (NULL);
 		if (!access(test_path, X_OK))
-			return(test_path);
+			return (test_path);
 		free(test_path);
 		i++;
 	}

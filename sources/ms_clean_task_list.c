@@ -10,7 +10,7 @@ void	ms_free_task(t_ms_task *task)
 	if (task->name)
 		free(task->name);
 	if (task->args)
-		mst_free_char2(task->args);
+		ms_free_char2(task->args);
 	if (task->exec_path)
 		free(task->exec_path);
 	if (task->err_msg)

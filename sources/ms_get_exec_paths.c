@@ -54,7 +54,7 @@ int	ms_get_exec_paths(t_ms_data *ms)
 	curr = ms->envars_head;
 	while (curr != NULL)
 	{
-		if (mst_isequal_str(curr->name, "PATH") == 1)
+		if (ms_str_isequal(curr->name, "PATH") == 1)
 			break ;
 		curr = curr->next;
 	}

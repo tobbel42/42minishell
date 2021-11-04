@@ -54,21 +54,20 @@ static void	launch_cmd(t_ms_task *task, t_ms_data *ms_data)
 	executing function, which returns 0 on success, -1 on failure.
 	If not a builtin, 1 is returned.
 */
-int	ms_execute_builtin(t_ms_data *ms, t_ms_task *task)
+static void	ms_execute_builtin(t_ms_data *ms, t_ms_task *task)
 {
-	if (mst_isequal_str(task->args[0], "env") == 1)
-		return (ms_builtin_env(ms, task));
-	if (mst_isequal_str(task->args[0], "unset") == 1)
-		return (ms_builtin_unset(ms, task));
-	if (mst_isequal_str(task->args[0], "export") == 1)
-		return (ms_builtin_export(ms, task));
-	if (mst_isequal_str(task->args[0], "pwd") == 1)
-		return (ms_builtin_pwd(task));
-	if (mst_isequal_str(task->args[0], "cd") == 1)
-		return (ms_builtin_cd(ms, task));
-	if (mst_isequal_str(task->args[0], "echo") == 1)
-		return (ms_builtin_echo(task));
-	return (1);
+	if (ms_str_isequal(task->args[0], "env") == 1)
+		ms->last_return = ms_builtin_env(ms, task);
+	if (ms_str_isequal(task->args[0], "unset") == 1)
+		ms->last_return = ms_builtin_unset(ms, task);
+	if (ms_str_isequal(task->args[0], "export") == 1)
+		ms->last_return = ms_builtin_export(ms, task);
+	if (ms_str_isequal(task->args[0], "pwd") == 1)
+		ms->last_return = ms_builtin_pwd(task);
+	if (ms_str_isequal(task->args[0], "cd") == 1)
+		ms->last_return = ms_builtin_cd(ms, task);
+	if (ms_str_isequal(task->args[0], "echo") == 1)
+		ms->last_return = ms_builtin_echo(task);
 }
 
 /*
@@ -87,8 +86,9 @@ int	ms_lauch_task_list(t_ms_data *ms_data)
 	{
 		if (!node->err_flag)
 		{
-			if (ms_execute_builtin(ms_data, node) == 1 && \
-				ms_is_cmd(node->name) && node->exec_path)
+			if (ms_is_builtin(node) == 1)
+				ms_execute_builtin(ms_data, node);
+			if (ms_is_cmd(node->name) && node->exec_path)
 				launch_cmd(node, ms_data);
 				// printf("%s\n", node->name);
 		}
@@ -98,7 +98,8 @@ int	ms_lauch_task_list(t_ms_data *ms_data)
 			if (ms_is_cmd(node->name))
 			{
 				printf("minishell: %s: %s\n", node->name, node->err_msg);
-				ms_data->last_return = 127;
+				if (ms_is_builtin(node) != 1)
+					ms_data->last_return = 127;
 			}
 			else if (ft_strncmp(node->name, "|", 2))
 				printf("minishell: %s: %s\n", node->args[1], node->err_msg);

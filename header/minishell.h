@@ -13,7 +13,6 @@
 # include <signal.h>
 # include "../libft/libft.h"
 # include "../pipex/pipex.h"
-# include "../lib_ms_tools/ms_tools.h"
 # include "../get_next_line/get_next_line.h"
 # include <sys/param.h>
 # include <termios.h>
@@ -71,6 +70,7 @@ char		**ms_env_to_array(t_ms_data *ms);
 void		ms_env_print(t_ms_data *ms, int fd);
 void		ms_env_reverse_list(t_ms_data *ms);
 t_ms_envar *ms_get_envar(t_ms_data *ms, char *name);
+int			ms_str_isequal(char *s1, char *s2);
 //env new envar
 t_ms_envar	*ms_env_newvar_def(char *envar_def);
 t_ms_envar	*ms_env_newvar_nc(char *name, char *content);
@@ -102,6 +102,7 @@ int			ms_get_exec_paths(t_ms_data *ms);
 int			ms_replace_args(t_ms_data *ms);
 // iolink
 int			ms_iolinking_task_list(t_ms_data *ms);
+int			ms_is_builtin(t_ms_task *task);
 
 //tobi_fuctions
 int			ms_get_line(t_ms_data *ms_data);

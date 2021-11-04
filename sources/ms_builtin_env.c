@@ -12,7 +12,7 @@ int	ms_builtin_env(t_ms_data *ms, t_ms_task *task)
 		task->err_flag = 1;
 		task->err_msg = ft_strjoin(task->args[1], \
 			": No such file or directory\n");
-		return (-1);
+		return (1);
 	}
 	ms_env_print(ms, task->fd_out);
 	return (0);

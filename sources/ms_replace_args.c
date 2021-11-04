@@ -80,14 +80,14 @@ static void	ms_replace_variable(t_ms_data *ms, int *i, char *token, int dqflag)
 	curr = ms->envars_head;
 	while (curr != NULL)
 	{
-		if (mst_isequal_str(curr->name, token + 1) == 1)
+		if (ms_str_isequal(curr->name, token + 1) == 1)
 		{
 			ms_token_replace(ms, *i, token, curr->content);
 			return ;
 		}
 		curr = curr->next;
 	}
-	if (mst_isequal_str("$?", token) == 1)
+	if (ms_str_isequal("$?", token) == 1)
 	{
 		ms_set_last_return(ms, i, token);
 		return ;
