@@ -3,10 +3,10 @@
 /*
 	specifically sets ed to change to for "cd -" and "cd -~".
 */
-static char *ms_cd_dash_wd(t_ms_data *ms, t_ms_task *task)
+static char	*ms_cd_dash_wd(t_ms_data *ms, t_ms_task *task)
 {
 	t_ms_envar	*curr;
-	
+
 	curr = ms_get_envar(ms, "OLDPWD");
 	if (curr != NULL)
 	{
@@ -28,7 +28,7 @@ static char *ms_cd_dash_wd(t_ms_data *ms, t_ms_task *task)
 	cd  -~ : to $OLDPWD, nothing printed.
 	cd "path" : to given string if no error.
 */
-static char *ms_get_chdir_path(t_ms_data *ms, t_ms_task *task)
+static char	*ms_get_chdir_path(t_ms_data *ms, t_ms_task *task)
 {
 	t_ms_envar	*curr;
 
@@ -55,7 +55,7 @@ static char *ms_get_chdir_path(t_ms_data *ms, t_ms_task *task)
 /*
 	error manager for chdir() failure.
 */
-static int ms_cd_chdir_error(t_ms_task *task, char *startwd)
+static int	ms_cd_chdir_error(t_ms_task *task, char *startwd)
 {
 	char		*tmp;
 
@@ -68,8 +68,8 @@ static int ms_cd_chdir_error(t_ms_task *task, char *startwd)
 	}
 	free(startwd);
 	return (-1);
-
 }
+
 /*
 	MAIN CALLER for cd.
 	If no path provided, do nothing.
