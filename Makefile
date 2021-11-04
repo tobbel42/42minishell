@@ -43,7 +43,7 @@ SRC_LIST=ms_main.c\
 \
 	ms_io_heredoc.c \
 \
-\
+	ms_io_pipe.c\
 \
 
 SRC=$(addprefix $(SRC_DIR), $(SRC_LIST))
