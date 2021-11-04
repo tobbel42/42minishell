@@ -27,9 +27,9 @@ static int	pipe_fill(char *del, int fd)
 }
 
 /*
-//finds in the tasklist the right cmd, and sets its fd-in to output of heredoc
+//finds the coresponding cmd
 */
-static void	heredoc_finder(t_ms_task *task, int fd)
+static t_ms_task	*heredoc_finder(t_ms_task *task)
 {
 	t_ms_task	*node;
 
@@ -37,26 +37,16 @@ static void	heredoc_finder(t_ms_task *task, int fd)
 	while (node && node->prev && ft_strncmp("|", node->prev->name, 2))
 	{
 		if (ms_is_cmd(node->name))
-		{
-			if (node->fd_in != 0)
-				close(node->fd_in);
-			node->fd_in = fd;
-			return ;
-		}
+			return (node);
 		node = node->prev;
 	}
 	while (node && ft_strncmp("|", node->name, 2))
 	{
 		if (ms_is_cmd(node->name))
-		{
-			if (node->fd_in != 0)
-				close(node->fd_in);
-			node->fd_in = fd;
-			return ;
-		}	
+			return (node);
 		node = node->next;
 	}
-	close(fd);
+	return (NULL);
 }
 
 /*
@@ -65,14 +55,23 @@ static void	heredoc_finder(t_ms_task *task, int fd)
 int	ms_io_heredoc(t_ms_task	*task)
 {
 	int			fd[2];
+	t_ms_task	*target;
 
 	if (pipe(fd))
 	{
 		ft_putendl_fd("minishell: internal error", 2);
 		return (1);
-	}
+	}	
 	if (pipe_fill(task->args[1], fd[1]))
 		return (1);
-	heredoc_finder(task, fd[0]);
+	target = heredoc_finder(task);
+	if (target && target->err_flag != 2)
+	{
+		if (target->fd_in != 0)
+			close(target->fd_in);
+		target->fd_in = fd[0];
+	}
+	else
+		close(fd[0]);
 	return (0);
 }

@@ -37,7 +37,7 @@ int	ms_iolinking_task_list(t_ms_data *ms)
 		if (ms_str_isequal(curr->name, "<") == 1)
 			flag = ms_io_infile(curr);
 		if (ms_str_isequal(curr->name, "<<") == 1)
- 			flag = ms_io_heredoc(curr);
+			flag = ms_io_heredoc(curr);
 		if (ms_str_isequal(curr->name, ">>") == 1)
 			flag = ms_io_outfile(curr, 1);
 		if (ms_str_isequal(curr->name, ">") == 1)
