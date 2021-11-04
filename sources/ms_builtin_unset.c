@@ -61,6 +61,11 @@ int	ms_builtin_unset(t_ms_data *ms, t_ms_task *task)
 	{
 		if (ms_error_handeling_unset(task, task->args[i]) == 0)
 			ms_unset_variable(ms, task->args[i]);
+		if (mst_isequal_str(task->args[i], "PATH") == 1)
+		{
+			ms_free_char2(ms->exec_paths);
+			ms->exec_paths = NULL;
+		}
 		i++;
 	}
 	return (0);
