@@ -6,7 +6,7 @@
 #    By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/06 11:20:52 by akamlah           #+#    #+#              #
-#    Updated: 2021/10/28 13:27:46 by tgrossma         ###   ########.fr        #
+#    Updated: 2021/11/04 15:07:49 by tgrossma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ all: $(NAME)
 
 $(NAME): $(OFILES)
 	@ar rc $(NAME) $(OFILES) 
-	@echo "$(GREEN)creating: $(NAME)$(NC)"
+	@echo "$(GREEN)creating: $(NAME)$(CN)"
 
 %.o: %.c 
 	@$(CC) $(C_FLAGS) $< -c -o $@

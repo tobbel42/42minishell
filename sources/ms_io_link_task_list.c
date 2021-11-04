@@ -32,7 +32,7 @@ int	ms_iolinking_task_list(t_ms_data *ms)
 
 	curr = ms->task_list;
 	flag = 0;
-	while (curr != NULL)
+	while (curr != NULL && flag == 0)
 	{
 		if (ms_str_isequal(curr->name, "<") == 1)
 			flag = ms_io_infile(curr);
