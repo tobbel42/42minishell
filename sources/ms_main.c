@@ -25,9 +25,6 @@ int main(int argc, char **argv, char **envp)
 	// 2 get env
 	if (ms_env_get(&ms, envp) != 0)
 		return (-1);
-	// printf("HOME: %s\n", ms.home_dir);
-	// in while loop to add env var:
-	// if line = "export" -> ms_env_add(parsed line);
 
 	// get cmd paths
 	// if (ms_get_exec_paths(&ms) != 0)
@@ -90,5 +87,6 @@ int main(int argc, char **argv, char **envp)
 		}
 	}
 	system("leaks minishell");
+	exit(0);
 	return (0);
 }

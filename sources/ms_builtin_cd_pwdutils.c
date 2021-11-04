@@ -10,15 +10,15 @@ void	ms_set_oldpwd(t_ms_data *ms, char *startwd)
 	t_ms_envar	*oldpwd;
 
 	curr = ms_get_envar(ms, "OLDPWD");
-	if (curr !=  NULL)
+	if (curr != NULL)
 	{
 		ms_env_repl_content(curr, startwd);
-			return ;
+		return ;
 	}
 	if (ms->first_run_cd == 1)
 	{
 		curr = ms->envars_head;
-		while(curr->next)
+		while (curr->next)
 			curr = curr->next;
 		oldpwd = ms_env_newvar_nc("OLDPWD", startwd);
 		curr->next = oldpwd;
@@ -38,7 +38,7 @@ void	ms_set_pwd(t_ms_data *ms)
 	if (cwd == NULL)
 		return ;
 	curr = ms_get_envar(ms, "PWD");
-	if (curr !=  NULL)
+	if (curr != NULL)
 	{
 		ms_env_repl_content(curr, cwd);
 		free(cwd);

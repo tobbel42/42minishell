@@ -79,7 +79,7 @@ void	ms_env_reverse_list(t_ms_data *ms)
 	scans env list for a var with given name, and returns its address.
 	else returns null.
 */
-t_ms_envar *ms_get_envar(t_ms_data *ms, char *name)
+t_ms_envar	*ms_get_envar(t_ms_data *ms, char *name)
 {
 	t_ms_envar	*curr;
 
