@@ -29,8 +29,8 @@ int main(int argc, char **argv, char **envp)
 	// if line = "export" -> ms_env_add(parsed line);
 
 	// get cmd paths
-	if (ms_get_exec_paths(&ms) != 0)
-		ms_free_and_exit(&ms, 0, 0);
+	// if (ms_get_exec_paths(&ms) != 0)
+	// 	ms_free_and_exit(&ms, 0, 0);
 	// -> do "if (ms.exec_paths != NULL)" from here on, else segfault if unset path
 	// 3 get line
 	// ms_print_env_list(&ms);
@@ -43,6 +43,7 @@ int main(int argc, char **argv, char **envp)
 
 	while (1)
 	{
+		ms_get_exec_paths(&ms);
 		ms_get_line(&ms);
 		if (!ft_strncmp("", ms.line, 1))
 			continue ;
@@ -57,7 +58,7 @@ int main(int argc, char **argv, char **envp)
 			i++;
 		}
 		i = 0;
-		while (ms.exec_paths[i])
+		while (ms.exec_paths && ms.exec_paths[i])
 		{
 			// printf("%s\n", ms.exec_paths[i]);
 			i++;
@@ -79,6 +80,8 @@ int main(int argc, char **argv, char **envp)
 		if (!ms_iolinking_task_list(&ms))
 			ms_lauch_task_list(&ms);
 		ms_clean_task_list(&ms);
+		if (ms.exec_paths)
+			ms_free_char2(ms.exec_paths);
 		if (ms.line && !ft_strncmp("exit", ms.line, 5))
 		{
 			write(1, "exit\n", 5);
