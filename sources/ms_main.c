@@ -11,6 +11,7 @@ void	ms_init_data(t_ms_data *ms)
 	ms->last_return = 0; //rework https://shapeshed.com/unix-exit-codes/
 	ms->first_run_cd = 1;
 	ms->home_dir = NULL;
+	ms->is_pipe = 0;
 }
 
 int main(int argc, char **argv, char **envp)
@@ -33,7 +34,7 @@ int main(int argc, char **argv, char **envp)
 	// 3 get line
 	// ms_print_env_list(&ms);
 
-	// int i;
+	int i;
 
 	// char *tmp;
 	// tmp = ms_env_to_array(&ms);
@@ -49,12 +50,12 @@ int main(int argc, char **argv, char **envp)
 		ms_replace_args(&ms);
 		// printf("REPL. LINE: %s\n", ms.line);
 		ms_split(&ms);
-		// i = 0;
-		// while (ms.split_line[i])
-		// {
-		// 	printf("%i: |%s|\n", i, ms.split_line[i]);
-		// 	i++;
-		// }
+		i = 0;
+		while (ms.split_line[i])
+		{
+			printf("%i: |%s|\n", i, ms.split_line[i]);
+			i++;
+		}
 		// i = 0;
 		// while (ms.exec_paths && ms.exec_paths[i])
 		// {
@@ -62,24 +63,27 @@ int main(int argc, char **argv, char **envp)
 		// 	i++;
 		// }
 		ms_create_task_list(&ms);
-		// t_ms_task *node = ms.task_list;
-		// while (node)
-		// {
-		// 	if (node->name)
-		// 		printf("\n%s\n", node->name);
-		// 	i = 0;
-		// 	while (node->args && node->args[i])
-		// 	{
-		// 		printf("%i:%s\n", i, node->args[i]);
-		// 		i++;
-		// 	}
-		// 	node = node->next;
-		// }
+		t_ms_task *node = ms.task_list;
+		while (node)
+		{
+			if (node->name)
+				// printf("\n%s\n", node->name);
+				printf("cmd: %s\npath: %s\nfd in: %d\nfd err: %d\nfd out: %d\n", node->name, node->exec_path, node->fd_in, node->fd_err, node->fd_out);
+			i = 0;
+			while (node->args && node->args[i])
+			{
+				printf("%i:%s\n", i, node->args[i]);
+				
+				i++;
+			}
+			node = node->next;
+		}
 		if (!ms_iolinking_task_list(&ms))
 			ms_lauch_task_list(&ms);
 		ms_clean_task_list(&ms);
 		if (ms.exec_paths)
 			ms_free_char2(ms.exec_paths);
+		ms.is_pipe = 0;
 		if (ms.line && !ft_strncmp("exit", ms.line, 5))
 		{
 			write(1, "exit\n", 5);

@@ -55,6 +55,7 @@ typedef struct s_ms_data
 	int			last_return;
 	int			first_run_cd;
 	char		*home_dir;
+	int			is_pipe;
 }					t_ms_data;
 
 int	g_pid;
