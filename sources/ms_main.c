@@ -78,8 +78,8 @@ int main(int argc, char **argv, char **envp)
 		// 	}
 		// 	node = node->next;
 		// }
-		ms_iolinking_task_list(&ms);
-		ms_lauch_task_list(&ms);
+		if (!ms_iolinking_task_list(&ms))
+			ms_lauch_task_list(&ms);
 		ms_clean_task_list(&ms);
 		if (ms.exec_paths)
 			ms_free_char2(ms.exec_paths);

@@ -23,13 +23,48 @@ static int	pipe_fill(char *del, int fd)
 		free(line);
 	else
 		return (1);
-	return (0);	
+	return (0);
 }
 
+/*
+//finds in the tasklist the right cmd, and sets its fd-in to output of heredoc
+*/
+static void	heredoc_finder(t_ms_task *task, int fd)
+{
+	t_ms_task	*node;
+
+	node = task;
+	while (node && node->prev && ft_strncmp("|", node->prev->name, 2))
+	{
+		if (ms_is_cmd(node->name))
+		{
+			if (node->fd_in != 0)
+				close(node->fd_in);
+			node->fd_in = fd;
+			return ;
+		}
+		node = node->prev;
+	}
+	while (node && ft_strncmp("|", node->name, 2))
+	{
+		if (ms_is_cmd(node->name))
+		{
+			if (node->fd_in != 0)
+				close(node->fd_in);
+			node->fd_in = fd;
+			return ;
+		}	
+		node = node->next;
+	}
+	close(fd);
+}
+
+/*
+//write smart comment here :)
+*/
 int	ms_io_heredoc(t_ms_task	*task)
 {
-	//toDo: launch as seperate process, different check for exit, safty
-	int		fd[2];
+	int			fd[2];
 
 	if (pipe(fd))
 	{
@@ -38,25 +73,6 @@ int	ms_io_heredoc(t_ms_task	*task)
 	}
 	if (pipe_fill(task->args[1], fd[1]))
 		return (1);
-	t_ms_task *node = task;
-
-	while (node && node->prev && ft_strncmp("|", node->prev->name, 2))
-	{
-		if (ms_is_cmd(node->name))
-		{
-			node->fd_in = fd[0];
-			return (0);
-		}
-		node = node->prev;
-	}
-	while (node && ft_strncmp("|", node->name, 2))
-	{
-	 	if (ms_is_cmd(node->name))
-		{
-			node->fd_in = fd[0];
-			return (0);
-		}	
-		node = node->next;
-	}
-	return (1);
+	heredoc_finder(task, fd[0]);
+	return (0);
 }
