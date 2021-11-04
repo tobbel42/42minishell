@@ -5,10 +5,14 @@
 */
 int	ms_is_builtin(t_ms_task *task)
 {
-	if (!ft_strncmp(task->args[0], "echo", 5) || !ft_strncmp(task->args[0], "cd", 3)
-		|| !ft_strncmp(task->args[0], "pwd", 4) || !ft_strncmp(task->args[0], "env", 4)
-		|| !ft_strncmp(task->args[0], "export", 7) || !ft_strncmp(task->args[0], "unset", 6)
-		|| !ft_strncmp(task->args[0], "env", 4) || !ft_strncmp(task->args[0], "exit", 5))
+	if (!ft_strncmp(task->args[0], "echo", 5)
+		|| !ft_strncmp(task->args[0], "cd", 3)
+		|| !ft_strncmp(task->args[0], "pwd", 4)
+		|| !ft_strncmp(task->args[0], "env", 4)
+		|| !ft_strncmp(task->args[0], "export", 7)
+		|| !ft_strncmp(task->args[0], "unset", 6)
+		|| !ft_strncmp(task->args[0], "env", 4)
+		|| !ft_strncmp(task->args[0], "exit", 5))
 		return (1);
 	return (0);
 }
@@ -33,9 +37,9 @@ char	*ms_get_path(t_ms_task *task, t_ms_data *ms_data)
 	{
 		test_path = ft_strjoin(ms_data->exec_paths[i], task->args[0]);
 		if (!test_path)
-			return (NULL); 
+			return (NULL);
 		if (!access(test_path, X_OK))
-			return(test_path);
+			return (test_path);
 		free(test_path);
 		i++;
 	}

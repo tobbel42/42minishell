@@ -27,6 +27,8 @@ void	ms_free_char2(char **m)
 {
 	int	i;
 
+	if (m == NULL)
+		return ;
 	i = 0;
 	while (m[i] != NULL)
 	{
