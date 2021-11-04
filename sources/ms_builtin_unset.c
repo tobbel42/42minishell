@@ -12,7 +12,7 @@ static int	ms_error_handeling_unset(t_ms_task *task, char *envar_def)
 		tmps = ft_strjoin("`", envar_def);
 		task->err_msg = ft_strjoin(tmps, "': not a valid identifier");
 		free(tmps);
-		return (-1);
+		return (1);
 	}
 	return (0);
 }
@@ -30,7 +30,7 @@ static int	ms_unset_variable(t_ms_data *ms, char *envar_def)
 	found = 0;
 	while (curr->next != NULL)
 	{
-		if (mst_isequal_str(envar_def, curr->next->name) == 1)
+		if (ms_str_isequal(envar_def, curr->next->name) == 1)
 		{
 			found = 1;
 			break ;
@@ -39,7 +39,7 @@ static int	ms_unset_variable(t_ms_data *ms, char *envar_def)
 	}
 	if (found == 0)
 		return (0);
-	if (mst_isequal_str(curr->next->name, "OLDPWD") == 1)
+	if (ms_str_isequal(curr->next->name, "OLDPWD") == 1)
 		ms->first_run_cd = 0;
 	tmp = curr->next;
 	curr->next = curr->next->next;
@@ -55,18 +55,22 @@ static int	ms_unset_variable(t_ms_data *ms, char *envar_def)
 int	ms_builtin_unset(t_ms_data *ms, t_ms_task *task)
 {
 	int	i;
+	int	error;
 
 	i = 1;
+	error = 0;
 	while (task->args[i])
 	{
 		if (ms_error_handeling_unset(task, task->args[i]) == 0)
 			ms_unset_variable(ms, task->args[i]);
-		if (mst_isequal_str(task->args[i], "PATH") == 1)
+		else
+			error = 1;
+		if (ms_str_isequal(task->args[i], "PATH") == 1)
 		{
 			ms_free_char2(ms->exec_paths);
 			ms->exec_paths = NULL;
 		}
 		i++;
 	}
-	return (0);
+	return (error);
 }

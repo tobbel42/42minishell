@@ -27,21 +27,14 @@ static int	ms_error_check_new_var(t_ms_envar *new_var, t_ms_task *task, \
 {
 	char	*tmps;
 
-	if (!new_var->name || !new_var->name[0])
+	if ((!new_var->name || !new_var->name[0]) || \
+		(ms_env_valid_varname(new_var->name) != 1))
 	{
 		task->err_flag = 1;
 		tmps = ft_strjoin("`", envar_def);
 		task->err_msg = ft_strjoin(tmps, "': not a valid identifier");
 		free(tmps);
-		return (-1);
-	}
-	if (ms_env_valid_varname(new_var->name) != 1)
-	{
-		task->err_flag = 1;
-		tmps = ft_strjoin("`", envar_def);
-		task->err_msg = ft_strjoin(tmps, "': not a valid identifier");
-		free(tmps);
-		return (-1);
+		return (1);
 	}
 	return (0);
 }
@@ -49,31 +42,32 @@ static int	ms_error_check_new_var(t_ms_envar *new_var, t_ms_task *task, \
 /*
 	adds the variable passed, if found, to env, does nothing if not found.
 */
-static void	ms_export_variable(t_ms_data *ms, char *envar_def, t_ms_task *task)
+static int	ms_export_variable(t_ms_data *ms, char *envar_def, t_ms_task *task)
 {
 	t_ms_envar	*curr;
 	t_ms_envar	*new_var;
 
 	if (!envar_def || ft_strnstr(envar_def, "=", ft_strlen(envar_def)) == NULL)
-		return ;
+		return (0);
 	new_var = ms_env_newvar_def(envar_def);
 	if (ms_error_check_new_var(new_var, task, envar_def) != 0)
 	{
 		ms_env_free_envar(new_var);
-		return ;
+		return (1);
 	}
 	curr = ms->envars_head;
 	while (curr->next->next != NULL)
 	{
-		if (mst_isequal_str(curr->next->name, new_var->name) == 1)
+		if (ms_str_isequal(curr->next->name, new_var->name) == 1)
 		{
 			ms_env_repl_envar(curr, new_var);
-			return ;
+			return (0);
 		}
 		curr = curr->next;
 	}
 	ms_env_add_after(curr, new_var);
 	ms->env_lines_count++;
+	return (0);
 }
 
 /* 
@@ -83,12 +77,15 @@ static void	ms_export_variable(t_ms_data *ms, char *envar_def, t_ms_task *task)
 int	ms_builtin_export(t_ms_data *ms, t_ms_task *task)
 {
 	int	i;
+	int	error;
 
 	i = 1;
+	error = 0;
 	while (task->args[i])
 	{
-		ms_export_variable(ms, task->args[i], task);
+		if (ms_export_variable(ms, task->args[i], task) != 0)
+			error = 1;
 		i++;
 	}
-	return (0);
+	return (error);
 }

@@ -56,7 +56,6 @@ YELLOW=\033[0;33m
 NC=\033[0m
 LIBS= libft \
 pipex \
-lib_ms_tools \
 get_next_line \
 
 all: $(NAME)
@@ -68,7 +67,7 @@ $(NAME): $(OBJ_DIR) $(OBJ) $(LIBS) $(HEADER)
 		$(MAKE) -C $$d;\
 	done;\
 
-	@$(CC) $(C_FLAGS) $(LFLAGS) $(CPFLAGS) $(OBJ) libft/libft.a pipex/pipex.a lib_ms_tools/ms_tools.a get_next_line/get_next_line.a -o $@
+	@$(CC) $(C_FLAGS) $(LFLAGS) $(CPFLAGS) $(OBJ) libft/libft.a pipex/pipex.a get_next_line/get_next_line.a -o $@
 	@echo "$(GREEN)creating: $(NAME)$(NC)"
 
 $(OBJ_DIR):

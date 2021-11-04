@@ -12,7 +12,7 @@ int	ms_builtin_echo(t_ms_task *task)
 
 	n_option = 0;
 	i = 1;
-	if (mst_isequal_str(task->args[1], "-n") == 1)
+	if (ms_str_isequal(task->args[1], "-n") == 1)
 	{
 		n_option = 1;
 		i = 2;

@@ -3,7 +3,7 @@
 /*
 //checks wheather the function is a buildin, returns 1 if yes, 0 if no
 */
-static int	is_bulidin(t_ms_task *task)
+int	ms_is_builtin(t_ms_task *task)
 {
 	if (!ft_strncmp(task->args[0], "echo", 5) || !ft_strncmp(task->args[0], "cd", 3)
 		|| !ft_strncmp(task->args[0], "pwd", 4) || !ft_strncmp(task->args[0], "env", 4)
@@ -24,7 +24,7 @@ char	*ms_get_path(t_ms_task *task, t_ms_data *ms_data)
 
 	if (task->err_flag)
 		return (NULL);
-	if (is_bulidin(task))
+	if (ms_is_builtin(task))
 		return (NULL);
 	if (!access(task->args[0], X_OK))
 		return (ft_strdup(task->args[0]));

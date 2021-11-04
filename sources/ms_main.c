@@ -17,8 +17,8 @@ int main(int argc, char **argv, char **envp)
 {
 	t_ms_data	ms;
 
-	argc = 1;
-	argv = NULL;
+	if (argc > 1 || argv[1])
+		return (-1);
 	// 1 init -> zeros
 	ms_init_data(&ms);
 	
@@ -44,10 +44,10 @@ int main(int argc, char **argv, char **envp)
 
 	while (1)
 	{
-		ms_get_exec_paths(&ms);
 		ms_get_line(&ms);
 		if (!ft_strncmp("", ms.line, 1))
 			continue ;
+		ms_get_exec_paths(&ms);
 		// printf("enter exit to quit\n");
 		ms_replace_args(&ms);
 		// printf("REPL. LINE: %s\n", ms.line);
