@@ -36,4 +36,5 @@ void	ms_free_char2(char **m)
 	}
 	if (m != NULL)
 		free(m);
+	m = NULL;
 }

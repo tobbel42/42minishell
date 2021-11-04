@@ -88,11 +88,30 @@ t_ms_envar *ms_get_envar(t_ms_data *ms, char *name)
 	curr = ms->envars_head;
 	while (curr)
 	{
-		if (mst_isequal_str(curr->name, name) == 1)
+		if (ms_str_isequal(curr->name, name) == 1)
 		{
 			return (curr);
 		}
 		curr = curr->next;
 	}
 	return (NULL);
+}
+
+/*
+	general string util
+*/
+int	ms_str_isequal(char *s1, char *s2)
+{
+	int	len1;
+	int	len2;
+
+	if ((!s1 && s2) || (s1 && !s2))
+		return (0);
+	if (!s1 && !s2)
+		return (1);
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	if ((ft_strnstr(s1, s2, len1) != NULL) && (len1 == len2))
+		return (1);
+	return (0);
 }

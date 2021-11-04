@@ -10,7 +10,7 @@ static char	*ms_cd_dash_wd(t_ms_data *ms, t_ms_task *task)
 	curr = ms_get_envar(ms, "OLDPWD");
 	if (curr != NULL)
 	{
-		if (mst_isequal_str(task->args[1], "-") == 1)
+		if (ms_str_isequal(task->args[1], "-") == 1)
 		{
 			write(task->fd_out, curr->content, ft_strlen(curr->content));
 			write(task->fd_out, "\n", 1);
@@ -44,10 +44,10 @@ static char	*ms_get_chdir_path(t_ms_data *ms, t_ms_task *task)
 			return (NULL);
 		}
 	}
-	if (mst_isequal_str(task->args[1], "~") == 1)
+	if (ms_str_isequal(task->args[1], "~") == 1)
 		return (ms->home_dir);
-	if (mst_isequal_str(task->args[1], "-") == 1 || \
-		mst_isequal_str(task->args[1], "-~") == 1)
+	if (ms_str_isequal(task->args[1], "-") == 1 || \
+		ms_str_isequal(task->args[1], "-~") == 1)
 		return (ms_cd_dash_wd(ms, task));
 	return (task->args[1]);
 }
@@ -67,7 +67,7 @@ static int	ms_cd_chdir_error(t_ms_task *task, char *startwd)
 		free(tmp);
 	}
 	free(startwd);
-	return (-1);
+	return (1);
 }
 
 /*
@@ -86,13 +86,13 @@ int	ms_builtin_cd(t_ms_data *ms, t_ms_task *task)
 	{
 		task->err_flag = 1;
 		task->err_msg = ft_strdup(strerror(errno));
-		return (-1);
+		return (1);
 	}
 	path = ms_get_chdir_path(ms, task);
 	if (!path)
 	{
 		free(startwd);
-		return (-1);
+		return (1);
 	}
 	if (chdir(path) == -1)
 		return (ms_cd_chdir_error(task, startwd));
@@ -103,4 +103,3 @@ int	ms_builtin_cd(t_ms_data *ms, t_ms_task *task)
 	free(startwd);
 	return (0);
 }
-

@@ -25,7 +25,7 @@ int	ms_env_get(t_ms_data *ms, char **envp)
 	curr = ms->envars_head;
 	while(curr)
 	{
-		if (mst_isequal_str(curr->name, "HOME") == 1)
+		if (ms_str_isequal(curr->name, "HOME") == 1)
 		{
 			ms->home_dir = ft_strdup(curr->content);
 			break ;

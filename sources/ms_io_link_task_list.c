@@ -34,15 +34,15 @@ int	ms_iolinking_task_list(t_ms_data *ms)
 	flag = 0;
 	while (curr != NULL)
 	{
-		if (mst_isequal_str(curr->name, "<") == 1)
+		if (ms_str_isequal(curr->name, "<") == 1)
 			flag = ms_io_infile(curr);
-		if (mst_isequal_str(curr->name, "<<") == 1)
+		if (ms_str_isequal(curr->name, "<<") == 1)
  			flag = ms_io_heredoc(curr);
-		if (mst_isequal_str(curr->name, ">>") == 1)
+		if (ms_str_isequal(curr->name, ">>") == 1)
 			flag = ms_io_outfile(curr, 1);
-		if (mst_isequal_str(curr->name, ">") == 1)
+		if (ms_str_isequal(curr->name, ">") == 1)
 			flag = ms_io_outfile(curr, 0);
-		if (mst_isequal_str(curr->name, "|") == 1)
+		if (ms_str_isequal(curr->name, "|") == 1)
 			flag = ms_io_pipe(curr);
 		curr = curr->next;
 	}
