@@ -112,6 +112,7 @@ int			ms_io_infile(t_ms_task *task);
 int			ms_io_outfile(t_ms_task *task, int mode);
 int			ms_io_heredoc(t_ms_task	*task);
 int			ms_io_pipe(t_ms_task *task);
+int			ms_io_err_msg(char *arg);
 //utils for readline usage
 void		ms_rl_sig_handler(int num);
 void		ms_rl_init(void);

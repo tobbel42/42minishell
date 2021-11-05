@@ -31,6 +31,8 @@ int	ms_io_infile(t_ms_task *task)
 	int			fd;
 	t_ms_task	*target;
 
+	if (!task->args[1] || !ms_is_cmd(task->args[1]))
+		return (ms_io_err_msg(task->args[1]));
 	target = infile_finder(task);
 	if (target && target->err_flag != 2)
 	{

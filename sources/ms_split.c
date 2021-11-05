@@ -100,6 +100,12 @@ static int	fill_array(t_ms_data *ms_data, char *line, int c)
 			free(line);
 			return (1);
 		}
+		if (ft_strlen(ms_data->split_line[i]) == 0)
+		{
+			free(ms_data->split_line[i]);
+			ms_data->split_line[i] = NULL;
+			return (0);
+		}
 		i++;
 	}
 	return (0);
