@@ -92,6 +92,7 @@ void		ms_free_char2(char **m);
 int			ms_get_exec_paths(t_ms_data *ms);
 // replace $
 int			ms_replace_args(t_ms_data *ms);
+void	ms_token_replace(t_ms_data *ms, int i, char *token, char *new);
 void		ms_replace_variable(t_ms_data *ms, int i);
 // iolink
 int			ms_iolinking_task_list(t_ms_data *ms);

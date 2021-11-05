@@ -19,6 +19,21 @@ static int	quote_skip(char *line)
 	return (1);
 }
 
+static void	ms_replace_number(t_ms_data *ms, int i)
+{
+	int	j;
+	char tok[3];
+
+	j = 0;
+	while (j < 2)
+	{
+		tok[j] = ms->line[j + i];
+		j++;
+	}
+	tok[j] = '\0';
+	ms_token_replace(ms, i, tok, "");
+}
+
 /*
 	Iterates through the line read and repplaces every word countersigned with '$'
 	with the content of the corresponding variable in env, or deletes the word from
@@ -42,7 +57,13 @@ int	ms_replace_args(t_ms_data *ms)
 				dqflag *= -1;
 			if ((ms->line[i] == '$') && (ms->line[i + 1] != '\0' && \
 				ms->line[i + 1] != '$' && ft_isspace(ms->line[i + 1]) != 1))
-				ms_replace_variable(ms, i);
+				if (ft_isdigit(ms->line[i + 1]) != 1)
+					ms_replace_variable(ms, i);
+				else
+				{
+					ms_replace_number(ms, i);
+					// i++;
+				}
 			else
 				i++;
 		}

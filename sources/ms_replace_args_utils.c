@@ -23,7 +23,7 @@ static char	*ms_get_next_token(char *str)
 /*
 	Replaces the token with new in the line.
 */
-static void	ms_token_replace(t_ms_data *ms, int i, char *token, char *new)
+void	ms_token_replace(t_ms_data *ms, int i, char *token, char *new)
 {
 	char	*new_line;
 	int		len_l;
