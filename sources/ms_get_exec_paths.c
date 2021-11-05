@@ -58,18 +58,17 @@ int	ms_get_exec_paths(t_ms_data *ms)
 			break ;
 		curr = curr->next;
 	}
-	if (curr == NULL)
+	if (ms->exec_paths)
 	{
+		ms_free_char2(ms->exec_paths);
 		ms->exec_paths = NULL;
-		return (-1);
 	}
+	if (curr == NULL)
+		return (1);
 	else
 	{
 		if (ms_set_exec_paths(ms, curr->content) != 0)
-		{
-			ms->exec_paths = NULL;
-			return (-1);
-		}
+			return (1);
 	}
 	return (0);
 }

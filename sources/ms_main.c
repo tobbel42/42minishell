@@ -8,13 +8,13 @@ void	ms_init_data(t_ms_data *ms)
 	ms->exec_paths = NULL;
 	ms->split_line = NULL;
 	ms->task_list = NULL;
-	ms->last_return = 0; //rework https://shapeshed.com/unix-exit-codes/
+	ms->last_return = 0;
 	ms->first_run_cd = 1;
 	ms->home_dir = NULL;
 	ms->is_pipe = 0;
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_ms_data	ms;
 
@@ -26,8 +26,6 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		ms_get_line(&ms);
-		if (!ft_strncmp("", ms.line, 1))
-			continue ;
 		ms_get_exec_paths(&ms);
 		ms_replace_args(&ms);
 		ms_split(&ms);
@@ -35,15 +33,12 @@ int main(int argc, char **argv, char **envp)
 		if (!ms_iolinking_task_list(&ms))
 			ms_lauch_task_list(&ms);
 		ms_clean_task_list(&ms);
-		if (ms.exec_paths)
-			ms_free_char2(ms.exec_paths);
-		ms.is_pipe = 0;
 		if (ms.line && !ft_strncmp("exit", ms.line, 5))
 		{
 			write(1, "KTHXBYE\u2665\n", 11);
 			break ;
 		}
 	}
-	// system("leaks minishell");
+	system("leaks minishell");
 	return (0);
 }
