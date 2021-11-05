@@ -1,46 +1,64 @@
 #include "../header/minishell.h"
 
-static char	*quote_replace(char **line, int i, int j)
+/*
+//removes the quotes on position i and i + j in the given string
+*/
+static char	*quote_replace(char *line, int i, int j)
 {
 	char	*new_line;
 	int		len;
 	int		c;
 	int		d;
 
-	len = ft_strlen(*line);
+	if (!line)
+		return (NULL);
+	len = ft_strlen(line);
 	new_line = (char *)ft_calloc(len - 1, sizeof(char));
 	if (!new_line)
 		return (NULL);
 	c = 0;
 	d = 0;
-	while (c < len - 2)
+	while (line[d])
 	{
-		if (c == i || c == j - 1)
-			d++;
-		new_line[c] = (*line)[c + d];
-		c++;
+		if (!(d == i || d == i + j))
+		{
+			new_line[c] = line[d];
+			c++;
+		}
+		d++;
 	}
-	free(*line);
+	free(line);
 	return (new_line);
 }
 
-static int	quote_find(char **line, int i)
+/*
+//searches the string for a quote pair, if found they are removed
+//and the index is set to the position after them
+*/
+static char	*quote_find(char *line, int *index)
 {
 	int		j;
+	int		i;
 	char	quote;
 
-	quote = (*line)[i];
+	if (!line)
+		return (NULL);                 
+	i = *index;
 	j = 1;
-	while ((*line)[i + j] && (*line)[i + j] != quote)
+	quote = line[i];
+	while (line[i + j] && line[i + j] != quote)
 		j++;
-	if ((*line)[i + j] == quote)
+	if (line[i + j])
 	{
-		*line = quote_replace(line, i, j + i);
-		return (i + j - 2);
+		line = quote_replace(line, i, j);
+		*index = *index + j - 2;
 	}
-	return (1);
+	return (line);
 }
 
+/*
+//transforms the string to lowercase
+*/
 static void	str_to_lower(char *str)
 {
 	int	i;
@@ -56,7 +74,7 @@ static void	str_to_lower(char *str)
 }
 
 /*
-//cleans the input ny parsing closed quotes from the argument
+//cleans the input by parsing closed quotes from the argument
 */
 char	*ms_clean_input(char *arg, int mode)
 {
@@ -69,14 +87,11 @@ char	*ms_clean_input(char *arg, int mode)
 	new_line = ft_strdup(arg);
 	if (!new_line)
 		return (NULL);
-	while (new_line[i])
+	while (new_line && new_line[i])
 	{
 		if (new_line[i] == '\"' || new_line[i] == '\'')
-		{
-			i = i + quote_find(&new_line, i);
-		}
-		if (new_line[i])
-			i++;
+			new_line = quote_find(new_line, &i);
+		i++;
 	}
 	if (mode == 0)
 		str_to_lower(new_line);
