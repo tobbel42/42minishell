@@ -42,7 +42,7 @@ static char	*quote_find(char *line, int *index)
 	char	quote;
 
 	if (!line)
-		return (NULL);                 
+		return (NULL);
 	i = *index;
 	j = 1;
 	quote = line[i];
@@ -64,6 +64,8 @@ static void	str_to_lower(char *str)
 	int	i;
 	int	len;
 
+	if (!str)
+		return ;
 	i = 0;
 	len = (int)ft_strlen(str);
 	while (i < len)
@@ -93,7 +95,7 @@ char	*ms_clean_input(char *arg, int mode)
 			new_line = quote_find(new_line, &i);
 		i++;
 	}
-	if (mode == 0)
+	if (new_line && mode == 0)
 		str_to_lower(new_line);
 	return (new_line);
 }
