@@ -16,7 +16,7 @@
 # include <sys/param.h>
 # include <termios.h>
 
-typedef struct			s_ms_envar
+typedef struct s_ms_envar
 {
 	char				*name;
 	char				*content;
@@ -25,23 +25,15 @@ typedef struct			s_ms_envar
 
 typedef struct s_ms_task
 {
-	//list utils
 	struct s_ms_task	*next;
 	struct s_ms_task	*prev;
-
-	//fct-basics are set during set_up-Phase
-	char				*name; //cleaned up name
-	char				**args; //cleaned up args
-	char				*exec_path; //if a cmp -> find exec_path, else NULL;
-
-	//I/O part are set during I/O linking phase
-	int					fd_in; //default = 0
-	int					fd_out; //default = 1
-	int					fd_err; //default = 2
-
-	//error_part
-	int					err_flag; //on any error set to a value
-	char				*err_msg; //is printed during exec step;
+	char				*name;
+	char				**args;
+	char				*exec_path;
+	int					fd_in;
+	int					fd_out;
+	int					err_flag;
+	char				*err_msg;
 }						t_ms_task;
 
 typedef struct s_ms_data
@@ -58,9 +50,11 @@ typedef struct s_ms_data
 	int			is_pipe;
 }					t_ms_data;
 
+/*
+//to relay signals for parent to child, 
+//we need to save the child_process_id in a global variable
+*/
 int	g_pid;
-
-//alice_functions
 
 // env get
 int			ms_env_get(t_ms_data *ms, char **envp);
@@ -69,7 +63,7 @@ int			ms_env_add(t_ms_data *ms, char *envar_def);
 char		**ms_env_to_array(t_ms_data *ms);
 void		ms_env_print(t_ms_data *ms, int fd);
 void		ms_env_reverse_list(t_ms_data *ms);
-t_ms_envar *ms_get_envar(t_ms_data *ms, char *name);
+t_ms_envar	*ms_get_envar(t_ms_data *ms, char *name);
 int			ms_str_isequal(char *s1, char *s2);
 //env new envar
 t_ms_envar	*ms_env_newvar_def(char *envar_def);
@@ -95,7 +89,6 @@ void		ms_set_oldpwd(t_ms_data *ms, char *startwd);
 // free
 void		ms_free_and_exit(t_ms_data *ms, int exitflag, int exitstatus);
 void		ms_free_char2(char **m);
-
 // exec paths
 int			ms_get_exec_paths(t_ms_data *ms);
 // replace $
@@ -103,30 +96,25 @@ int			ms_replace_args(t_ms_data *ms);
 // iolink
 int			ms_iolinking_task_list(t_ms_data *ms);
 int			ms_is_builtin(t_ms_task *task);
-
-//tobi_fuctions
+//input parsing functions
 int			ms_get_line(t_ms_data *ms_data);
 int			ms_split(t_ms_data *ms_data);
-
+//task-list functions
 int			ms_create_task_list(t_ms_data *ms_data);
 void		ms_clean_task_list(t_ms_data *ms_data);
 void		ms_free_task(t_ms_task *task);
 char		*ms_clean_input(char *arg, int mode);
-
 char		*ms_get_path(t_ms_task *task, t_ms_data *ms_data);
-
-
 int			ms_is_cmd(char *line);
-
 int			ms_lauch_task_list(t_ms_data *ms_data);
+//redirection and pipes functions
 int			ms_io_infile(t_ms_task *task);
 int			ms_io_outfile(t_ms_task *task, int mode);
 int			ms_io_heredoc(t_ms_task	*task);
 int			ms_io_pipe(t_ms_task *task);
-
+//utils for readline usage
 void		ms_rl_sig_handler(int num);
 void		ms_rl_init(void);
 void		ms_rl_clean(void);
-
 
 #endif
