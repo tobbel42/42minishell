@@ -49,6 +49,17 @@ static t_ms_task	*heredoc_finder(t_ms_task *task)
 	return (NULL);
 }
 
+int	ms_io_err_msg(char *arg)
+{
+	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+	if (!arg)
+		ft_putstr_fd("newline", 2);
+	else
+		ft_putstr_fd(arg, 2);
+	ft_putendl_fd("'", 2);
+	return (1);
+}
+
 /*
 //write smart comment here :)
 */
@@ -57,6 +68,8 @@ int	ms_io_heredoc(t_ms_task	*task)
 	int			fd[2];
 	t_ms_task	*target;
 
+	if (!task->args[1] || !ms_is_cmd(task->args[1]))
+		return (ms_io_err_msg(task->args[1]));
 	if (pipe(fd))
 	{
 		ft_putendl_fd("minishell: internal error", 2);

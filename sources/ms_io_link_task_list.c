@@ -17,9 +17,9 @@ int	ms_iolinking_task_list(t_ms_data *ms)
 		if (ms_str_isequal(curr->name, "<<") == 1)
 			flag = ms_io_heredoc(curr);
 		if (ms_str_isequal(curr->name, ">>") == 1)
-			flag = ms_io_outfile(curr, 1);
+			flag = ms_io_outfile(curr, 0x0008);
 		if (ms_str_isequal(curr->name, ">") == 1)
-			flag = ms_io_outfile(curr, 0);
+			flag = ms_io_outfile(curr, 0x0400);
 		if (ms_str_isequal(curr->name, "|") == 1)
 		{
 			ms->is_pipe = 1;

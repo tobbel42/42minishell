@@ -21,7 +21,7 @@ static t_ms_task	*outfile_finder(t_ms_task *task)
 }
 
 /*
-//opens the outfile in the either 0 -> truncate or 1 -> append mode
+//opens the outfile in the either x0400 -> truncate or x0008 -> append mode
 //if the file cant be opend, a blackhole-pipe is created
 */
 int	ms_io_outfile(t_ms_task *task, int mode)
@@ -29,13 +29,12 @@ int	ms_io_outfile(t_ms_task *task, int mode)
 	int			fd;
 	t_ms_task	*target;
 
+	if (!task->args[1] || !ms_is_cmd(task->args[1]))
+		return (ms_io_err_msg(task->args[1]));
 	target = outfile_finder(task);
 	if (target && target->err_flag != 2)
 	{
-		if (mode == 0)
-			fd = open(task->args[1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		else
-			fd = open(task->args[1], O_CREAT | O_WRONLY | O_APPEND, 0644);
+		fd = open(task->args[1], O_CREAT | O_WRONLY | mode, 0644);
 		if (fd == -1)
 		{
 			task->err_flag = 1;
