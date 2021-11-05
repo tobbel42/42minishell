@@ -12,7 +12,7 @@
 # include <string.h>
 # include <signal.h>
 # include "../libft/libft.h"
-# include "../pipex/pipex.h"
+// # include "../pipex/pipex.h"
 # include <sys/param.h>
 # include <termios.h>
 

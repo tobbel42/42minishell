@@ -55,7 +55,7 @@ RED=\033[0;31m
 YELLOW=\033[0;33m
 NC=\033[0m
 LIBS= libft \
-pipex \
+#pipex
 
 
 all: $(NAME)
@@ -67,7 +67,7 @@ $(NAME): $(OBJ_DIR) $(OBJ) $(LIBS) $(HEADER)
 		$(MAKE) -C $$d;\
 	done;\
 
-	@$(CC) $(C_FLAGS) $(LFLAGS) $(CPFLAGS) $(OBJ) libft/libft.a pipex/pipex.a -o $@
+	@$(CC) $(C_FLAGS) $(LFLAGS) $(CPFLAGS) $(OBJ) libft/libft.a  -o $@
 	@echo "$(GREEN)creating: $(NAME)$(NC)"
 
 $(OBJ_DIR):
