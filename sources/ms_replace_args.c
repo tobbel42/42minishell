@@ -1,98 +1,22 @@
 #include "../header/minishell.h"
 
 /*
-	Isolates and returns a token (delimited by either space or quotes or 
-	another '$')
+//returns 1 if quotes are unclosed, or the lenght of the quote if closed
 */
-static char	*ms_get_next_token(char *str)
+static int	quote_skip(char *line)
 {
-	char	*token;
 	int		i;
+	char	quote;
 
-	i = 0;
-	while (ft_isspace(str[i]) != 1 && str[i] != '\0')
+	quote = line[0];
+	i = 1;
+	while (line[i])
 	{
-		if ((str[i] == '$' || str[i] == '\'' || str[i] == '\"') && (i != 0))
-			break ;
+		if (line[i] == quote)
+			return (i + 1);
 		i++;
 	}
-	token = ft_substr(str, 0, i);
-	return (token);
-}
-
-/*
-	Replaces the tken 'del' with the token 'repl' in the line read.
-*/
-static void	ms_token_replace(t_ms_data *ms, int i, char *del, char *repl)
-{
-	char	*tmp1;
-	char	*tmp2;
-	char	*tmp3;
-	char	*tmp4;
-
-	tmp1 = ft_substr(ms->line, 0, i);
-	tmp2 = ft_substr(ms->line, i + ft_strlen(del), ft_strlen(ms->line));
-	tmp3 = ft_strdup(repl);
-	if (tmp3[0] == '\0' && tmp1[i - 1] == ' ' && tmp2[0] == ' ')
-	{
-		tmp4 = tmp2;
-		tmp2 = ft_strtrim(tmp2, " ");
-		free(tmp4);
-	}
-	tmp4 = ft_strjoin(tmp1, tmp3);
-	free(tmp1);
-	free(tmp3);
-	tmp1 = ft_strjoin(tmp4, tmp2);
-	free(tmp4);
-	free(tmp2);
-	tmp3 = ms->line;
-	ms->line = tmp1;
-	free(tmp3);
-}
-
-/*
-	reads the last return value from struct and replaces '$?' with it.
-*/
-static void	ms_set_last_return(t_ms_data *ms, int *i, char *token)
-{
-	char	*val;
-
-	val = ft_itoa(ms->last_return);
-	ms_token_replace(ms, *i, token, val);
-	free(val);
-}
-
-/*
-	In this part the word is searched in the env list and the replace function
-	called.
-*/
-static void	ms_replace_variable(t_ms_data *ms, int *i, char *token, int dqflag)
-{
-	t_ms_envar	*curr;
-
-	if ((ms->line[*i - 1] == '\'' && \
-		ms->line[*i + ft_strlen(token)] == '\'') && \
-		(dqflag == -1))
-	{
-		*i += 1;
-		return ;
-	}
-	curr = ms->envars_head;
-	while (curr != NULL)
-	{
-		if (ms_str_isequal(curr->name, token + 1) == 1)
-		{
-			ms_token_replace(ms, *i, token, curr->content);
-			return ;
-		}
-		curr = curr->next;
-	}
-	if (ms_str_isequal("$?", token) == 1)
-	{
-		ms_set_last_return(ms, i, token);
-		return ;
-	}
-	ms_token_replace(ms, *i, token, "");
+	return (1);
 }
 
 /*
@@ -104,27 +28,24 @@ static void	ms_replace_variable(t_ms_data *ms, int *i, char *token, int dqflag)
 int	ms_replace_args(t_ms_data *ms)
 {
 	int		i;
-	char	*line_cpy;
-	char	*token;
 	int		dqflag;
 
 	i = 0;
 	dqflag = -1;
 	while (ms->line[i] != '\0')
 	{
-		if (ms->line[i] == '\"')
-			dqflag *= -1;
-		if ((ms->line[i] == '$') && (ms->line[i + 1] != '\0' && \
-			ms->line[i + 1] != '$' && ft_isspace(ms->line[i + 1]) != 1))
+		if (ms->line[i] == '\'' && dqflag == -1)
+			i += quote_skip(ms->line + i);
+		else
 		{
-			line_cpy = ms->line + i;
-			token = ms_get_next_token(line_cpy);
-			ms_replace_variable(ms, &i, token, dqflag);
-			free(token);
-			token = NULL;
-			i--;
+			if (ms->line[i] == '\"' && quote_skip(ms->line + i) != 1)
+				dqflag *= -1;
+			if ((ms->line[i] == '$') && (ms->line[i + 1] != '\0' && \
+				ms->line[i + 1] != '$' && ft_isspace(ms->line[i + 1]) != 1))
+				ms_replace_variable(ms, i);
+			else
+				i++;
 		}
-		i++;
 	}
 	return (0);
 }

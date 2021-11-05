@@ -11,6 +11,7 @@ SRC_LIST=ms_main.c\
 	ms_split.c \
 	ms_get_exec_paths.c \
 	ms_replace_args.c \
+	ms_replace_args_utils.c \
 	ms_create_task_list.c\
 	ms_io_link_task_list.c \
 	ms_clean_task_list.c\
