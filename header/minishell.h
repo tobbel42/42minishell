@@ -81,7 +81,7 @@ int			ms_builtin_unset(t_ms_data *ms, t_ms_task *task);
 int			ms_builtin_env(t_ms_data *ms, t_ms_task *task);
 int			ms_builtin_pwd(t_ms_task *task);
 int			ms_builtin_cd(t_ms_data *ms, t_ms_task *task);
-int			ms_builtin_echo(t_ms_task *ms);
+int			ms_builtin_echo(t_ms_task *task);
 // cd wdutils
 void		ms_set_pwd(t_ms_data *ms);
 void		ms_set_oldpwd(t_ms_data *ms, char *startwd);
