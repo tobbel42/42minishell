@@ -20,64 +20,18 @@ int main(int argc, char **argv, char **envp)
 
 	if (argc > 1 || argv[1])
 		return (-1);
-	// 1 init -> zeros
 	ms_init_data(&ms);
-	
-	// 2 get env
 	if (ms_env_get(&ms, envp) != 0)
 		return (-1);
-
-	// get cmd paths
-	// if (ms_get_exec_paths(&ms) != 0)
-	// 	ms_free_and_exit(&ms, 0, 0);
-	// -> do "if (ms.exec_paths != NULL)" from here on, else segfault if unset path
-	// 3 get line
-	// ms_print_env_list(&ms);
-
-	int i;
-
-	// char *tmp;
-	// tmp = ms_env_to_array(&ms);
-	// ft_free_char2(tmp);
-
 	while (1)
 	{
 		ms_get_line(&ms);
 		if (!ft_strncmp("", ms.line, 1))
 			continue ;
 		ms_get_exec_paths(&ms);
-		// printf("enter exit to quit\n");
 		ms_replace_args(&ms);
-		// printf("REPL. LINE: %s\n", ms.line);
 		ms_split(&ms);
-		i = 0;
-		while (ms.split_line[i])
-		{
-			printf("%i: |%s|\n", i, ms.split_line[i]);
-			i++;
-		}
-		// i = 0;
-		// while (ms.exec_paths && ms.exec_paths[i])
-		// {
-		// 	printf("%s\n", ms.exec_paths[i]);
-		// 	i++;
-		// }
 		ms_create_task_list(&ms);
-		t_ms_task *node = ms.task_list;
-		while (node)
-		{
-			if (node->name)
-				// printf("\n%s\n", node->name);
-				printf("cmd: %s\npath: %s\nfd in: %d\nfd err: %d\nfd out: %d\n", node->name, node->exec_path, node->fd_in, node->fd_err, node->fd_out);
-			i = 0;
-			while (node->args && node->args[i])
-			{
-				printf("%i:%s\n", i, node->args[i]);
-				
-				i++;
-			}
-			node = node->next;
-		}
 		if (!ms_iolinking_task_list(&ms))
 			ms_lauch_task_list(&ms);
 		ms_clean_task_list(&ms);
@@ -86,11 +40,10 @@ int main(int argc, char **argv, char **envp)
 		ms.is_pipe = 0;
 		if (ms.line && !ft_strncmp("exit", ms.line, 5))
 		{
-			write(1, "exit\n", 5);
+			write(1, "KTHXBYE\u2665\n", 11);
 			break ;
 		}
 	}
-	system("leaks minishell");
-	exit(0);
+	// system("leaks minishell");
 	return (0);
 }
