@@ -74,6 +74,7 @@ static void	launch_cmd(t_ms_task *task, t_ms_data *ms_data)
 		signal(SIGINT, sig_handler);
 		g_pid = pid;
 		wait(&ms_data->last_return);
+		ms_data->last_return /= 256;
 	}
 	if (env_array)
 		ms_free_char2(env_array);
