@@ -26,7 +26,7 @@ int	ms_builtin_echo(t_ms_task *task)
 {
 	int	n_flag;
 	int	i;
-	int j;
+	int	j;
 
 	n_flag = 0;
 	i = 1;

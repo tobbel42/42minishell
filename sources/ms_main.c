@@ -40,6 +40,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 	}
+	ms_free_and_exit(&ms, 0, 0);
 	system("leaks minishell");
 	return (0);
 }

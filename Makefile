@@ -23,7 +23,7 @@ SRC_LIST=ms_main.c\
 \
 \
 	ms_launch_task_list.c\
-\
+	ms_launch_task_list_utils.c\
 \
 \
 	ms_env_get.c \
