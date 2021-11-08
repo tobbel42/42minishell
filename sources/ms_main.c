@@ -36,6 +36,7 @@ int	main(int argc, char **argv, char **envp)
 		if (ms.line && !ft_strncmp("exit", ms.line, 5))
 		{
 			write(1, "KTHXBYE\u2665\n", 11);
+			rl_clear_history();
 			break ;
 		}
 	}

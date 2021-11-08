@@ -109,6 +109,8 @@ int	ms_create_task_list(t_ms_data *ms_data)
 
 	if (ms_data->task_list)
 		ms_clean_task_list(ms_data);
+	if (!ms_data->split_line[0])
+		return (0);
 	index = 0;
 	len = 0;
 	while (ms_data->split_line[len])
