@@ -14,6 +14,7 @@
 # include "../libft/libft.h"
 # include <sys/param.h>
 # include <termios.h>
+# include <limits.h>
 
 typedef struct s_ms_envar
 {
