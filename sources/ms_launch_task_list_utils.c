@@ -31,8 +31,8 @@ static void	ms_execute_builtin(t_ms_data *ms, t_ms_task *task, int mode)
 		ms->last_return = ms_builtin_cd(ms, task);
 	if (ms_str_isequal(task->args[0], "echo") == 1)
 		ms->last_return = ms_builtin_echo(task);
-	// if (ms_str_isequal(task->name, "exit") == 1)
-	// 	ms->last_return = ms_builtin_exit(task);
+	if (ms_str_isequal(task->name, "exit") == 1)
+		ms->last_return = ms_builtin_exit(ms, task);
 	if (mode == 1)
 		exit(0);
 }

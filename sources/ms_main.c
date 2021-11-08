@@ -33,12 +33,6 @@ int	main(int argc, char **argv, char **envp)
 		if (!ms_iolinking_task_list(&ms))
 			ms_lauch_task_list(&ms);
 		ms_clean_task_list(&ms);
-		if (ms.line && !ft_strncmp("exit", ms.line, 5))
-		{
-			write(1, "KTHXBYE\u2665\n", 11);
-			rl_clear_history();
-			break ;
-		}
 	}
 	ms_free_and_exit(&ms, 0, 0);
 	system("leaks minishell");
