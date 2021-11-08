@@ -9,6 +9,8 @@ void	ms_env_free_list(t_ms_data *ms)
 	t_ms_envar	*current;
 	t_ms_envar	*tmp;
 
+	if (!ms)
+		return ;
 	current = ms->envars_head;
 	while (current != NULL)
 	{
@@ -17,6 +19,7 @@ void	ms_env_free_list(t_ms_data *ms)
 		ms_env_free_envar(tmp);
 		ms->env_lines_count--;
 	}
+	ms->envars_head = NULL;
 }
 
 /*

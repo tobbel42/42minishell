@@ -119,5 +119,6 @@ int			ms_io_err_msg(char *arg);
 void		ms_rl_sig_handler(int num);
 void		ms_rl_init(void);
 void		ms_rl_clean(void);
-
+int			ms_launch_task(t_ms_data *ms_data, t_ms_task *task);
+void		ms_print_err_msg(t_ms_data *ms_data, t_ms_task *task);
 #endif

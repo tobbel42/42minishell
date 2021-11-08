@@ -12,7 +12,7 @@ int	ms_is_builtin(t_ms_task *task)
 		|| !ft_strncmp(task->args[0], "export", 7)
 		|| !ft_strncmp(task->args[0], "unset", 6)
 		|| !ft_strncmp(task->args[0], "env", 4)
-		|| !ft_strncmp(task->args[0], "exit", 5))
+		|| !ft_strncmp(task->name, "exit", 5))
 		return (1);
 	return (0);
 }
