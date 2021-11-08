@@ -60,10 +60,7 @@ int	ms_replace_args(t_ms_data *ms)
 				if (ft_isdigit(ms->line[i + 1]) != 1)
 					ms_replace_variable(ms, i);
 				else
-				{
 					ms_replace_number(ms, i);
-					// i++;
-				}
 			else
 				i++;
 		}

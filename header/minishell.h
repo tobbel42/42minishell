@@ -92,11 +92,10 @@ void		ms_free_char2(char **m);
 int			ms_get_exec_paths(t_ms_data *ms);
 // replace $
 int			ms_replace_args(t_ms_data *ms);
-void	ms_token_replace(t_ms_data *ms, int i, char *token, char *new);
+void		ms_token_replace(t_ms_data *ms, int i, char *token, char *new);
 void		ms_replace_variable(t_ms_data *ms, int i);
 // iolink
 int			ms_iolinking_task_list(t_ms_data *ms);
-int			ms_is_builtin(t_ms_task *task);
 //input parsing functions
 int			ms_get_line(t_ms_data *ms_data);
 int			ms_split(t_ms_data *ms_data);
@@ -107,6 +106,7 @@ void		ms_free_task(t_ms_task *task);
 char		*ms_clean_input(char *arg, int mode);
 char		*ms_get_path(t_ms_task *task, t_ms_data *ms_data);
 int			ms_is_cmd(char *line);
+int			ms_is_builtin(t_ms_task *task);
 int			ms_lauch_task_list(t_ms_data *ms_data);
 //redirection and pipes functions
 int			ms_io_infile(t_ms_task *task);

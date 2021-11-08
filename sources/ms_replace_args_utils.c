@@ -12,7 +12,8 @@ static char	*ms_get_next_token(char *str)
 	i = 0;
 	while (ft_isspace(str[i]) != 1 && str[i] != '\0')
 	{
-		if ((str[i] == '$' || str[i] == '\'' || str[i] == '\"') && (i != 0))
+		if ((str[i] == '$' || str[i] == '\'' || str[i] == '\"' ||
+			str[i] == '=' || str[i] == '/') && (i != 0))
 			break ;
 		i++;
 	}
