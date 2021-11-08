@@ -21,6 +21,7 @@ int	ms_env_valid_varname(char *name)
 
 /*
 	checks for correct input, if not it writes an error to the task.
+	if name valid but no equal sign detected in definition: also error.
 */
 static int	ms_error_check_new_var(t_ms_envar *new_var, t_ms_task *task, \
 	char *envar_def)
@@ -36,6 +37,8 @@ static int	ms_error_check_new_var(t_ms_envar *new_var, t_ms_task *task, \
 		free(tmps);
 		return (1);
 	}
+	if (ft_strnstr(envar_def, "=", ft_strlen(envar_def)) == NULL)
+		return (1);
 	return (0);
 }
 
@@ -47,7 +50,7 @@ static int	ms_export_variable(t_ms_data *ms, char *envar_def, t_ms_task *task)
 	t_ms_envar	*curr;
 	t_ms_envar	*new_var;
 
-	if (!envar_def || ft_strnstr(envar_def, "=", ft_strlen(envar_def)) == NULL)
+	if (!envar_def)
 		return (0);
 	new_var = ms_env_newvar_def(envar_def);
 	if (ms_error_check_new_var(new_var, task, envar_def) != 0)

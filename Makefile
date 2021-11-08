@@ -25,7 +25,6 @@ SRC_LIST=ms_main.c\
 	ms_launch_task_list.c\
 	ms_launch_task_list_utils.c\
 \
-\
 	ms_env_get.c \
 	ms_env_utils.c \
 	ms_env_new_envar.c \
@@ -38,6 +37,7 @@ SRC_LIST=ms_main.c\
 	ms_builtin_echo.c \
 	ms_builtin_cd.c \
 	ms_builtin_cd_pwdutils.c \
+	ms_builtin_exit.c \
 	ms_io_infile.c \
 \
 	ms_io_outfile.c \
