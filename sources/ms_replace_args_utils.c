@@ -1,5 +1,20 @@
 #include "../header/minishell.h"
 
+static char	*ms_replace_number(char *line, int i)
+{
+	int		j;
+	char	tok[3];
+
+	j = 0;
+	while (j < 2)
+	{
+		tok[j] = line[j + i];
+		j++;
+	}
+	tok[j] = '\0';
+	return (ft_strdup(tok));
+}
+
 /*
 	Isolates and returns a token (delimited by either space or quotes or 
 	another '$')
@@ -10,14 +25,19 @@ static char	*ms_get_next_token(char *str)
 	int		i;
 
 	i = 0;
-	while (ft_isspace(str[i]) != 1 && str[i] != '\0')
+	if (ft_isdigit(str[i + 1]) == 1)
+		token = ms_replace_number(str, i);
+	else
 	{
-		if ((str[i] == '$' || str[i] == '\'' || str[i] == '\"' ||
-			str[i] == '=' || str[i] == '/') && (i != 0))
-			break ;
-		i++;
+		while (ft_isspace(str[i]) != 1 && str[i] != '\0')
+		{
+			if ((str[i] == '$' || str[i] == '\'' || str[i] == '\"'
+					|| str[i] == '=' || str[i] == '/') && (i != 0))
+				break ;
+			i++;
+		}
+		token = ft_substr(str, 0, i);
 	}
-	token = ft_substr(str, 0, i);
 	return (token);
 }
 
@@ -34,7 +54,7 @@ void	ms_token_replace(t_ms_data *ms, int i, char *token, char *new)
 	len_l = ft_strlen(ms->line);
 	len_t = ft_strlen(token);
 	len_n = ft_strlen(new);
-	new_line = (char *)ft_calloc(len_l - len_t + len_n, sizeof(char));
+	new_line = (char *)ft_calloc(len_l - len_t + len_n + 1, sizeof(char));
 	if (!new_line)
 		return ;
 	ft_strlcpy(new_line, ms->line, i + 1);
