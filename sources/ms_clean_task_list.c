@@ -15,6 +15,10 @@ void	ms_free_task(t_ms_task *task)
 		free(task->exec_path);
 	if (task->err_msg)
 		free(task->err_msg);
+	if (task->fd_in != 0)
+		close(task->fd_in);
+	if (task->fd_out != 1)
+		close(task->fd_out);
 	free(task);
 }
 
