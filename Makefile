@@ -45,7 +45,7 @@ SRC_LIST=ms_main.c\
 	ms_io_heredoc.c \
 \
 	ms_io_pipe.c\
-\
+	ms_nice_promt.c\
 
 SRC=$(addprefix $(SRC_DIR), $(SRC_LIST))
 OBJ=$(addprefix $(OBJ_DIR), $(patsubst %.c, %.o, $(SRC_LIST)))
