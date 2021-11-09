@@ -10,12 +10,12 @@ static int	pipe_fill(char *del, int fd)
 
 	ms_rl_init();
 	len = (int)ft_strlen(del);
-	line = readline("> ");
+	line = readline("༄  ");
 	while (line && ft_strncmp(del, line, len))
 	{
 		ft_putendl_fd(line, fd);
 		free(line);
-		line = readline("> ");
+		line = readline("༄  ");
 	}
 	ms_rl_clean();
 	close(fd);

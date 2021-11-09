@@ -122,4 +122,5 @@ void		ms_rl_init(void);
 void		ms_rl_clean(void);
 int			ms_launch_task(t_ms_data *ms_data, t_ms_task *task);
 void		ms_print_err_msg(t_ms_data *ms_data, t_ms_task *task);
+char		*ms_get_prompt(t_ms_data *ms_data);
 #endif

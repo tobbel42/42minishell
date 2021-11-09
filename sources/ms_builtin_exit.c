@@ -59,25 +59,24 @@ int	ms_builtin_exit(t_ms_data *ms, t_ms_task *task)
 {
 	long long	esc;
 
-	task->fd_out = 2;
-	write(task->fd_out, "exit\n", 6);
+	ft_putendl_fd("exit", 2);
 	esc = 0;
 	if (task->args[1] && task->args[2] && \
 		ms_isvalid_exitcode(task->args[1]) == 1)
 	{
-		write(task->fd_out, "minishell: exit: too many arguments\n", 37);
+		ft_putendl_fd("minishell: exit: too many arguments", 2);
 		return (1);
 	}
 	if (task->args[1] && ms_isvalid_exitcode(task->args[1]) != 1)
 	{
-		write(task->fd_out, "minishell: exit: ", 18);
-		write(task->fd_out, task->args[1], ft_strlen(task->args[1]));
-		write(task->fd_out, ": numeric argument required\n", 29);
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(task->args[1], 2);
+		ft_putendl_fd(": numeric argument required", 2);
 		esc = 255;
 	}
 	if (task->args[1] && ms_isvalid_exitcode(task->args[1]) == 1)
 		esc = ms_atoll(task->args[1]);
-	write(1, "KTHXBYE\u2665\n", 11);
+	ft_putendl_fd("KTHXBYE\u2665",1);
 	rl_clear_history();
 	ms_free_and_exit(ms, 1, esc);
 	return (esc);
