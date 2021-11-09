@@ -1,17 +1,5 @@
 #include "../header/minishell.h"
 
-/*
-//relays incoming SIGQUIT(ctrl + |) and SIGINT(ctrl + c) to the child process
-*/
-void	sig_handler(int num)
-{
-	kill(g_pid, num);
-	if (num == 3)
-		write(1, "Quit: 3", 7);
-	write(1, "\n", 1);
-	rl_redisplay();
-}
-
 // /*
 // 	If command is builtin, this function calls the corrresponding
 // 	executing function, which returns 0 on success, -1 on failure.
@@ -75,9 +63,8 @@ static int	launch_cmd(t_ms_task *task, t_ms_data *ms_data)
 		return (1);
 	else
 	{
-		signal(SIGQUIT, sig_handler);
-		signal(SIGINT, sig_handler);
-		g_pid = pid;
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, SIG_IGN);
 		wait(&ms_data->last_return);
 		ms_data->last_return /= 256;
 	}

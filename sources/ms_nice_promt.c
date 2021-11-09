@@ -23,7 +23,7 @@ static char	*get_pwd(t_ms_data *ms_data)
 }
 
 /*
-//beautiful promt
+//generates a beautiful promt
 */
 char	*ms_get_prompt(t_ms_data *ms_data)
 {

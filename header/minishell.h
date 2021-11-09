@@ -50,12 +50,6 @@ typedef struct s_ms_data
 	int			is_pipe;
 }					t_ms_data;
 
-/*
-//to relay signals for parent to child, 
-//we need to save the child_process_id in a global variable
-*/
-int	g_pid;
-
 // env get
 int			ms_env_get(t_ms_data *ms, char **envp);
 int			ms_env_add(t_ms_data *ms, char *envar_def);

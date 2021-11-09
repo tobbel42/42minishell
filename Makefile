@@ -15,16 +15,10 @@ SRC_LIST=ms_main.c\
 	ms_create_task_list.c\
 	ms_io_link_task_list.c \
 	ms_clean_task_list.c\
-\
 	ms_clean_input.c\
-\
 	ms_get_path.c\
-\
-\
-\
 	ms_launch_task_list.c\
 	ms_launch_task_list_utils.c\
-\
 	ms_env_get.c \
 	ms_env_utils.c \
 	ms_env_new_envar.c \
@@ -39,11 +33,8 @@ SRC_LIST=ms_main.c\
 	ms_builtin_cd_pwdutils.c \
 	ms_builtin_exit.c \
 	ms_io_infile.c \
-\
 	ms_io_outfile.c \
-\
 	ms_io_heredoc.c \
-\
 	ms_io_pipe.c\
 	ms_nice_promt.c\
 
@@ -56,8 +47,6 @@ RED=\033[0;31m
 YELLOW=\033[0;33m
 NC=\033[0m
 LIBS= libft \
-#pipex
-
 
 all: $(NAME)
 
@@ -68,7 +57,7 @@ $(NAME): $(OBJ_DIR) $(OBJ) $(LIBS) $(HEADER)
 		$(MAKE) -C $$d;\
 	done;\
 
-	@$(CC) $(C_FLAGS) $(LFLAGS) $(CPFLAGS) $(OBJ) libft/libft.a  -o $@
+	@$(CC) $(OBJ) $(C_FLAGS) $(LFLAGS) $(CPFLAGS) libft/libft.a  -o $@
 	@echo "$(GREEN)creating: $(NAME)$(NC)"
 
 $(OBJ_DIR):

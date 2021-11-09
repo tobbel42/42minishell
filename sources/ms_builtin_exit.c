@@ -76,7 +76,7 @@ int	ms_builtin_exit(t_ms_data *ms, t_ms_task *task)
 	}
 	if (task->args[1] && ms_isvalid_exitcode(task->args[1]) == 1)
 		esc = ms_atoll(task->args[1]);
-	ft_putendl_fd("KTHXBYE\u2665",1);
+	ft_putendl_fd("KTHXBYE\u2665", 1);
 	rl_clear_history();
 	ms_free_and_exit(ms, 1, esc);
 	return (esc);
